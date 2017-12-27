@@ -1,0 +1,17 @@
+{
+  "name": "ress-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "promise-deferred": "^2.0.1",
+    "promise-native-deferred": "^3.0.0",
+    "rss-parser": "^2.10.8"
+  }
+}

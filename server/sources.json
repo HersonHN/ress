@@ -1,0 +1,27 @@
+[
+  {
+    "id": "nyt",
+    "title": "The New York Times",
+    "feed": "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"
+  },
+  {
+    "id": "guardian",
+    "title": "The Guardian",
+    "feed": "https://www.theguardian.com/international/rss"
+  },
+  {
+    "id": "verge",
+    "title": "The Verge",
+    "feed": "https://www.theverge.com/rss/index.xml"
+  },
+  {
+    "id": "ars",
+    "title": "Ars Technica",
+    "feed": "http://feeds.arstechnica.com/arstechnica/index/"
+  },
+  {
+    "id": "hn",
+    "title": "Hacker News",
+    "feed": "https://news.ycombinator.com/rss"
+  }
+]
