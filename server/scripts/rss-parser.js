@@ -2,7 +2,7 @@
 const Deferred = require('promise-deferred');
 const parser = require('rss-parser');
 
-const sources = require('../sources.json');
+var sources = require('../sources.json');
 
 
 main();
@@ -37,14 +37,22 @@ function parseFeed(source) {
 
 
 function mergeFeeds(feeds, sources) {
+  var response = {};
 
-  return sources.map(function (source, index) {
+  sources.forEach(function (source, index) {
     let feed = feeds[index];
 
-    source.feed = sanitizeFeed(feed, source.id);
-    return source;
+    feed = sanitizeFeed(feed, source.id);
+
+    response[source.id] = {
+      id: source.id,
+      title: source.title,
+      rss: source.feed,
+      feed: feed
+    };
   });
 
+  return response;
 }
 
 
@@ -60,4 +68,4 @@ function sanitizeFeed(feed, feedId) {
 }
 
 
-module.exports = getRSS;
+module.exports = { getRSS };
