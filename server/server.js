@@ -1,44 +1,51 @@
 'use strict';
 
 const express = require('express');
-
 const rssParser = require('./scripts/rss-parser');
-var sources = require('./sources.json');
-
+const sources = require('./sources.json');
+const config = require('./server-config.json');
 
 const server = express();
+const CACHE = {};
 
 
 server.get('/api/feed/', function (req, res) {
-  rssParser.getRSS()
-    .then(feeds => res.send(feeds))
-    .catch(e => {
-      res.status(500).send({ error: 'Feed Error' });
-      console.error(e);
-    });
+  res.send(CACHE.news);
 });
 
 
 server.get('/api/feed/:id', function (req, res, next) {
-
   let id = req.params.id;
-  let sourceExists = sources.find(s => s.id == id);
+  let sourceExists = CACHE.news[id];
 
   if (!sourceExists) {
-    res.status(500);
-    res.send({ error: 'Invalid feed id' });
-    return;
+    return res
+      .status(500)
+      .send({ error: 'Invalid feed id' });
   }
 
-  rssParser.getRSS()
-    .then(feeds => res.send(feeds[id]))
-    .catch(e => {
-      res.sendStatus(500).send({ error: 'Feed Error' });
-      console.error(e);
+  res.send(CACHE.news[id]);
+});
+
+
+function init() {
+  setInterval(getNews, config.updateInterval);
+
+  getNews(1).then(function () {
+    server.listen(config.port, function () {
+      console.log(`Running at port ${config.port}`);
     });
-});
+  });
+}
 
 
-server.listen(3100, function () {
-  console.log('running at port 3100');
-});
+function getNews(fistTime) {
+  if (!fistTime) console.log('Updating news');
+
+  return rssParser.getRSS()
+    .then(feeds => CACHE.news = feeds)
+    .catch(console.error);
+}
+
+
+init();
