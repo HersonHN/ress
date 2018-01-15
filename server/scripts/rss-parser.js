@@ -41,16 +41,17 @@ function mergeFeeds(feeds, sources) {
   return sources.map(function (source, index) {
     let feed = feeds[index];
 
-    source.feed = sanitizeFeed(feed);
+    source.feed = sanitizeFeed(feed, source.id);
     return source;
   });
 
 }
 
 
-function sanitizeFeed(feed) {
+function sanitizeFeed(feed, feedId) {
   return feed.map(function (entry) {
     return {
+      feedId: feedId,
       title: entry.title,
       link: entry.link,
       date: +(new Date(entry.pubDate))
