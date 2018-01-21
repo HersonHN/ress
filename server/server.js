@@ -9,7 +9,12 @@ const server = express();
 const CACHE = {};
 
 
-server.get('/api/feed/', function (req, res) {
+server.get('/api/sources', function (req, res) {
+  res.send(sources);
+});
+
+
+server.get('/api/feed', function (req, res) {
   res.send(CACHE.news);
 });
 
