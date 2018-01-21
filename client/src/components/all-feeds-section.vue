@@ -1,5 +1,5 @@
 <template lang="html">
-  <section class="all-entries">
+  <section class="all-feeds-section">
     <h1>All Entries</h1>
 
     <div class="entry" v-for="entry in feed">
@@ -18,7 +18,7 @@ import FeedEntry from './feed-entry';
 
 export default {
 
-  name: 'AllEntriesSection',
+  name: 'AllFeedsSection',
 
   components: { FeedEntry },
 

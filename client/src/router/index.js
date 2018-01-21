@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import AllEntriesSection from '@/components/all-entries-section'
+import AllFeedsSection from '@/components/all-feeds-section'
 
 Vue.use(Router)
 
@@ -8,8 +8,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'all-entries',
-      component: AllEntriesSection
+      name: 'all-feeds',
+      component: AllFeedsSection
     }
   ]
 })
