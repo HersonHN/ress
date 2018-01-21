@@ -3,10 +3,10 @@
     <h1>All Entries</h1>
 
     <div class="entry" v-for="entry in feed">
-      <a :href="entry.link" target="_blank">{{ entry.title }}</a>
-      <small>
-        Site: {{ sources[entry.feedId].title }}
-      </small>
+      <feed-entry
+        :entry="entry"
+        :source-name="sources[entry.feedId].title"
+      />
     </div>
   </section>
 </template>
@@ -14,10 +14,13 @@
 
 <script>
 import Feed from '@/models/feed';
+import FeedEntry from './feed-entry';
 
 export default {
 
   name: 'AllEntriesSection',
+
+  components: { FeedEntry },
 
   data() {
     return { feed: [], sources: {} }
@@ -35,14 +38,4 @@ export default {
 
 
 <style lang="scss" scoped>
-  .entry {
-    padding: .5rem;
-    border-top: 1px solid #ddd;
-
-    small {
-      display: inline-block;
-      font-size: .4rem;
-      color: #aaa;
-    }
-  }
 </style>

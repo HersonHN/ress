@@ -20,7 +20,7 @@ export default {
       }
     }
 
-    return allFeeds.sort(entry => -entry.date );
+    return allFeeds.sort((entryA, entryB) => entryB.date - entryA.date );
   }
 
 }

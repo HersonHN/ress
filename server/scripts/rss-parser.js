@@ -63,7 +63,7 @@ function sanitizeFeed(feed, feedId) {
       feedId: feedId,
       title: entry.title,
       link: entry.link,
-      date: +(new Date(entry.pubDate))
+      date: +(new Date(entry['dc:date'] || entry.pubDate))
     }
   });
 }
