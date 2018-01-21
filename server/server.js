@@ -9,6 +9,13 @@ const server = express();
 const CACHE = {};
 
 
+server.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+
 server.get('/api/sources', function (req, res) {
   res.send(sources);
 });
