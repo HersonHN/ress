@@ -17,9 +17,7 @@ import Feed from '@/models/feed';
 import FeedEntry from './feed-entry';
 
 export default {
-
   name: 'AllFeedsSection',
-
   components: { FeedEntry },
 
   data() {

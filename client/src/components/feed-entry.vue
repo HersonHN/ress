@@ -14,6 +14,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/sass/init.scss";
+
+
 .feed-entry {
   display: block;
   padding: .5rem;
@@ -23,6 +26,12 @@ export default {
     display: inline-block;
     font-size: .4rem;
     color: #888;
+  }
+}
+
+@include breakpoint(medium down) {
+  .feed-entry small {
+    display: block;
   }
 }
 </style>
