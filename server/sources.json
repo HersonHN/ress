@@ -21,7 +21,7 @@
     "id": "ars",
     "title": "Ars Technica",
     "feed": "http://feeds.arstechnica.com/arstechnica/index/",
-    "icon": ""
+    "icon": "https://cdn.arstechnica.net/wp-content/themes/ars/assets/img/ars-ios-icon-d9a45f558c.png"
   },
   {
     "id": "hn",

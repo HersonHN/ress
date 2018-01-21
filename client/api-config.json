@@ -1,0 +1,6 @@
+{
+  "routes": {
+    "sources": "http://localhost:4100/api/sources",
+    "feed": "http://localhost:4100/api/feed"
+  }
+}

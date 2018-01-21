@@ -28,7 +28,7 @@ function parseFeed(source) {
   var deferred = new Deferred();
 
   parser.parseURL(source.feed, function(err, parsed) {
-    if (err) deferred.reject(err);
+    if (err) return deferred.reject(err);
     deferred.resolve(parsed.feed.entries);
   });
 
@@ -48,6 +48,7 @@ function mergeFeeds(feeds, sources) {
       id: source.id,
       title: source.title,
       rss: source.feed,
+      icon: source.icon,
       feed: feed
     };
   });
