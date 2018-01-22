@@ -2,7 +2,7 @@
   <section class="source-list">
     <router-link :to="{ name: 'all-feeds' }">
       <figure class="home">
-        <img src="/static/img/home.svg" width="80px" height="80px">
+        <img src="/static/img/home.svg" width="70px" height="70px">
       </figure>
     </router-link>
 
@@ -71,9 +71,13 @@ export default {
       color: white;
     }
 
-    figure.home img {
-      border: transparent 3px solid;
-      background: transparent;
+    figure.home {
+      padding: 15px;
+
+      img {
+        border: transparent 3px solid;
+        background: transparent;
+      }
     }
 
     img {
