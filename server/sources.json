@@ -28,5 +28,11 @@
     "title": "Hacker News",
     "feed": "https://news.ycombinator.com/rss",
     "icon": "https://news.ycombinator.com/favicon.ico"
+  },
+  {
+    "id": "lob",
+    "title": "Lobsters",
+    "feed": "https://lobste.rs/rss",
+    "icon": "https://lobste.rs/apple-touch-icon.png"
   }
 ]
