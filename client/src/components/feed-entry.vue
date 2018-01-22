@@ -30,7 +30,7 @@
           v-if="loaded">
         <a
             class="close-preview"
-            @click="togglePreview">
+            @click="toggleAndScroll">
           <i class="icon-cancel"></i> Close Preview
         </a>
       </div>
@@ -41,6 +41,7 @@
 
 <script>
 import Article from '../models/article';
+import ui from '../helpers/ui'
 
 export default {
   props: ['entry', 'sourceName'],
@@ -51,6 +52,7 @@ export default {
       article: ''
     }
   },
+
   methods: {
     togglePreview() {
       this.preview = !this.preview;
@@ -61,6 +63,17 @@ export default {
         this.loaded = true;
         this.article = article;
       })
+    },
+
+    scrollTop() {
+      let $element = $(this.$el);
+      ui.scrollTo($element);
+      ui.highlight($element);
+    },
+
+    toggleAndScroll() {
+      this.togglePreview();
+      this.scrollTop();
     }
   }
 }
@@ -120,15 +133,25 @@ export default {
 
   .control-buttons {
     border-top: $gray-line;
-    background: $grayish-bg;
     margin-top: 1rem;
-    padding: 1em;
+
+    .close-preview {
+      background: $grayish-bg;
+      display: block;
+      padding: 1em;
+    }
   }
 }
 
 @include breakpoint(medium down) {
   .feed-entry small {
     display: block;
+  }
+}
+
+@include breakpoint(small down) {
+  .feed-entry .article-content {
+    padding: 1rem 1rem 2rem 1rem;
   }
 }
 </style>

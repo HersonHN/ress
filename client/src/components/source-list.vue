@@ -55,6 +55,7 @@ export default {
   watch: {
   	'$route': function(value) {
       this.highlightActive();
+      $('#navigator').foundation('close');
     }
   }
 }

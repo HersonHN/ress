@@ -1,0 +1,10 @@
+
+@keyframes yellow-fade {
+  0%   { background-color: #FFFFBB; }
+  50%  { background-color: #FFFFDD; }
+  100% { background-color: #FFFFFF; }
+}
+
+.hilight-yellow {
+  animation: yellow-fade 1s ease-in-out;
+}
