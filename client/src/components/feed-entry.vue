@@ -28,7 +28,9 @@
 
       <div class="control-buttons text-center"
           v-if="loaded">
-        <a class="close-preview" href="#">
+        <a
+            class="close-preview"
+            @click="togglePreview">
           <i class="icon-cancel"></i> Close Preview
         </a>
       </div>
