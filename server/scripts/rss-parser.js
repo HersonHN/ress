@@ -2,7 +2,7 @@
 const Deferred = require('promise-deferred');
 const parser = require('rss-parser');
 
-var sources = require('../sources.json');
+const sources = require('../sources.json');
 
 
 main();

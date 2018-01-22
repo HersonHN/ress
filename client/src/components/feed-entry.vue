@@ -1,17 +1,62 @@
 <template lang="html">
   <article class="feed-entry">
-    <a :href="entry.link" target="_blank">{{ entry.title }}</a>
-    <small>
-      {{ sourceName }} | {{entry.date | date}}
-    </small>
+    <header>
+      <a class="toggle" title="Show Preview"
+        @click="togglePreview">
+        <i v-if="!preview" class="icon-down-open"></i>
+        <i v-if="preview" class="icon-up-open"></i>
+      </a>
+      <div class="title">
+        <a :href="entry.link" target="_blank">{{ entry.title }}</a>
+        <small>
+          {{ sourceName }} | {{entry.date | date}}
+        </small>
+      </div>
+    </header>
+    <div v-if="preview" class="preview">
+      <div
+          class="loading"
+          v-if="!loaded">
+        <img src="/static/img/loader.gif" alt="loading...">
+      </div>
+
+      <div
+          class="article-content"
+          v-if="loaded"
+          v-html="article">
+      </div>
+    </div>
   </article>
 </template>
 
+
 <script>
+import Article from '../models/article';
+
 export default {
-  props: ['entry', 'sourceName']
+  props: ['entry', 'sourceName'],
+  data() {
+    return {
+      preview: false,
+      loaded: false,
+      article: ''
+    }
+  },
+  methods: {
+    togglePreview() {
+      this.preview = !this.preview;
+
+      let url = this.entry.link;
+
+      Article.get(url).then((article) => {
+        this.loaded = true;
+        this.article = article;
+      })
+    }
+  }
 }
 </script>
+
 
 <style lang="scss" scoped>
 @import "../assets/sass/init.scss";
@@ -19,13 +64,40 @@ export default {
 
 .feed-entry {
   display: block;
-  padding: .5rem;
   border-top: 1px solid #ddd;
+
+  .title {
+    padding: .5rem;
+    line-height: 1.5rem;
+  }
 
   small {
     display: inline-block;
     font-size: .4rem;
     color: #888;
+  }
+
+  .toggle {
+    padding: .5rem;
+    margin-right: .5rem;
+    margin-top: 1px;
+    background: #f9f9f9;
+    float: left;
+    line-height: 1.5rem;
+    font-size: 1rem;
+    color: #666;
+  }
+
+  .preview {
+    border-top: 1px solid #ddd;
+  }
+
+  .loading {
+    padding: 3rem;
+    text-align: center;
+  }
+  .article-content {
+    padding: 1rem 3rem 3rem 3rem;
   }
 }
 

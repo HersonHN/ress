@@ -9,7 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "express": "^4.16.2",
+    "node-readability": "^3.0.0",
     "promise-deferred": "^2.0.1",
     "promise-native-deferred": "^3.0.0",
     "rss-parser": "^2.10.8"

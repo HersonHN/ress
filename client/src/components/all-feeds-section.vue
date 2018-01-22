@@ -36,4 +36,9 @@ export default {
 
 
 <style lang="scss" scoped>
+  .entry:last-child {
+    .feed-entry {
+      border-bottom: 1px solid #ddd;
+    }
+  }
 </style>

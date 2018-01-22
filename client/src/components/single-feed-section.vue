@@ -48,4 +48,11 @@ export default {
     vertical-align: middle;
     margin-bottom: .25em;
   }
+
+  .entry:last-child {
+    .feed-entry {
+      border-bottom: 1px solid #ddd;
+    }
+  }
+
 </style>

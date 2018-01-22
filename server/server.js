@@ -1,7 +1,9 @@
 'use strict';
 
 const express = require('express');
+const bodyParser = require('body-parser');
 const rssParser = require('./scripts/rss-parser');
+const cleanView = require('./scripts/clean-view');
 const sources = require('./sources.json');
 const config = require('./server-config.json');
 
@@ -15,6 +17,9 @@ server.use(function(req, res, next) {
   next();
 });
 
+server.use(bodyParser.urlencoded({ extended: false }));
+server.use(bodyParser.json());
+
 
 server.get('/api/sources', function (req, res) {
   res.send(sources);
@@ -26,7 +31,7 @@ server.get('/api/feed', function (req, res) {
 });
 
 
-server.get('/api/feed/:id', function (req, res, next) {
+server.get('/api/feed/:id', function (req, res) {
   let id = req.params.id;
   let sourceExists = CACHE.news[id];
 
@@ -37,6 +42,20 @@ server.get('/api/feed/:id', function (req, res, next) {
   }
 
   res.send(CACHE.news[id]);
+});
+
+
+server.post('/api/clean', function (req, res) {
+  let url = req.body.url;
+
+  cleanView.cleanView(url)
+    .then(function (content) {
+      res.send(content);
+    })
+    .catch(function (error) {
+      console.error(error);
+      res.status(500).send('<strong class="error">Cannot read page<strong>');
+    });
 });
 
 
