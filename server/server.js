@@ -20,6 +20,8 @@ server.use(function(req, res, next) {
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 
+server.use(express.static('../client/dist'));
+
 
 server.get('/api/sources', function (req, res) {
   res.send(sources);
