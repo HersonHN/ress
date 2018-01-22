@@ -1,6 +1,6 @@
 <template lang="html">
   <section class="all-feeds-section">
-    <h1>All Entries</h1>
+    <h2 class="title">All Entries</h2>
 
     <div class="entry" v-for="entry in feed">
       <feed-entry
@@ -36,9 +36,16 @@ export default {
 
 
 <style lang="scss" scoped>
-  .entry:last-child {
-    .feed-entry {
-      border-bottom: 1px solid #ddd;
-    }
+@import "../assets/sass/init.scss";
+
+.title {
+  padding: 1rem;
+  margin-bottom: 0;
+}
+
+.entry:last-child {
+  .feed-entry {
+    border-bottom: $gray-line;
   }
+}
 </style>

@@ -25,6 +25,13 @@
           v-if="loaded"
           v-html="article">
       </div>
+
+      <div class="control-buttons text-center"
+          v-if="loaded">
+        <a class="close-preview" href="#">
+          <i class="icon-cancel"></i> Close Preview
+        </a>
+      </div>
     </div>
   </article>
 </template>
@@ -64,7 +71,7 @@ export default {
 
 .feed-entry {
   display: block;
-  border-top: 1px solid #ddd;
+  border-top: $gray-line;
 
   header {
     display: block;
@@ -87,7 +94,7 @@ export default {
     padding: .5rem;
     margin-right: .5rem;
     margin-top: 1px;
-    background: #f9f9f9;
+    background: $grayish-bg;
     font-size: 1rem;
     color: #666;
     position: absolute;
@@ -97,15 +104,23 @@ export default {
   }
 
   .preview {
-    border-top: 1px solid #ddd;
+    border-top: $gray-line;
   }
 
   .loading {
     padding: 3rem;
     text-align: center;
   }
+
   .article-content {
-    padding: 1rem 3rem 3rem 3rem;
+    padding: 1rem 3rem 2rem 3rem;
+  }
+
+  .control-buttons {
+    border-top: $gray-line;
+    background: $grayish-bg;
+    margin-top: 1rem;
+    padding: 1em;
   }
 }
 

@@ -1,9 +1,9 @@
 <template lang="html">
   <section class="single-feed-section">
-    <h1>
+    <h2 class="title">
       <img :src="source.icon" :alt="source.title">
       {{ source.title }}
-    </h1>
+    </h2>
 
     <div class="entry" v-for="entry in feed">
       <feed-entry
@@ -42,17 +42,24 @@ export default {
 
 
 <style lang="scss" scoped>
-  h1 img {
-    width: .75em;
-    height: .75em;
-    vertical-align: middle;
-    margin-bottom: .25em;
-  }
+@import "../assets/sass/init.scss";
 
-  .entry:last-child {
-    .feed-entry {
-      border-bottom: 1px solid #ddd;
-    }
+.title {
+  padding: 1rem;
+  margin-bottom: 0;
+}
+
+.title img {
+  width: .75em;
+  height: .75em;
+  vertical-align: middle;
+  margin-bottom: .25em;
+}
+
+.entry:last-child {
+  .feed-entry {
+    border-bottom: $gray-line;
   }
+}
 
 </style>

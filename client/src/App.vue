@@ -15,8 +15,12 @@
             </div>
           </div>
           <!-- MAIN SECTION -->
-          <div class="router-content">
-            <router-view :key="$route.fullPath" />
+          <div class="grid-x align-center">
+            <div class="large-10 columns">
+              <div class="router-content">
+                <router-view :key="$route.fullPath" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -41,8 +45,4 @@ export default {
 
 <style lang="scss">
   @import "assets/sass/global.scss";
-
-  .router-content {
-    padding: 1rem;
-  }
 </style>
