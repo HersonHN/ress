@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const rssParser = require('./scripts/rss-parser');
 const cleanView = require('./scripts/clean-view');
 const sources = require('./sources.json');
-const config = require('./server-config.json');
+const config = require('./server-config');
 
 const server = express();
 const CACHE = {};
