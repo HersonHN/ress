@@ -66,15 +66,21 @@ export default {
   display: block;
   border-top: 1px solid #ddd;
 
+  header {
+    display: block;
+    position: relative;
+  }
+
   .title {
     padding: .5rem;
     line-height: 1.5rem;
-  }
+    padding-left: 3rem;
 
-  small {
-    display: inline-block;
-    font-size: .4rem;
-    color: #888;
+    small {
+      display: inline-block;
+      font-size: .4rem;
+      color: #888;
+    }
   }
 
   .toggle {
@@ -82,10 +88,12 @@ export default {
     margin-right: .5rem;
     margin-top: 1px;
     background: #f9f9f9;
-    float: left;
-    line-height: 1.5rem;
     font-size: 1rem;
     color: #666;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
   }
 
   .preview {
