@@ -40,8 +40,9 @@
 
 
 <script>
+import parser from 'cleanview';
 import Article from '../models/article';
-import ui from '../helpers/ui'
+import ui from '../helpers/ui';
 
 export default {
   props: ['entry', 'sourceName'],
@@ -60,8 +61,10 @@ export default {
       let url = this.entry.link;
 
       Article.get(url).then((article) => {
+        let cleanview = parser(article, { url });
+
+        this.article = cleanview;
         this.loaded = true;
-        this.article = article;
       })
     },
 

@@ -2,8 +2,9 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const fetch = require('node-fetch');
+
 const rssParser = require('./scripts/rss-parser');
-const cleanView = require('./scripts/clean-view');
 const sources = require('./sources.json');
 const config = require('./server-config');
 
@@ -50,14 +51,16 @@ server.get('/api/feed/:id', function (req, res) {
 server.post('/api/clean', function (req, res) {
   let url = req.body.url;
 
-  cleanView.cleanView(url)
-    .then(function (content) {
-      res.send(content);
+  fetch(url)
+    .then(res => res.text())
+    .then(function (text) {
+      res.send(text);
     })
     .catch(function (error) {
       console.error(error);
       res.status(500).send('<strong class="error">Cannot read page<strong>');
     });
+
 });
 
 

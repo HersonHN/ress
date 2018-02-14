@@ -11,8 +11,10 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "cleanview": "git+https://github.com/HersonHN/cleanview.git",
     "foundation-sites": "^6.4.4-rc1",
     "moment": "^2.20.1",
+    "url-parse": "^1.2.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
