@@ -58,6 +58,8 @@ export default {
     togglePreview() {
       this.preview = !this.preview;
 
+      if (this.preview == false) return;
+
       let url = this.entry.link;
 
       Article.get(url).then((article) => {
