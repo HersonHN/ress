@@ -1,21 +1,9 @@
 [
   {
-    "id": "nyt",
-    "title": "The New York Times",
-    "feed": "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
-    "icon": "https://static01.nyt.com/images/icons/ios-iphone-114x144.png"
-  },
-  {
-    "id": "guardian",
-    "title": "The Guardian",
-    "feed": "https://www.theguardian.com/international/rss",
-    "icon": "https://assets.guim.co.uk/images/favicons-garnett/23d6bd123831949d7e1881ceb2d66443/114x114.png"
-  },
-  {
-    "id": "verge",
-    "title": "The Verge",
-    "feed": "https://www.theverge.com/rss/index.xml",
-    "icon": "https://cdn.vox-cdn.com/uploads/chorus_asset/file/7395351/android-chrome-192x192.0.png"
+    "id": "worldnews",
+    "title": "World News (from Reddit)",
+    "feed": "https://iu.reddit.com/r/worldnews.rss",
+    "icon": "https://www.redditstatic.com/desktop2x/img/favicon/apple-icon-180x180.png"
   },
   {
     "id": "ars",
