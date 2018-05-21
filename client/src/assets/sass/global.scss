@@ -1,4 +1,12 @@
 @import 'init';
 @include foundation-everything;
-
 @import 'animations';
+
+// Global fixes
+pre {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: $code-background;
+
+  code { padding: 0 }
+}
