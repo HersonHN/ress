@@ -9,7 +9,7 @@
       <div class="title">
         <a :href="entry.link" target="_blank">{{ entry.title }}</a>
         <small>
-          {{ sourceName }} | {{entry.date | date}}
+          {{ source() }} | {{entry.date | date}}
         </small>
       </div>
     </header>
@@ -55,6 +55,18 @@ export default {
   },
 
   methods: {
+    source() {
+      let url = this.entry.link;
+      let domain = url.split('/')[2];
+      let domainTokens = domain.split('.');
+
+      if (domainTokens[0] == 'www') {
+        domainTokens = domainTokens.slice(1);
+        domain = domainTokens.join('.');
+      }
+
+      return domain;
+    },
     togglePreview() {
       this.preview = !this.preview;
 
