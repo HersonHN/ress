@@ -1,9 +1,9 @@
 [
   {
-    "id": "worldnews",
-    "title": "World News (from Reddit)",
-    "feed": "https://iu.reddit.com/r/worldnews.rss",
-    "icon": "https://www.redditstatic.com/desktop2x/img/favicon/apple-icon-180x180.png"
+    "id": "news",
+    "title": "Digg News",
+    "feed": "https://digg.com/channel/news.rss",
+    "icon": "https://digg.com/static/images/windows-tile-144x144.png"
   },
   {
     "id": "ars",
