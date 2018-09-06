@@ -13,7 +13,7 @@ export default {
   },
 
   getCached() {
-    return cache.sources;
+    return cache.sources || [];
   },
 
 }
