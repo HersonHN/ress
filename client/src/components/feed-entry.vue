@@ -6,10 +6,11 @@
         <i v-if="!preview" class="icon-down-open"></i>
         <i v-if="preview" class="icon-up-open"></i>
       </a>
+      <img class="feed-icon" :src="feedIcon()"/>
       <div class="title">
         <a :href="entry.link" target="_blank">{{ entry.title }}</a>
         <small>
-          {{ source() }} | {{entry.date | date}}
+          {{ webpage() }} | {{entry.date | date}}
         </small>
       </div>
     </header>
@@ -42,6 +43,8 @@
 <script>
 import parser from 'cleanview';
 import Article from '../models/article';
+import Feed from '../models/feed';
+import Sources from '../models/sources';
 import ui from '../helpers/ui';
 
 export default {
@@ -56,6 +59,18 @@ export default {
 
   methods: {
     source() {
+      let feed = this.entry.feedId;
+      let sources = Sources.getCached();
+      let source = sources.find(s => s.id == feed);
+
+      return source;
+    },
+
+    feedIcon() {
+      return this.source().icon;
+    },
+
+    webpage() {
       let url = this.entry.link;
       let domain = url.split('/')[2];
       let domainTokens = domain.split('.');
@@ -64,7 +79,6 @@ export default {
         domainTokens = domainTokens.slice(1);
         domain = domainTokens.join('.');
       }
-
       return domain;
     },
     togglePreview() {
@@ -106,33 +120,38 @@ export default {
   border-top: $gray-line;
 
   header {
-    display: block;
+    display: flex;
     position: relative;
+    align-items: center;
+    min-height: 2.5rem;
   }
 
-  .title {
-    padding: .5rem;
-    line-height: 1.5rem;
-    padding-left: 3rem;
-
-    small {
-      display: inline-block;
-      font-size: .4rem;
-      color: #888;
-    }
-  }
 
   .toggle {
     padding: .5rem;
-    margin-right: .5rem;
-    margin-top: 1px;
     background: $grayish-bg;
     font-size: 1rem;
     color: #666;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+  }
+
+ .feed-icon {
+    float: left;
+    height: 1rem;
+    margin: .25rem;
+  }
+  
+  .title {
+    padding: .5rem;
+    line-height: 1.5rem;
+
+    small {
+      display: inline-block;
+      font-size: .65rem;
+      color: #888;
+    }
   }
 
   .preview {
@@ -145,9 +164,9 @@ export default {
   }
 
   .article-content {
-    padding: 1rem 3rem 2rem 3rem;
+    padding: 1rem 2rem 2rem 2rem;
   }
-
+    
   .control-buttons {
     border-top: $gray-line;
     margin-top: 1rem;
