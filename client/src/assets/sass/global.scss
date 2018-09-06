@@ -3,10 +3,24 @@
 @import 'animations';
 
 // Global fixes
-pre {
-  margin-bottom: 1rem;
-  padding: 0.5rem;
-  background-color: $code-background;
+.article-content {
+  pre {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background-color: $code-background;
+  
+    code { padding: 0 }
+  }
 
-  code { padding: 0 }
+  figure {
+    padding: .5rem;
+    margin: 1rem 0;
+    font-size: .8rem;
+  }
+  
+  figcaption {
+    font-style: italic;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+  }
 }
