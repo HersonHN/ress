@@ -63,7 +63,7 @@ export default {
       let sources = Sources.getCached();
       let source = sources.find(s => s.id == feed);
 
-      return source;
+      return source || {};
     },
 
     feedIcon() {
