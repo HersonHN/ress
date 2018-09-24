@@ -72,7 +72,7 @@ function init() {
 
   getNews(1).then(function () {
     server.listen(config.port, function () {
-      console.log(`Running at port ${config.port}`);
+      console.log(`Server running at port ${config.port}`);
     });
   });
 }
@@ -87,4 +87,8 @@ function getNews(fistTime) {
 }
 
 
-init();
+if (require.main === module) {
+  init();
+}
+
+module.exports = { init };
