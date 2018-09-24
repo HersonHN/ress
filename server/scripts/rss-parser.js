@@ -1,8 +1,10 @@
 
 const Deferred = require('promise-deferred');
-const parser = require('rss-parser');
+const Parser = require('rss-parser');
+
 
 const sources = require('../../sources.json');
+const parser = new Parser();
 
 
 main();
@@ -29,7 +31,7 @@ function parseFeed(source) {
 
   parser.parseURL(source.feed, function(err, parsed) {
     if (err) return deferred.reject(err);
-    deferred.resolve(parsed.feed.entries);
+    deferred.resolve(parsed.items);
   });
 
   return deferred.promise;
