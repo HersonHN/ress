@@ -12,6 +12,12 @@
     "production": "RESS_PORT=80 node run-for-production.js",
     "local": "node run-for-local.js"
   },
+  "now": {
+    "alias": [
+      "rssreader.herson.hn",
+      "newsreader.herson.hn"
+    ]
+  },
   "dependencies": {
     "body-parser": "^1.18.3",
     "cleanview": "^1.0.0",
