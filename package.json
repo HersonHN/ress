@@ -6,10 +6,11 @@
   "private": true,
   "scripts": {
     "dev": "node run-for-local.js",
-    "start": "npm run dev",
     "test": "npm run unit",
     "build": "node build/build.js",
-    "now-build": "RESS_PORT=80 node run-for-production.js"
+    "start": "RESS_PORT=80 node server.js",
+    "production": "RESS_PORT=80 node run-for-production.js",
+    "local": "node run-for-local.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
