@@ -1,14 +1,17 @@
 'use strict';
 
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
 
 const rssParser = require('./scripts/rss-parser');
-const sources = require('./sources.json');
-const config = require('./server-config');
+const sources = require('../sources.json');
+const config = require('../server-config');
 
 const server = express();
+const publicPath = path.join(__dirname, '../dist');
+
 const CACHE = {};
 
 
@@ -21,7 +24,7 @@ server.use(function(req, res, next) {
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 
-server.use(express.static('../client/dist'));
+server.use(express.static(publicPath));
 
 
 server.get('/api/sources', function (req, res) {
