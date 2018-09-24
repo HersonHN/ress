@@ -4,6 +4,7 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
+const Deferred = require('promise-deferred');
 
 const rssParser = require('./scripts/rss-parser');
 const sources = require('../sources.json');
@@ -68,13 +69,21 @@ server.post('/api/clean', function (req, res) {
 
 
 function init() {
+  let def = new Deferred();
+
   setInterval(getNews, config.updateInterval);
 
   getNews(1).then(function () {
+    server.on('error', function (e) {
+      def.reject(e);
+    });
     server.listen(config.port, function () {
       console.log(`Server running at port ${config.port}`);
+      def.resolve({ ready: true });
     });
   });
+
+  return def.promise;
 }
 
 
