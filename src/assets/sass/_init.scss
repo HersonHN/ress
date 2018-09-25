@@ -1,5 +1,6 @@
 @import "foundation-settings";
-@import "foundation-sites/scss/foundation";
+// @TODO: load foundation in the $path
+@import "../../../node_modules/foundation-sites/scss/foundation";
 
 // Variables
 $grayish-bg: #f9f9f9;

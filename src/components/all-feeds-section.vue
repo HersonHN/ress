@@ -2,7 +2,7 @@
   <section class="all-feeds-section">
     <h2 class="title">All Entries</h2>
 
-    <div class="entry" v-for="entry in feed">
+    <div class="entry" v-for="entry in feed" :key="entry.id">
       <feed-entry
         :entry="entry"
         :source-name="sources[entry.feedId].title"

@@ -8,17 +8,17 @@ if (require.main === module) {
 }
 
 
-function runWebpack() {
-  const command = 'node_modules/webpack-dev-server/bin/webpack-dev-server.js';
-  const args = '--inline --progress --config build/webpack.dev.conf.js'.split(' ');
-  const webpack = spawn(command, args, { stdio: 'inherit' });
+function runVue() {
+  const command = 'node_modules/.bin/vue-cli-service';
+  const args = ['serve'];
+  spawn(command, args, { stdio: 'inherit' });
 }
 
 
 function init() {
   server.init()
   .then(function () {
-    runWebpack();
+    runVue();
   })
   .catch(console.error);
 }

@@ -6,9 +6,10 @@ export default {
     let offset = $element.offset().top;
 
     let promise = $('html, body').animate({
-      scrollTop: ($element.offset().top)
+      scrollTop: offset
     }, duration);
 
+    return promise;
   },
 
   highlight: function ($element) {

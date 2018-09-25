@@ -2,11 +2,11 @@
   <section class="source-list">
     <router-link :to="{ name: 'all-feeds' }">
       <figure class="home">
-        <img src="/static/img/home.svg" width="70px" height="70px">
+        <img src="/img/home.svg" width="70px" height="70px">
       </figure>
     </router-link>
 
-    <div v-for="source in sources">
+    <div v-for="source in sources" :key="source.id">
       <router-link :to="{ name: 'single-feed', params: { feedId: source.id } }">
         <figure
             :class="{ selected: source.selected }">
@@ -35,7 +35,6 @@ export default {
   },
 
   created () {
-    let feedId = this.$route.params.feedId;
     Sources.get()
       .then(response => this.sources = response)
       .then(this.highlightActive)
@@ -53,7 +52,7 @@ export default {
   },
 
   watch: {
-  	'$route': function(value) {
+    '$route': function() {
       this.highlightActive();
       $('#navigator').foundation('close');
     }

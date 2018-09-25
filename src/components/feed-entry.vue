@@ -18,7 +18,7 @@
       <div
           class="loading"
           v-if="!loaded">
-        <img src="/static/img/loader.gif" alt="loading...">
+        <img src="/img/loader.gif" alt="loading...">
       </div>
 
       <div
@@ -43,7 +43,6 @@
 <script>
 import parser from 'cleanview';
 import Article from '../models/article';
-import Feed from '../models/feed';
 import Sources from '../models/sources';
 import ui from '../helpers/ui';
 
@@ -142,12 +141,13 @@ export default {
     height: 1rem;
     margin: .25rem;
   }
-  
+
   .title {
     padding: .5rem;
     line-height: 1.5rem;
 
     small {
+      margin-left: .5rem;
       display: inline-block;
       font-size: .65rem;
       color: #888;
@@ -166,7 +166,7 @@ export default {
   .article-content {
     padding: 1rem 2rem 2rem 2rem;
   }
-    
+
   .control-buttons {
     border-top: $gray-line;
     margin-top: 1rem;

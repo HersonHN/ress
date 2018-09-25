@@ -5,7 +5,7 @@
       {{ source.title }}
     </h2>
 
-    <div class="entry" v-for="entry in feed">
+    <div class="entry" v-for="entry in feed" :key="entry.id">
       <feed-entry
         :entry="entry"
         :source-name="source.title"
