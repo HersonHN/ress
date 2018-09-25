@@ -15,12 +15,8 @@
             </div>
           </div>
           <!-- MAIN SECTION -->
-          <div class="grid-x align-center">
-            <div class="large-10 columns">
-              <div class="router-content">
-                <router-view :key="$route.fullPath" />
-              </div>
-            </div>
+          <div class="router-content">
+            <router-view :key="$route.fullPath" />
           </div>
         </div>
       </div>
@@ -45,4 +41,9 @@ export default {
 
 <style lang="scss">
   @import "assets/sass/global.scss";
+
+  .router-content {
+    max-width: 1024px;
+    margin: auto;
+  }
 </style>
