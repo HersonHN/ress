@@ -14,6 +14,12 @@
     "local": "node run-for-local.js",
     "production": "node run-for-production.js"
   },
+  "now": {
+    "alias": [
+      "rssreader.herson.hn",
+      "newsreader.herson.hn"
+    ]
+  },
   "dependencies": {
     "body-parser": "^1.18.3",
     "cleanview": "^1.0.10",
