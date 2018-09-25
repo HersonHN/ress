@@ -7,17 +7,14 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "lint": "vue-cli-service lint",
-
     "build": "vue-cli-service build",
     "start": "node server.js",
-
     "local": "node run-for-local.js",
     "production": "node run-for-production.js"
   },
   "now": {
     "alias": [
-      "rssreader.herson.hn",
-      "newsreader.herson.hn"
+      "news.herson.hn"
     ]
   },
   "dependencies": {
@@ -25,7 +22,6 @@
     "cleanview": "^1.0.10",
     "express": "^4.16.3",
     "foundation-sites": "^6.4.4-rc1",
-    "jquery": "^3.3.1",
     "moment": "^2.22.2",
     "node-fetch": "^2.2.0",
     "promise-deferred": "^2.0.1",
