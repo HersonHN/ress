@@ -3,8 +3,8 @@
     <header>
       <a class="toggle" title="Show Preview"
         @click="togglePreview">
-        <i v-if="!preview" class="icon-down-open"></i>
-        <i v-if="preview" class="icon-up-open"></i>
+        <i v-if="!showPreview" class="icon-down-open"></i>
+        <i v-if="showPreview" class="icon-up-open"></i>
       </a>
       <img class="feed-icon" :src="feedIcon()"/>
       <div class="title">
@@ -14,45 +14,21 @@
         </small>
       </div>
     </header>
-    <div v-if="preview" class="preview">
-      <div
-          class="loading"
-          v-if="!loaded">
-        <img src="/img/loader.gif" alt="loading...">
-      </div>
-
-      <div
-          class="article-content"
-          v-if="loaded"
-          v-html="article">
-      </div>
-
-      <div class="control-buttons text-center"
-          v-if="loaded">
-        <a
-            class="close-preview"
-            @click="toggleAndScroll">
-          <i class="icon-cancel"></i> Close Preview
-        </a>
-      </div>
-    </div>
+    <article-preview ref="preview" :entry="entry" />
   </article>
 </template>
 
 
 <script>
-import parser from 'cleanview';
-import Article from '../models/article';
 import Sources from '../models/sources';
-import ui from '../helpers/ui';
+import ArticlePreview from './article-preview';
 
 export default {
-  props: ['entry', 'sourceName'],
+  props: ['entry'],
+  components: { ArticlePreview },
   data() {
     return {
-      preview: false,
-      loaded: false,
-      article: ''
+      showPreview: false,
     }
   },
 
@@ -80,31 +56,13 @@ export default {
       }
       return domain;
     },
+
     togglePreview() {
-      this.preview = !this.preview;
+      this.showPreview = !this.showPreview;
 
-      if (this.preview == false) return;
-
-      let url = this.entry.link;
-
-      Article.get(url).then((article) => {
-        let cleanview = parser(article, { url });
-
-        this.article = cleanview;
-        this.loaded = true;
-      })
+      let preview = this.$refs.preview;
+      preview.togglePreview();
     },
-
-    scrollTop() {
-      let $element = $(this.$el);
-      ui.scrollTo($element);
-      ui.highlight($element);
-    },
-
-    toggleAndScroll() {
-      this.togglePreview();
-      this.scrollTop();
-    }
   }
 }
 </script>
@@ -151,30 +109,6 @@ export default {
       display: inline-block;
       font-size: .65rem;
       color: #888;
-    }
-  }
-
-  .preview {
-    border-top: $gray-line;
-  }
-
-  .loading {
-    padding: 3rem;
-    text-align: center;
-  }
-
-  .article-content {
-    padding: 1rem 2rem 2rem 2rem;
-  }
-
-  .control-buttons {
-    border-top: $gray-line;
-    margin-top: 1rem;
-
-    .close-preview {
-      background: $grayish-bg;
-      display: block;
-      padding: 1em;
     }
   }
 }

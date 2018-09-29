@@ -1,0 +1,97 @@
+<template lang="html">
+  <div class="preview" v-if="preview">
+    <div class="loading"
+        v-if="!loaded">
+      <img src="/img/loader.gif" alt="loading...">
+    </div>
+
+    <div class="article-content"
+        v-if="loaded"
+        v-html="article">
+    </div>
+
+    <div class="control-buttons text-center"
+        v-if="loaded">
+      <a class="close-preview"
+          @click="toggleAndScroll">
+        <i class="icon-cancel"></i> Close Preview
+      </a>
+    </div>
+  </div>
+</template>
+
+
+<script>
+import parser from 'cleanview';
+import Article from '../models/article';
+import ui from '../helpers/ui';
+
+export default {
+  props: ['entry'],
+  data() {
+    return {
+      preview: false,
+      loading: false,
+      loaded: false,
+      article: ''
+    }
+  },
+
+  methods: {
+    togglePreview() {
+      this.preview = !this.preview;
+
+      if (this.preview == false) return;
+
+      let url = this.entry.link;
+
+      Article.get(url).then((article) => {
+        let cleanview = parser(article, { url });
+
+        this.article = cleanview;
+        this.loaded = true;
+      })
+    },
+
+    scrollTop() {
+      let $element = $(this.$parent.$el);
+      ui.scrollTo($element);
+      ui.highlight($element);
+    },
+
+    toggleAndScroll() {
+      this.togglePreview();
+      this.scrollTop();
+    }
+  }
+}
+</script>
+
+
+<style lang="scss" scoped>
+@import "../assets/sass/init.scss";
+
+.preview {
+  border-top: $gray-line;
+
+  .loading {
+    padding: 3rem;
+    text-align: center;
+  }
+
+  .article-content {
+    padding: 1rem 2rem 2rem 2rem;
+  }
+
+  .control-buttons {
+    border-top: $gray-line;
+    margin-top: 1rem;
+
+    .close-preview {
+      background: $grayish-bg;
+      display: block;
+      padding: 1em;
+    }
+  }
+}
+</style>
