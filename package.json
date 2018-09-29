@@ -12,11 +12,6 @@
     "local": "node run-for-local.js",
     "production": "node run-for-production.js"
   },
-  "now": {
-    "alias": [
-      "news.herson.hn"
-    ]
-  },
   "dependencies": {
     "body-parser": "^1.18.3",
     "cleanview": "^1.0.10",
