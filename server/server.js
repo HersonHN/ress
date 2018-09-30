@@ -3,6 +3,7 @@
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
+const history = require('connect-history-api-fallback');
 const fetch = require('node-fetch');
 const Deferred = require('promise-deferred');
 
@@ -24,9 +25,8 @@ server.use(function(req, res, next) {
 
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
-
 server.use(express.static(publicPath));
-
+server.use(history());
 
 server.get('/api/sources', function (req, res) {
   res.send(sources);

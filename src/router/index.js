@@ -6,6 +6,7 @@ import SingleFeedSection from '@/components/single-feed-section'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
