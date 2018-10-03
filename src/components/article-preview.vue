@@ -2,7 +2,7 @@
   <div class="preview" v-if="preview">
     <div class="loading"
         v-if="!loaded">
-      <img src="/img/loader.gif" alt="loading...">
+      <loading-animation/>
     </div>
 
     <div class="article-content"
@@ -23,11 +23,14 @@
 
 <script>
 import parser from 'cleanview';
+import LoadingAnimation from './loading-animation';
 import Article from '../models/article';
 import ui from '../helpers/ui';
 
 export default {
+  name: 'ArticlePreview',
   props: ['entry'],
+  components: { LoadingAnimation },
   data() {
     return {
       preview: false,
@@ -73,11 +76,6 @@ export default {
 
 .preview {
   border-top: $gray-line;
-
-  .loading {
-    padding: 3rem;
-    text-align: center;
-  }
 
   .article-content {
     padding: 1rem 2rem 2rem 2rem;

@@ -5,12 +5,16 @@
       {{ source.title }}
     </h2>
 
-    <div class="entry" v-for="entry in feed" :key="entry.id">
+    <div class="entry" v-for="entry in feed" :key="entry.id" v-if="feed">
       <feed-entry
         :entry="entry"
         :source-name="source.title"
       />
     </div>
+    <div v-if="!feed">
+      <loading-animation />
+    </div>
+    
   </section>
 </template>
 
@@ -18,11 +22,12 @@
 <script>
 import Feed from '@/models/feed';
 import FeedEntry from './feed-entry';
+import LoadingAnimation from './loading-animation';
 
 export default {
   name: 'AllFeedsSection',
   props: ['feedId'],
-  components: { FeedEntry },
+  components: { FeedEntry, LoadingAnimation },
 
   data() {
     return { feed: [], source: {} }
