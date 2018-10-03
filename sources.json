@@ -1,26 +1,44 @@
 [
   {
-    "id": "news",
+    "id": "digg-news",
     "title": "Digg News",
     "feed": "https://digg.com/channel/news.rss",
     "icon": "https://digg.com/static/images/windows-tile-144x144.png"
   },
   {
-    "id": "ars",
+    "id": "ars-technica",
     "title": "Ars Technica",
     "feed": "http://feeds.arstechnica.com/arstechnica/index/",
     "icon": "https://cdn.arstechnica.net/wp-content/themes/ars/assets/img/ars-ios-icon-d9a45f558c.png"
   },
   {
-    "id": "hn",
+    "id": "hacker-news",
     "title": "Hacker News",
     "feed": "https://news.ycombinator.com/rss",
     "icon": "https://news.ycombinator.com/favicon.ico"
   },
   {
-    "id": "lob",
+    "id": "lobsters",
     "title": "Lobsters",
     "feed": "https://lobste.rs/rss",
     "icon": "https://lobste.rs/apple-touch-icon.png"
+  },
+  {
+    "id": "nature",
+    "title": "Nature",
+    "feed": "http://feeds.nature.com/nature/rss/current",
+    "icon": "https://www.nature.com/static/images/favicons/nature/favicon-144x144.3e61d1f755.png"
+  },
+  {
+    "id": "smithsonian-magazine",
+    "title": "Smithsonian Magazine",
+    "feed": "https://www.smithsonianmag.com/rss/latest_articles/",
+    "icon": "https://static-media.smithsonianmag.com/img/icons/Smithsonian-com-Icon2-120.png"
+  },
+  {
+    "id": "nautilus",
+    "title": "Nautilus",
+    "feed": "https://nautil.us/rss/all",
+    "icon": "https://nautil.us/assets/site/img/global/nautilus.png"
   }
 ]
