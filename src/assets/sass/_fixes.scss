@@ -1,0 +1,45 @@
+
+// Global fixes
+.article-content {
+  max-width: calc(100vw - 80px);
+
+  pre {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background-color: red;
+    background-color: $code-background;
+    overflow: auto;
+  
+    code { padding: 0 }
+  }
+
+  table {
+    overflow: auto;
+  }
+
+  figure {
+    padding: .5rem;
+    margin: 1rem 0;
+    font-size: .8rem;
+  }
+  
+  figcaption {
+    font-style: italic;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+  }
+
+  iframe {
+    width: 960px;
+    max-width: 100%;
+    height: 540px;
+    max-height: 56.25vw;
+    border: none;
+  }
+}
+
+@include breakpoint(medium down) {
+  .article-content {
+    max-width: 100vw;
+  }
+}
