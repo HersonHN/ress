@@ -63,6 +63,9 @@ export default {
     },
 
     toggleAndScroll() {
+      let parent = this.$parent;
+      parent.showPreview = false;
+
       this.togglePreview();
       this.scrollTop();
     }
