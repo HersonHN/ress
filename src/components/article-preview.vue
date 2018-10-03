@@ -49,7 +49,7 @@ export default {
       let url = this.entry.link;
 
       Article.get(url).then((article) => {
-        let cleanview = parser(article, { url });
+        let cleanview = parser(article, { url, minRatio: 0.5 });
 
         this.article = cleanview;
         this.loaded = true;
