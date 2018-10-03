@@ -30,7 +30,7 @@ server.use(express.static(publicPath));
 
 // rendering the index
 server.get('/feed/:feedId', function (req, res) {
-  res.render(path.join(publicPath, 'index.html'));
+  res.sendFile('index.html', { root: publicPath });
 });
 
 
