@@ -26,7 +26,13 @@ server.use(function(req, res, next) {
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 server.use(express.static(publicPath));
-server.use(history());
+
+
+// rendering the index
+server.get('/feed/:feedId', function (req, res) {
+  res.render(path.join(publicPath, 'index.html'));
+});
+
 
 server.get('/api/sources', function (req, res) {
   res.send(sources);
