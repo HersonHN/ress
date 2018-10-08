@@ -20,8 +20,13 @@ function parseVariables(hash) {
 
   for (const key in hash) {
     if (key.indexOf('VUE_APP') == 0) {
-      const value = process.env[key];
+      const value = process.env[key] || '';
       let line = `${key}="${value}"`;
+
+      if (!value) {
+        console.warn('value for env variable', key, 'is not defined');
+      }
+
       lines.push(line);
     }
   }
