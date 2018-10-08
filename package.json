@@ -9,8 +9,8 @@
     "lint": "vue-cli-service lint",
     "build": "node scripts/create-dot-env.js && vue-cli-service build",
     "start": "node server.js",
-    "local": "node run-for-local.js",
-    "production": "node scripts/create-dot-env.js && node run-for-production.js"
+    "local": "node scripts/run-for-local.js",
+    "production": "node scripts/create-dot-env.js && node scripts/run-for-production.js"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
