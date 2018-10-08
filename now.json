@@ -1,6 +1,10 @@
 {
   "name": "ress",
+  "public": true,
   "alias": [
     "news.herson.hn"
-  ]
+  ],
+  "env": {
+    "VUE_APP_GOOGLE_ANALYTICS": "@ress-google-analytics"
+  }
 }
