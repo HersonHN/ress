@@ -19,9 +19,11 @@ function parseVariables(hash) {
   let lines = [];
 
   for (const key in hash) {
-    const value = process.env[key];
-    let line = `${key}="${value}"`;
-    lines.push(line);
+    if (key.indexOf('VUE_APP') == 0) {
+      const value = process.env[key];
+      let line = `${key}="${value}"`;
+      lines.push(line);
+    }
   }
 
   return lines.join('\n');
