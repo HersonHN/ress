@@ -4,6 +4,10 @@
         <div class="off-canvas position-left reveal-for-medium" id="navigator" data-off-canvas data-position="left">
           <!-- SIDE COLUMN -->
           <source-list/>
+          <footer class="signature">
+            <a href="https://herson.hn" target="_blank">herson.hn</a>
+          </footer>
+
         </div>
         <div class="off-canvas-content" data-off-canvas-content>
           <div class="title-bar hide-for-medium">
@@ -47,5 +51,23 @@ export default {
   .router-content {
     max-width: 1024px;
     margin: auto;
+  }
+
+  .signature {
+    $signature-color: #888;
+    display: block;
+    margin: 5px 10px;
+    color: $signature-color;
+    text-decoration: underline;
+    font-size: 0.7rem;
+    text-align: center;
+    padding: 5px 0 20px;
+    
+    a {
+      color: $signature-color;
+      transition: color 0.2s linear;
+    }
+
+    a:hover { color: lighten($signature-color, 30%) }
   }
 </style>

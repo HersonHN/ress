@@ -1,8 +1,11 @@
-@import "foundation-settings";
-// @TODO: load foundation in the $path
-@import "../../../node_modules/foundation-sites/scss/foundation";
+
 
 // Variables
 $grayish-bg: #f9f9f9;
 $gray-line: 1px solid #ddd;
 $code-border: none;
+$sidebar-width: 100px;
+
+@import "foundation-settings";
+// @TODO: load foundation in the $path
+@import "../../../node_modules/foundation-sites/scss/foundation";

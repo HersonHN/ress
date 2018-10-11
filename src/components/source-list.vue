@@ -64,9 +64,12 @@ export default {
 <style lang="scss" scoped>
   .source-list {
     color: white;
-
+  
+    a {
+      display: inline-block;
+    }
     figure {
-      padding: 10px;
+      padding: 5px 10px;
       font-weight: bold;
       color: white;
     }
