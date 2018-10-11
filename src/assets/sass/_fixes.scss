@@ -1,7 +1,8 @@
 
 // Global fixes
 .article-content {
-  max-width: calc(100vw - $sidebar-width);
+  // the 100px is the $sidebar-width, but it does not get parsed properly by the compiler
+  max-width: calc(100vw - 100px);
 
   pre {
     margin-bottom: 1rem;

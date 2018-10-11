@@ -7,7 +7,6 @@
           <footer class="signature">
             <a href="https://herson.hn" target="_blank">herson.hn</a>
           </footer>
-
         </div>
         <div class="off-canvas-content" data-off-canvas-content>
           <div class="title-bar hide-for-medium">
