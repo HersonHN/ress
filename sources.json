@@ -40,5 +40,11 @@
     "title": "Nautilus",
     "feed": "https://nautil.us/rss/all",
     "icon": "https://nautil.us/assets/site/img/global/nautilus.png"
+  },
+  {
+    "id": "reuters-health",
+    "title": "Reuters Health",
+    "feed": "http://feeds.reuters.com/reuters/healthNews",
+    "icon": "https://s3.reutersmedia.net/resources_v2/images/favicon/favicon.ico"
   }
 ]

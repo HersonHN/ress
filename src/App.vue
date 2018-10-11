@@ -2,10 +2,8 @@
     <section id="app" class="off-canvas-wrapper">
       <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
         <div class="off-canvas position-left reveal-for-medium" id="navigator" data-off-canvas data-position="left">
-          <div class="row column">
-            <!-- SIDE COLUMN -->
-            <source-list/>
-          </div>
+          <!-- SIDE COLUMN -->
+          <source-list/>
         </div>
         <div class="off-canvas-content" data-off-canvas-content>
           <div class="title-bar hide-for-medium">
@@ -41,6 +39,10 @@ export default {
 
 <style lang="scss">
   @import "assets/sass/global.scss";
+
+  #navigator {
+    overflow-y: scroll;
+  }
 
   .router-content {
     max-width: 1024px;

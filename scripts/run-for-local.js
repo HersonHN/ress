@@ -1,6 +1,6 @@
 
 const { spawn } = require('child_process');
-const server = require('../server');
+const server = require('../server/server');
 
 
 if (require.main === module) {
