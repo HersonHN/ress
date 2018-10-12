@@ -61,8 +61,11 @@ server.get('/api/feed/:id', function (req, res) {
 server.post('/api/clean', function (req, res) {
   let url = req.body.url;
 
-  fetch(url)
-    .then(res => res.text())
+  fetch(url, {
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.2; +http://www.google.com/bot.html)'
+    }
+  }).then(res => res.text())
     .then(function (text) {
       res.send(text);
     })
