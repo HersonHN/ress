@@ -49,7 +49,11 @@ export default {
       let url = this.entry.link;
 
       Article.get(url).then((article) => {
-        let cleanview = parser(article, { url, minRatio: 0.5 });
+        let cleanview = parser(article, {
+          url: url,
+          minRatio: 0.5,
+          includeTags: ['header']
+        });
 
         this.article = cleanview;
         this.loaded = true;
