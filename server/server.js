@@ -3,7 +3,6 @@
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
-const history = require('connect-history-api-fallback');
 const fetch = require('node-fetch');
 const Deferred = require('promise-deferred');
 
