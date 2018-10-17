@@ -3,8 +3,6 @@
   It's better to just comment them out instead of delete them
 */
 
-$global-flexbox: true !global;
-
 @include foundation-global-styles;
 @include foundation-xy-grid-classes;
 @include foundation-typography;

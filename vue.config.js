@@ -1,3 +1,4 @@
+const path = require('path');
 
 let webpackConfig = {
   resolve: {
@@ -8,5 +9,14 @@ let webpackConfig = {
 };
 
 module.exports = {
-  configureWebpack: webpackConfig
+  configureWebpack: webpackConfig,
+  css: {
+    loaderOptions: {
+      sass: {
+        includePaths: [
+          path.resolve(__dirname, 'node_modules')
+        ]
+      }
+    }
+  }
 }
