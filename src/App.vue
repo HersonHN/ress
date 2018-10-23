@@ -1,7 +1,9 @@
 <template>
     <section id="app" class="off-canvas-wrapper">
       <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
-        <div class="off-canvas position-left reveal-for-medium" id="navigator" data-off-canvas data-position="left">
+        <div id="navigator"
+            class="off-canvas position-left reveal-for-medium"
+            data-off-canvas data-position="left">
           <!-- SIDE COLUMN -->
           <source-list/>
           <footer class="signature">
@@ -46,6 +48,13 @@ export default {
   #navigator {
     overflow-y: scroll;
   }
+
+  // scrollbar styling (webkit-only so far)
+  #navigator::-webkit-scrollbar             { width: 8px; }
+  #navigator::-webkit-scrollbar-track       { background-color: $offcanvas-background; }
+  #navigator::-webkit-scrollbar-thumb       { background-color: #777; border-radius: 8px;  }
+  #navigator:hover::-webkit-scrollbar-thumb { background-color: #888; }
+
 
   .router-content {
     max-width: 1024px;
