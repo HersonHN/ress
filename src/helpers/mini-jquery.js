@@ -1,0 +1,29 @@
+// jquery like functions
+
+function find(query, parent) {
+  parent = parent || document;
+  if (Array.isArray(parent)) {
+    parent = parent[0];
+    if (!parent) throw 'Empty array';
+  }
+  let elements = parent.querySelectorAll(query);
+  return Array.from(elements);
+}
+
+function id(str) {
+  return document.getElementById(str);
+}
+
+function is(el, query) {
+  let func = 
+    el.matches || 
+    el.matchesSelector || 
+    el.msMatchesSelector || 
+    el.mozMatchesSelector || 
+    el.webkitMatchesSelector ||
+    el.oMatchesSelector;
+    
+  return func.call(el, query);
+}
+
+export default {find, id, is};

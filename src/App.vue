@@ -29,6 +29,7 @@
 
 <script>
 import SourceList from '@/components/source-list';
+import miniFoundation from '@/helpers/mini-foundation';
 
 export default {
   name: 'App',
@@ -37,6 +38,7 @@ export default {
   mounted: function() {
     // init foundation components
     $(document).foundation();
+    // miniFoundation.init();
   }
 }
 </script>
