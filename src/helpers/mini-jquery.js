@@ -30,6 +30,19 @@ export function is(el, query) {
   return func.call(el, query);
 }
 
+export function isHidden(element) {
+  let style = window.getComputedStyle(element);
+  let isDisplayNone = (style.display === 'none');
+  let isVisiblityHidden = (style.visibility === 'hidden');
+  let noOffset = (!element.offsetWidth && !element.offsetHeight);
+  let isHidden = (isDisplayNone || isVisiblityHidden || noOffset);
+  return isHidden;
+}
+
+export function isVisible(element) {
+  return !isHidden(element);
+}
+
 export function addClass(element, className) {
   element.classList.add(className);
 }
@@ -45,11 +58,8 @@ export function trigger(element, eventName) {
 }
 
 export default {
-  find,
-  findOne,
-  id,
-  addClass,
-  removeClass,
-  is,
+  find, findOne, id,
+  addClass, removeClass,
+  is, isHidden, isVisible,
   trigger,
 };

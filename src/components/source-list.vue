@@ -60,7 +60,9 @@ export default {
       // as in: `$('#navigator').foundation('close');`
 
       let button = $.findOne('[data-open=navigator]');
-      $.trigger(button, 'click');
+      if ($.isVisible(button)) {
+        $.trigger(button, 'click');
+      }
     }
   }
 }
