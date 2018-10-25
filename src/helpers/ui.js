@@ -1,15 +1,19 @@
 import mini from './mini-jquery';
 
-function scrollTo($element, duration) {
+function scrollTo(element, duration) {
   duration = duration || 300;
+  let top = element.offsetTop;
 
-  let offset = $element.offset().top;
+  let scrollStep = -window.scrollY / (duration / 15);
+  let scrollInterval = setInterval(function () {
+      
+      if (window.scrollY > top) {
+        window.scrollBy(top, scrollStep);
+      } else {
+        clearInterval(scrollInterval);
+      }
+  }, 15);
 
-  let promise = $('html, body').animate({
-    scrollTop: offset
-  }, duration);
-
-  return promise;
 }
 
 function highlight(element) {

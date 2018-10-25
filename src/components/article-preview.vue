@@ -62,8 +62,7 @@ export default {
 
     scrollTop() {
       let element = this.$parent.$el;
-      let $element = $(this.$parent.$el);
-      ui.scrollTo($element);
+      ui.scrollTo(element);
       ui.highlight(element);
     },
 
