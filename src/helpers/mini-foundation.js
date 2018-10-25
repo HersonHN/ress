@@ -234,7 +234,7 @@ function removeProperties(element, properties) {
   // other attributes
   if (attrs) {
     Object.entries(attrs).forEach(pair => {
-      let [key, value] = pair;
+      let [key] = pair;
       element.removeAttribute(key);
     })
   }

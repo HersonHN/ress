@@ -44,4 +44,12 @@ export function trigger(element, eventName) {
   element.dispatchEvent(event);
 }
 
-export default find;
+export default {
+  find,
+  findOne,
+  id,
+  addClass,
+  removeClass,
+  is,
+  trigger,
+};

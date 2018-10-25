@@ -44,3 +44,11 @@
     max-width: 100vw;
   }
 }
+
+
+// foundation fixes
+@include breakpoint(medium up) {
+  .hide-for-medium {
+    display: none;
+  }
+}
