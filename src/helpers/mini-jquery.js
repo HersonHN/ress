@@ -10,6 +10,10 @@ function find(query, parent) {
   return Array.from(elements);
 }
 
+function findOne(query, parent) {
+  return find(query, parent)[0];
+}
+
 function id(str) {
   return document.getElementById(str);
 }
@@ -26,4 +30,4 @@ function is(el, query) {
   return func.call(el, query);
 }
 
-export default {find, id, is};
+export default {find, findOne, id, is};

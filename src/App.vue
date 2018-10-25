@@ -37,8 +37,7 @@ export default {
 
   mounted: function() {
     // init foundation components
-    $(document).foundation();
-    // miniFoundation.init();
+    miniFoundation.init();
   }
 }
 </script>
