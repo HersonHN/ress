@@ -1,9 +1,14 @@
 import config from './api-config'
+import reqwest from 'reqwest';
 
 export default {
 
   get(url) {
-    return $.post(config.routes.article, { url: url });
+    return reqwest({
+      url: config.routes.article,
+      method: 'post',
+      data: { url: url }
+    });
   }
 
 }

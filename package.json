@@ -20,6 +20,7 @@
     "moment": "^2.22.2",
     "node-fetch": "^2.2.0",
     "promise-deferred": "^2.0.1",
+    "reqwest": "^2.0.5",
     "rss-parser": "^3.4.3",
     "url-parse": "^1.4.3",
     "vue": "^2.5.17",

@@ -1,13 +1,14 @@
 import config from './api-config'
+import reqwest from 'reqwest';
 
 export default {
 
   getAll() {
-    return $.getJSON(config.routes.feed);
+    return reqwest(config.routes.feed);
   },
 
   get(site) {
-    return $.getJSON(`${config.routes.feed}/${site}`);
+    return reqwest(`${config.routes.feed}/${site}`);
   },
 
   mergeAll(sources) {
