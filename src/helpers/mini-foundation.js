@@ -6,7 +6,7 @@ const TYPES = [{
   typeQuery: '[data-off-canvas]',
   self: {
     active:   { 'class': 'is-open',   attrs: { 'aria-hidden': 'false' } },
-    inactive: { 'class': 'is-closed', attrs: { 'aria-hidden': 'true' } },
+    inactive: { 'class': 'is-transition-push', attrs: { 'aria-hidden': 'true' } },
   },
   create: {
     siblings: [{
@@ -198,10 +198,10 @@ function addProperties(element, properties) {
   if (classes) {
     if (Array.isArray(classes)) {
       classes.forEach(className => {
-        addClass(element, className);
+        $.addClass(element, className);
       })
     } else {
-      addClass(element, classes);
+      $.addClass(element, classes);
     }
   }
 
@@ -224,10 +224,10 @@ function removeProperties(element, properties) {
   if (classes) {
     if (Array.isArray(classes)) {
       classes.forEach(className => {
-        removeClass(element, className);
+        $.removeClass(element, className);
       })
     } else {
-      removeClass(element, classes);
+      $.removeClass(element, classes);
     }
   }
 
@@ -240,12 +240,7 @@ function removeProperties(element, properties) {
   }
 }
 
-function addClass(element, className) {
-  element.classList.add(className);
-}
 
-function removeClass(element, className) {
-  element.classList.remove(className);
-}
+
 
 export default { init };

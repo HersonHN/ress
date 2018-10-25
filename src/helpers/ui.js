@@ -1,23 +1,23 @@
-export default {
+import mini from './mini-jquery';
 
-  scrollTo: function ($element, duration) {
-    duration = duration || 300;
+function scrollTo($element, duration) {
+  duration = duration || 300;
 
-    let offset = $element.offset().top;
+  let offset = $element.offset().top;
 
-    let promise = $('html, body').animate({
-      scrollTop: offset
-    }, duration);
+  let promise = $('html, body').animate({
+    scrollTop: offset
+  }, duration);
 
-    return promise;
-  },
-
-  highlight: function ($element) {
-    $element.addClass('hilight-yellow');
-
-    setTimeout(function () {
-      $element.removeClass('hilight-yellow');
-    }, 1200)
-  }
-
+  return promise;
 }
+
+function highlight(element) {
+  mini.addClass(element, 'hilight-yellow');
+
+  setTimeout(function () {
+    mini.removeClass(element, 'hilight-yellow');
+  }, 1200)
+}
+
+export default { scrollTo, highlight }

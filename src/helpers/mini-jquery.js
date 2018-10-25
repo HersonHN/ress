@@ -30,4 +30,12 @@ function is(el, query) {
   return func.call(el, query);
 }
 
-export default {find, findOne, id, is};
+function addClass(element, className) {
+  element.classList.add(className);
+}
+
+function removeClass(element, className) {
+  element.classList.remove(className);
+}
+
+export default {find, findOne, id, is, addClass, removeClass};
