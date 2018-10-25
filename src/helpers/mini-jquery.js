@@ -1,6 +1,6 @@
 // jquery like functions
 
-function find(query, parent) {
+export function find(query, parent) {
   parent = parent || document;
   if (Array.isArray(parent)) {
     parent = parent[0];
@@ -10,15 +10,15 @@ function find(query, parent) {
   return Array.from(elements);
 }
 
-function findOne(query, parent) {
+export function findOne(query, parent) {
   return find(query, parent)[0];
 }
 
-function id(str) {
+export function id(str) {
   return document.getElementById(str);
 }
 
-function is(el, query) {
+export function is(el, query) {
   let func = 
     el.matches || 
     el.matchesSelector || 
@@ -30,18 +30,18 @@ function is(el, query) {
   return func.call(el, query);
 }
 
-function addClass(element, className) {
+export function addClass(element, className) {
   element.classList.add(className);
 }
 
-function removeClass(element, className) {
+export function removeClass(element, className) {
   element.classList.remove(className);
 }
 
-function trigger(element, eventName) {
+export function trigger(element, eventName) {
   let event = document.createEvent('HTMLEvents');
   event.initEvent(eventName, true, false);
   element.dispatchEvent(event);
 }
 
-export default {find, findOne, id, is, addClass, removeClass, trigger};
+export default find;
