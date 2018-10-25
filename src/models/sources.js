@@ -1,11 +1,12 @@
-import config from './api-config'
+import config from './api-config';
+import reqwest from 'reqwest';
 
 let cache = {};
 
 export default {
 
   get() {
-    return $.getJSON(config.routes.sources)
+    return reqwest(config.routes.sources)
       .then((sources) => {
         cache.sources = sources;
         return sources;

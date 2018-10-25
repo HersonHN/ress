@@ -38,4 +38,10 @@ function removeClass(element, className) {
   element.classList.remove(className);
 }
 
-export default {find, findOne, id, is, addClass, removeClass};
+function trigger(element, eventName) {
+  let event = document.createEvent('HTMLEvents');
+  event.initEvent(eventName, true, false);
+  element.dispatchEvent(event);
+}
+
+export default {find, findOne, id, is, addClass, removeClass, trigger};

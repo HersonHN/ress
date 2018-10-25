@@ -25,6 +25,7 @@
 
 <script>
 import Sources from '@/models/sources';
+import $ from '../helpers/mini-jquery';
 
 export default {
 
@@ -54,7 +55,12 @@ export default {
   watch: {
     '$route': function() {
       this.highlightActive();
-      $('#navigator').foundation('close');
+      
+      // @TODO: trigger close on mini-foundation
+      // as in: `$('#navigator').foundation('close');`
+
+      let button = $.findOne('[data-open=navigator]');
+      $.trigger(button, 'click');
     }
   }
 }
