@@ -2,7 +2,7 @@
   {
     "id": "digg-news",
     "title": "Digg News",
-    "feed": "https://digg.com/channel/news.rss",
+    "feed": "https://digg.com/rss/top.rss",
     "icon": "https://digg.com/static/images/windows-tile-144x144.png"
   },
   {

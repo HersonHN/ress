@@ -30,7 +30,10 @@ function parseFeed(source) {
   var deferred = new Deferred();
 
   parser.parseURL(source.feed, function(err, parsed) {
-    if (err) return deferred.reject(err);
+    if (err) return deferred.reject({
+      message: `cannot parse feed: ${source.feed}`,
+      error: err
+    });
     deferred.resolve(parsed.items);
   });
 
