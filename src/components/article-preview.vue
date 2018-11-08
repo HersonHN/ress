@@ -48,6 +48,19 @@ export default {
 
       let url = this.entry.link;
 
+      this.presentContent(url);
+    },
+
+    presentContent(url) {
+      let result = Article.isVideo(url);
+      if (result.is) {
+        let embed = Article.formatVideo(result);
+
+        this.article = embed;
+        this.loaded = true;
+        return;
+      }
+
       Article.get(url).then((article) => {
         let cleanview = parser(article, {
           url: url,
