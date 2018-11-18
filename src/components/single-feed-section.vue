@@ -1,7 +1,7 @@
 <template lang="html">
   <section class="single-feed-section">
     <h2 class="title">
-      <img :src="source.icon" :alt="source.title">
+      <img class="feed-icon medium" :src="source.icon" :alt="source.title">
       {{ source.title }}
     </h2>
 
@@ -55,9 +55,6 @@ export default {
 }
 
 .title img {
-  width: .75em;
-  height: .75em;
-  vertical-align: middle;
   margin-bottom: .25em;
 }
 

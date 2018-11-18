@@ -6,7 +6,7 @@
         <i v-if="!showPreview" class="icon-down-open"></i>
         <i v-if="showPreview" class="icon-up-open"></i>
       </a>
-      <img class="feed-icon" :src="feedIcon()"/>
+      <img class="feed-icon mini" :alt="source().title" :src="feedIcon()"/>
       <div class="title">
         <a :href="entry.link" target="_blank">{{ entry.title }}</a>
         <small>
@@ -92,12 +92,6 @@ export default {
     align-self: stretch;
     display: flex;
     align-items: center;
-  }
-
- .feed-icon {
-    float: left;
-    height: 1rem;
-    margin: .25rem;
   }
 
   .title {

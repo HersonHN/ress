@@ -11,7 +11,8 @@
         <figure
             :class="{ selected: source.selected }">
           <img
-            width="80px" height="80px"
+            class="feed-icon"
+            width="72" height="72"
             :src="source.icon"
             :alt="source.title"
             :title="source.title" />
