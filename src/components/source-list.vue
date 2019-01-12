@@ -25,7 +25,6 @@
 
 
 <script>
-import Sources from '@/models/sources';
 import $ from '../helpers/mini-jquery';
 
 export default {
@@ -37,7 +36,7 @@ export default {
   },
 
   created () {
-    Sources.get()
+    Promise.resolve(window.sources)
       .then(response => this.sources = response)
       .then(this.highlightActive)
   },
