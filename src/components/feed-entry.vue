@@ -20,7 +20,6 @@
 
 
 <script>
-import Sources from '../models/sources';
 import ArticlePreview from './article-preview';
 
 export default {
@@ -35,7 +34,7 @@ export default {
   methods: {
     source() {
       let feed = this.entry.feedId;
-      let sources = Sources.getCached();
+      let sources = window.sources;
       let source = sources.find(s => s.id == feed);
 
       return source || {};
