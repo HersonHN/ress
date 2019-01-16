@@ -1,11 +1,5 @@
 [
   {
-    "id": "longform",
-    "title": "Longform",
-    "feed": "https://longform.org/feed.rss",
-    "icon": "https://longform.org/assets/site-icons/logo-256-3b5d4724ee2d42b9112886d42e48b691.png"
-  },
-  {
     "id": "digg-news",
     "title": "Digg News",
     "feed": "https://digg.com/rss/top.rss",
