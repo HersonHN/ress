@@ -81,6 +81,9 @@ export default {
     position: relative;
     align-items: center;
     min-height: 2.5rem;
+    img {
+      margin-left: 3px;
+    }
   }
 
 
