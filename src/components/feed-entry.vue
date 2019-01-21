@@ -1,18 +1,18 @@
 <template lang="html">
   <article class="feed-entry">
-    <header>
+    <header :class="{ 'left-handed': leftHanded }">
+      <img class="feed-icon mini" :alt="source().title" :src="feedIcon()" />
+     
+      <div class="title">
+        <a :href="entry.link" target="_blank">{{ entry.title }}</a>
+        <small>{{ webpage() }} | {{entry.date | date}}</small>
+      </div>
+      
       <a class="toggle" title="Show Preview"
         @click="togglePreview">
         <i v-if="!showPreview" class="icon-down-open"></i>
         <i v-if="showPreview" class="icon-up-open"></i>
       </a>
-      <img class="feed-icon mini" :alt="source().title" :src="feedIcon()"/>
-      <div class="title">
-        <a :href="entry.link" target="_blank">{{ entry.title }}</a>
-        <small>
-          {{ webpage() }} | {{entry.date | date}}
-        </small>
-      </div>
     </header>
     <article-preview ref="preview" :entry="entry" />
   </article>
@@ -27,6 +27,7 @@ export default {
   components: { ArticlePreview },
   data() {
     return {
+      leftHanded: false, // @TODO: set an option for this
       showPreview: false,
     }
   },
@@ -93,9 +94,14 @@ export default {
     align-items: center;
   }
 
+  header.left-handed .toggle {
+    order: -1;
+  }
+
   .title {
     padding: .5rem;
     line-height: 1.5rem;
+    flex-grow: 1;
 
     small {
       margin-left: .5rem;
