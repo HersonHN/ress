@@ -6,12 +6,6 @@
     "icon": "https://digg.com/static/images/windows-tile-144x144.png"
   },
   {
-    "id": "ars-technica",
-    "title": "Ars Technica",
-    "feed": "http://feeds.arstechnica.com/arstechnica/index/",
-    "icon": "https://cdn.arstechnica.net/wp-content/themes/ars/assets/img/ars-ios-icon-d9a45f558c.png"
-  },
-  {
     "id": "hacker-news",
     "title": "Hacker News",
     "feed": "https://news.ycombinator.com/rss",
@@ -22,6 +16,18 @@
     "title": "Lobsters",
     "feed": "https://lobste.rs/rss",
     "icon": "https://lobste.rs/apple-touch-icon.png"
+  },
+  {
+    "id": "apod",
+    "title": "Nasa's Astronomy Picture of the Day",
+    "feed": "https://apod.nasa.gov/apod.rss",
+    "icon": "https://www.nasa.gov/sites/all/themes/custom/nasatwo/images/apple-touch-icon-152x152.png "
+  },
+  {
+    "id": "ars-technica",
+    "title": "Ars Technica",
+    "feed": "http://feeds.arstechnica.com/arstechnica/index/",
+    "icon": "https://cdn.arstechnica.net/wp-content/themes/ars/assets/img/ars-ios-icon-d9a45f558c.png"
   },
   {
     "id": "nature",
