@@ -33,7 +33,7 @@
     "id": "nature",
     "title": "Nature",
     "feed": "http://feeds.nature.com/nature/rss/current",
-    "icon": "https://www.nature.com/static/images/favicons/nature/favicon-144x144.3e61d1f755.png"
+    "icon": "https://www.nature.com/favicon.ico"
   },
   {
     "id": "smithsonian-magazine",
