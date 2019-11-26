@@ -3,7 +3,7 @@
     "id": "digg-news",
     "title": "Digg News",
     "feed": "https://digg.com/rss/top.rss",
-    "icon": "https://digg.com/static/images/windows-tile-144x144.png"
+    "icon": "https://digg.com/static/images/digg-logo-512.png"
   },
   {
     "id": "hacker-news",
