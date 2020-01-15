@@ -13,9 +13,12 @@ module.exports = {
   css: {
     loaderOptions: {
       sass: {
-        includePaths: [
-          path.resolve(__dirname, 'node_modules')
-        ]
+        // implementation: require('sass'),
+        sassOptions: {
+          includePaths: [
+            path.resolve(__dirname, 'node_modules')
+          ]
+        }
       }
     }
   }
