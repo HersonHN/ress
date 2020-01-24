@@ -1,8 +1,8 @@
 
 @keyframes yellow-fade {
-  0%   { background-color: #FFFFBB; }
-  50%  { background-color: #FFFFDD; }
-  100% { background-color: #FFFFFF; }
+  0%   { background-color: rgba(255, 255, 0, 0.250); }
+  50%  { background-color: rgba(255, 255, 0, 0.125); }
+  100% { background-color: rgba(255, 255, 0, 0.001); }
 }
 
 .hilight-yellow {

@@ -1,5 +1,6 @@
 {
   "name": "ress",
+  "version": 1,
   "public": true,
   "alias": [
     "news.herson.hn"

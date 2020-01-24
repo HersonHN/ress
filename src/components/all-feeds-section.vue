@@ -1,5 +1,5 @@
 <template lang="html">
-  <section class="all-feeds-section">
+  <section class="all-feeds-section fg-color">
     <h2 class="title">All Entries</h2>
 
     <div class="entry" v-for="entry in feed" :key="entry.id">

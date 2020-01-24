@@ -1,5 +1,5 @@
 <template lang="html">
-  <section class="single-feed-section">
+  <section class="single-feed-section fg-color">
     <h2 class="title">
       <img class="feed-icon medium" :src="source.icon" :alt="source.title">
       {{ source.title }}
