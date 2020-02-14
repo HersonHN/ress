@@ -91,7 +91,7 @@ export default {
     padding: .5rem;
     background: $grayish-bg;
     font-size: 1rem;
-    color: #666;
+    color: $middlegray;
     align-self: stretch;
     display: flex;
     align-items: center;
@@ -110,7 +110,7 @@ export default {
       margin-left: .5rem;
       display: inline-block;
       font-size: .65rem;
-      color: #888;
+      color: $middlegray;
     }
   }
 }
