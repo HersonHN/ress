@@ -98,8 +98,11 @@ function getNews(fistTime) {
 }
 
 
-// if (require.main === module) {
+if (require.main === module || process.env.NODE_ENV == 'production') {
   init();
-// }
+  module.exports = { already: true };
+} else {
+  module.exports = { init };
+}
 
-// module.exports = { init };
+
