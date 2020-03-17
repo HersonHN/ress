@@ -10,7 +10,8 @@ const sources = require('./sources.json');
 const config = require('./server-config');
 
 const server = express();
-const publicPath = path.join(__dirname, '../dist');
+const publicPath = path.join(__dirname, 'dist');
+console.log('publicPath', publicPath);
 
 const CACHE = {};
 
@@ -97,8 +98,8 @@ function getNews(fistTime) {
 }
 
 
-if (require.main === module) {
+// if (require.main === module) {
   init();
-}
+// }
 
-module.exports = { init };
+// module.exports = { init };

@@ -1,9 +1,29 @@
 {
-  "name": "ress",
-  "version": 1,
+  "version": 2,
   "public": true,
   "alias": [
     "news.herson.hn"
+  ],
+  "builds": [
+    { "src": "index.js", "use": "@now/node-server" },
+    { "src": "./dist/(.*)", "use": "@now/static" }
+  ],
+  "routes": [
+    {
+      "src": "/api/feed",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    },
+    {
+      "src": "/api/feed/(.*)",
+      "dest": "/index.js",
+      "methods": ["GET"]
+    },
+    {
+      "src": "/user",
+      "dest": "/index.js",
+      "methods": ["POST"]
+    }
   ],
   "env": {
     "VUE_APP_GOOGLE_ANALYTICS": "@ress-google-analytics"
