@@ -1,6 +1,5 @@
 // This script creates the .env file in order to pass environment variables to Vue.js
 
-
 const Path = require('path');
 const fs = require('fs');
 
