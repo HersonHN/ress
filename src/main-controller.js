@@ -1,5 +1,5 @@
 
-import defaultSources from '../sources.json'; 
+import defaultSources from '../sources.json';
 const main = {};
 
 main.preinit = function () {
