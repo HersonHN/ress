@@ -14,7 +14,7 @@
     { "methods": ["GET"],  "dest": "/index.js", "src": "/api/feed/(.*)" },
     { "methods": ["GET"],  "dest": "/index.js", "src": "/feed/(.*)" },
     { "methods": ["POST"], "dest": "/index.js", "src": "/api/clean" },
-      
+
     { "src": "/", "dest": "/dist/index.html" },
     { "src": "/(.*)", "dest": "/dist/$1" },
     { "src": "/css/(.*)", "dest": "/dist/css/$1" },
