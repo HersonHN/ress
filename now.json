@@ -6,24 +6,19 @@
   ],
   "builds": [
     { "src": "index.js", "use": "@now/node-server" },
-    { "src": "./dist/(.*)", "use": "@now/static" }
+    { "src": "/dist/*", "use": "@now/static" },
+    { "src": "/dist/*/*", "use": "@now/static" }
   ],
   "routes": [
-    {
-      "src": "/api/feed",
-      "dest": "/index.js",
-      "methods": ["GET"]
-    },
-    {
-      "src": "/api/feed/(.*)",
-      "dest": "/index.js",
-      "methods": ["GET"]
-    },
-    {
-      "src": "/user",
-      "dest": "/index.js",
-      "methods": ["POST"]
-    }
+    { "methods": ["GET"],  "dest": "/index.js", "src": "/api/feed" },
+    { "methods": ["GET"],  "dest": "/index.js", "src": "/api/feed/(.*)" },
+    { "methods": ["GET"],  "dest": "/index.js", "src": "/feed/(.*)" },
+    { "methods": ["POST"], "dest": "/index.js", "src": "/api/clean" },
+
+    { "src": "/(.*)", "dest": "/dist/$1" },
+    { "src": "/css/(.*)", "dest": "/dist/css/$1" },
+    { "src": "/img/(.*)", "dest": "/dist/img/$1" },
+    { "src": "/js/(.*)", "dest": "/dist/js/$1" }
   ],
   "env": {
     "VUE_APP_GOOGLE_ANALYTICS": "@ress-google-analytics"
