@@ -3,8 +3,7 @@
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
-const fetch = require('node-fetch');
-const Deferred = require('promise-deferred');
+const axios = require('axios');
 
 const rssParser = require('./server/scripts/rss-parser');
 const sources = require('./sources.json');
@@ -60,11 +59,12 @@ server.get('/api/feed/:id', function (req, res) {
 server.post('/api/clean', function (req, res) {
   let url = req.body.url;
 
-  fetch(url, {
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.2; +http://www.google.com/bot.html)'
-    }
-  }).then(res => res.text())
+  axios.get(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.2; +http://www.google.com/bot.html)'
+      }
+    })
+    .then(res => res.text())
     .then(function (text) {
       res.send(text);
     })
@@ -77,21 +77,14 @@ server.post('/api/clean', function (req, res) {
 
 
 function init() {
-  let def = new Deferred();
-
   setInterval(getNews, config.updateInterval);
 
-  getNews(1).then(function () {
-    server.on('error', function (e) {
-      def.reject(e);
+  return getNews(1)
+    .then(function () {
+      server.listen(config.port, function () {
+        console.log(`Server running at port ${config.port}`);
+      });
     });
-    server.listen(config.port, function () {
-      console.log(`Server running at port ${config.port}`);
-      def.resolve({ ready: true });
-    });
-  });
-
-  return def.promise;
 }
 
 

@@ -1,5 +1,4 @@
 
-const Deferred = require('promise-deferred');
 const Parser = require('rss-parser');
 
 
@@ -27,17 +26,12 @@ function getRSS() {
 
 
 function parseFeed(source) {
-  var deferred = new Deferred();
-
-  parser.parseURL(source.feed, function(err, parsed) {
-    if (err) return deferred.reject({
+  return parser.parseURL(source.feed)
+    .then(parsed => parsed.items)
+    .catch(err => ({
       message: `cannot parse feed: ${source.feed}`,
       error: err
-    });
-    deferred.resolve(parsed.items);
-  });
-
-  return deferred.promise;
+    }))
 }
 
 

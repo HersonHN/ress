@@ -1,14 +1,16 @@
 import config from './api-config'
-import reqwest from 'reqwest';
+import axios from 'axios';
 
 export default {
 
   getAll() {
-    return reqwest(config.routes.feed);
+    return axios.get(config.routes.feed)
+      .then(response => response.data);
   },
 
   get(site) {
-    return reqwest(`${config.routes.feed}/${site}`);
+    return axios.get(`${config.routes.feed}/${site}`)
+      .then(response => response.data);
   },
 
   mergeAll(sources) {
