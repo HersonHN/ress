@@ -1,5 +1,5 @@
-import moment from 'moment';
+import fromNow from 'from-now';
 
 export default function (timestamp) {
-  return moment(timestamp).fromNow();
+  return fromNow(timestamp);
 }
