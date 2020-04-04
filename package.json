@@ -9,6 +9,7 @@
     "serve": "vue-cli-service serve",
     "lint": "vue-cli-service lint",
     "build": "node scripts/create-dot-env.js && vue-cli-service build",
+    "build-vue": "vue-cli-service build",
     "start": "node index.js",
     "local": "node scripts/run-for-local.js",
     "production": "node scripts/create-dot-env.js && node scripts/run-for-production.js"
