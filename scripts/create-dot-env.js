@@ -4,12 +4,14 @@ const Path = require('path');
 const fs = require('fs');
 
 const workingDir = Path.join(__dirname, '..');
-const config = require( Path.join(workingDir, 'now.json') );
+
 
 init();
 
 function init() {
-  let output = parseVariables(config.env);
+  let output = parseVariables({
+    VUE_APP_GOOGLE_ANALYTICS: '@ress-google-analytics'
+  });
   let filename = Path.join(workingDir, '.env');
   saveOutput(output, filename);
 }
