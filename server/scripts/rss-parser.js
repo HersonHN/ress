@@ -1,6 +1,6 @@
 
 const Parser = require('rss-parser');
-
+const moment = require('moment');
 
 const sources = require('../../sources.json');
 const parser = new Parser();
@@ -58,13 +58,23 @@ function mergeFeeds(feeds, sources) {
 
 function sanitizeFeed(feed, feedId) {
   return feed.map(function (entry) {
+    let dateOrigin = entry['dc:date'] || entry.pubDate;
+
+    let m = moment(dateOrigin);
+    let isValid = (dateOrigin && m.isValid());
+    let isoDate = m.toISOString();
+
     return {
       feedId: feedId,
       title: entry.title,
       link: entry.link,
-      date: +(new Date(entry['dc:date'] || entry.pubDate))
+      date: isValid ? isoDate : ''
     }
   });
+}
+
+function isValidDate(date) {
+  return date instanceof Date && !isNaN(date);
 }
 
 
