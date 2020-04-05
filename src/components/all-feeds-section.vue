@@ -2,6 +2,10 @@
   <section class="all-feeds-section fg-color">
     <h2 class="title">All Entries</h2>
 
+    <div v-if="loading">
+      <loading-animation />
+    </div>
+
     <div class="entry" v-for="entry in feed" :key="entry.id">
       <feed-entry
         :entry="entry"
@@ -15,13 +19,18 @@
 <script>
 import Feed from '@/models/feed';
 import FeedEntry from './feed-entry';
+import LoadingAnimation from './loading-animation';
 
 export default {
   name: 'AllFeedsSection',
-  components: { FeedEntry },
+  components: { FeedEntry, LoadingAnimation },
 
   data() {
-    return { feed: [], sources: {} }
+    return {
+      loading: true,
+      feed: [],
+      sources: {}
+    }
   },
 
   created() {
@@ -29,6 +38,9 @@ export default {
       .then(sources => {
         this.feed = Feed.mergeAll(sources)
         this.sources = sources;
+      })
+      .finally(() => {
+        this.loading = false;
       })
   }
 }
