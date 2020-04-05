@@ -3,7 +3,6 @@ const Parser = require('rss-parser');
 const moment = require('moment');
 
 const sources = require('../../sources.json');
-const parser = new Parser();
 
 
 main();
@@ -21,17 +20,23 @@ function main() {
 function getRSS() {
   let promiseList = sources.map(parseFeed);
   return Promise.all(promiseList)
-    .then(feeds => mergeFeeds(feeds, sources));
+    .then(feeds => mergeFeeds(feeds, sources))
 }
 
 
 function parseFeed(source) {
-  return parser.parseURL(source.feed)
-    .then(parsed => parsed.items)
-    .catch(err => ({
-      message: `cannot parse feed: ${source.feed}`,
-      error: err
-    }))
+  let parser = new Parser({
+    timeout: 5000
+  });
+
+  return new Promise(resolve => {
+    parser.parseURL(source.feed)
+      .then(parsed => resolve(parsed.items))
+      .catch(err => resolve({
+        message: `cannot parse feed: ${source.feed}`,
+        error: err
+      }))
+  })
 }
 
 
@@ -57,6 +62,11 @@ function mergeFeeds(feeds, sources) {
 
 
 function sanitizeFeed(feed, feedId) {
+  if (feed.error) {
+    console.warn(feed.error);
+    return [];
+  }
+
   return feed.map(function (entry) {
     let dateOrigin = entry['dc:date'] || entry.pubDate;
 
@@ -72,10 +82,5 @@ function sanitizeFeed(feed, feedId) {
     }
   });
 }
-
-function isValidDate(date) {
-  return date instanceof Date && !isNaN(date);
-}
-
 
 module.exports = { getRSS };
