@@ -1,11 +1,11 @@
 const path = require('path');
 
 let webpackConfig = {
-  // resolve: {
-  //   alias: {
-  //     moment: 'moment/src/moment'
-  //   }
-  // }
+  resolve: {
+    alias: {
+      moment: 'moment/src/moment'
+    }
+  }
 };
 
 module.exports = {

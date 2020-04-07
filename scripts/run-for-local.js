@@ -17,10 +17,10 @@ function runVue() {
 
 function init() {
   server.init()
-  .then(function () {
-    runVue();
-  })
-  .catch(console.error);
+    .then(function () {
+      runVue();
+    })
+    .catch(console.error);
 }
 
 
