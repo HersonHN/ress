@@ -65,7 +65,7 @@ server.post('/api/clean', function (req, res) {
         'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.2; +http://www.google.com/bot.html)'
       }
     })
-    .then(res => res.text())
+    .then(res => res.data)
     .then(function (text) {
       res.send(text);
     })
