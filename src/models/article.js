@@ -1,5 +1,5 @@
 import config from './api-config';
-import reqwest from 'reqwest';
+import axios from 'axios';
 import parse from 'url-parse';
 
 const TEMPLATES = {
@@ -12,11 +12,10 @@ const TEMPLATES = {
 export default {
 
   get(url) {
-    return reqwest({
-      url: config.routes.article,
-      method: 'post',
-      data: { url: url }
-    });
+    return axios.post(config.routes.article, {
+      url: url
+    })
+    .then(response => response.data)
   },
 
   isVideo(url) {
@@ -62,7 +61,7 @@ function isYoutube(url) {
 
 function getYoutubeId(matches) {
   if (!matches) return '';
-  
+
   let [id] = matches;
   if (!id) return '';
 
