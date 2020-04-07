@@ -6,9 +6,9 @@ const bodyParser = require('body-parser');
 const fetch = require('node-fetch');
 const Deferred = require('promise-deferred');
 
-const rssParser = require('./scripts/rss-parser');
-const sources = require('../sources.json');
-const config = require('../server-config');
+const rssParser = require('./server/scripts/rss-parser');
+const sources = require('./sources.json');
+const config = require('./server-config');
 
 const server = express();
 const publicPath = path.join(__dirname, '../dist');

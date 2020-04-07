@@ -4,11 +4,12 @@
   "description": "rss reader",
   "author": "Herson Salinas <hersonhn@gmail.com>",
   "private": true,
+  "main": "index.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "lint": "vue-cli-service lint",
     "build": "node scripts/create-dot-env.js && vue-cli-service build",
-    "start": "node server/server.js",
+    "start": "node index.js",
     "local": "node scripts/run-for-local.js",
     "production": "node scripts/create-dot-env.js && node scripts/run-for-production.js"
   },
@@ -16,21 +17,21 @@
     "body-parser": "^1.18.3",
     "cleanview": "^1.5.2",
     "express": "^4.16.3",
-    "foundation-sites": "^6.4.4-rc1",
+    "foundation-sites": "^6.6.2",
     "moment": "^2.22.2",
     "node-fetch": "^2.2.0",
     "promise-deferred": "^2.0.1",
-    "reqwest": "^2.0.5",
-    "rss-parser": "^3.4.3",
-    "url-parse": "^1.4.3",
-    "vue": "^2.6.10",
-    "vue-router": "^3.0.1"
+    "rss-parser": "^3.7.6"
   },
   "devDependencies": {
-    "@vue/cli-service": "^4.1.0",
-    "sass": "^1.23.7",
+    "@vue/cli-service": "^4.3.0",
+    "sass": "^1.26.3",
     "sass-loader": "^8.0.0",
-    "vue-template-compiler": "^2.6.10"
+    "vue-template-compiler": "^2.6.10",
+    "vue": "^2.6.10",
+    "vue-router": "^3.1.6",
+    "url-parse": "^1.4.3",
+    "reqwest": "^2.0.5"
   },
   "eslintConfig": {
     "root": true,
