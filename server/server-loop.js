@@ -2,11 +2,11 @@
 const rssParser = require('./scripts/rss-parser');
 
 class ServerLoop {
-  CACHE = { news: {} };
 
   constructor({ config, server }) {
     this.config = config;
     this.server = server;
+    this.CACHE = { news: {} };
   }
 
   get cache() {
