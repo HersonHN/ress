@@ -1,6 +1,6 @@
 
 import defaultSources from '../sources.json';
-import { get, set } from './helpers/storage';
+import { get } from './helpers/storage';
 const main = {};
 
 main.preinit = function () {
