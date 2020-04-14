@@ -1,5 +1,5 @@
 
-import defaultSources from '../sources.json';
+import defaultSources from '../sources';
 import { get } from './helpers/storage';
 const main = {};
 
