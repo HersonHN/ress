@@ -4,7 +4,7 @@ const rssParser = require('./rss-parser');
 module.exports = {
   single,
   homepage,
-  homePageCustom,
+  customHomepage,
 }
 
 function single(req, res, cache) {
@@ -23,7 +23,7 @@ function homepage(req, res, cache) {
 }
 
 
-function homePageCustom(req, res, cache) {
+function customHomepage(req, res, cache) {
   let feeds = req.body.feeds;
 
   if (feeds.length > 7) {
@@ -47,3 +47,7 @@ function homePageCustom(req, res, cache) {
     .then(content => res.json(content))
     .catch(e => console.error(e));
 };
+
+function customSingle(req, res, cache) {
+
+}

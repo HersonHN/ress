@@ -1,15 +1,19 @@
 <template lang="html">
   <section class="single-feed-section fg-color">
-    <h2 class="title">
+    <h2 class="title" v-if="source">
       <img class="feed-icon medium" :src="source.icon" :alt="source.title">
       {{ source.title }}
+    </h2>
+
+    <h2 class="title" v-if="notFound">
+      This Feed doesn't exist
     </h2>
 
     <div v-if="loading">
       <loading-animation />
     </div>
 
-    <div v-if="!loading && !feed.length">
+    <div class="entry" v-if="!loading && !feed.length">
       <p>¯\_(ツ)_/¯</p>
       <p>Nothing to show here.</p>
     </div>
@@ -37,6 +41,7 @@ export default {
   data() {
     return {
       loading: true,
+      notFound: false,
       feed: [],
       source: {}
     }
@@ -45,6 +50,12 @@ export default {
   created() {
     let feedId = this.$route.params.feedId;
     this.source = window.sources.find(s => s.id == feedId);
+
+    if (!this.source) {
+      this.notFound = true;
+      this.loading = false;
+      return;
+    }
 
     Feed.get(feedId)
       .then(source => {
