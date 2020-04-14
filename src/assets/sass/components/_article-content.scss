@@ -7,13 +7,16 @@
     display: block;
   }
 
+  pre, code {
+    // add just a light shadow to the background of code
+    background-color: rgba(128, 128, 128, 10%);
+    color: inherit;
+  }
+
   pre {
     margin-bottom: 1rem;
     padding: 0.5rem;
     overflow: auto;
-
-    // compatible with both light theme and dark theme
-    background-color: #999;
 
     code { padding: 0 }
   }
