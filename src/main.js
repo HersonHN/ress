@@ -3,7 +3,7 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
-import mainController from './main-controller';
+import mainController from './app-controller';
 
 import DateFilter from './filters/date';
 

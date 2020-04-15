@@ -4,16 +4,13 @@ const axios = require('axios');
 module.exports = function (req, res) {
   let url = req.body.url;
 
-  let conf = {
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.2; +http://www.google.com/bot.html)'
-    }
-  };
-
-  axios.get(url, conf)
+  axios.get(url, {})
     .then(page => res.send(page.data))
     .catch(error => {
-      console.error(error);
-      res.status(500).send('<strong class="error">Cannot read page<strong>');
+      if (error.response && error.response.status) {
+        console.error(`Error loading ${url}`);
+        console.error(`Error Message: ${error.response.status} ${error.response.statusText}`);
+      }
+      res.status(500).send(`<strong class="error">Cannot read page ${url}<strong>`);
     });
 }
