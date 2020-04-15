@@ -13,6 +13,7 @@
     }
   ],
   "routes": [
+    { "src": "/config",        "methods": ["GET"],  "dest": "/index.js", "headers": { "cache-control": "no-cache" } },
     { "src": "/api/feed",      "methods": ["GET"],  "dest": "/index.js", "headers": { "cache-control": "no-cache" } },
     { "src": "/api/feed/(.*)", "methods": ["GET"],  "dest": "/index.js", "headers": { "cache-control": "no-cache" } },
     { "src": "/api/clean",     "methods": ["POST"], "dest": "/index.js", "headers": { "cache-control": "no-cache" } },

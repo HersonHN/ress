@@ -5,7 +5,7 @@ import { get } from './helpers/storage';
 const main = {};
 
 main.preinit = function () {
-  let theme = get('theme');
+  let theme = get('theme') || 'system';
 
   main.setTheme(theme);
   window.sources = main.sources();

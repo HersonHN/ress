@@ -28,7 +28,7 @@ export default {
   name: 'ConfigSection',
   data () {
     return {
-      theme: storage.get('theme'),
+      theme: storage.get('theme') || 'system',
       themeList: [
         { id: 'system', name: 'System Default' },
         { id: 'light', name: 'Light' },
