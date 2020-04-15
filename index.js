@@ -29,9 +29,9 @@ server.use(express.static(publicPath));
 
 // rendering the index for each feed
 server.get('/feed/:feedId', (req, res) => res.sendFile('index.html', { root: publicPath }));
+server.get('/config',       (req, res) => res.sendFile('index.html', { root: publicPath }));
 
-server.get('/api/sources',  (req, res) => res.send(sources));
-
+server.get ('/api/sources',   (req, res) => res.send(sources));
 server.get ('/api/feed',      (req, res) => Feeds.homepage       (req, res, loop.cache));
 server.get ('/api/feed/:id',  (req, res) => Feeds.single         (req, res, loop.cache));
 server.post('/api/feeds',     (req, res) => Feeds.customHomepage (req, res, loop.cache));
