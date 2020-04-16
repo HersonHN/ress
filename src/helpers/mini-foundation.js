@@ -61,8 +61,13 @@ function setup(trigger, control) {
   // TODO: guess initial state
   let state = setInitialState(control, typeId, { active: false });
 
-  trigger.addEventListener('click', function () {
-    state.active = !state.active;
+  trigger.addEventListener('click', function (param) {
+    let newState = !state.active;
+    if (param.detail == 'close') {
+      newState = false;
+    }
+
+    state.active = newState;
     setActive(instructionList, state.active);
   });
 
@@ -71,7 +76,7 @@ function setup(trigger, control) {
     let { element, instructions } = obj;
 
     if (instructions.triggerable) {
-      element.addEventListener('click', function () {
+      element.addEventListener('click', function (param) {
         state.active = !state.active;
         setActive(instructionList, state.active);
       });

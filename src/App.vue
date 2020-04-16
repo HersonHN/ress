@@ -4,8 +4,10 @@
         <div id="navigator"
             class="off-canvas position-left reveal-for-medium"
             data-off-canvas data-position="left">
+
           <!-- SIDE COLUMN -->
           <source-list/>
+
           <footer class="signature">
             <a href="https://herson.hn" target="_blank">herson.hn</a>
           </footer>
@@ -17,10 +19,12 @@
               <span class="title-bar-title">RSS Reader</span>
             </div>
           </div>
+
           <!-- MAIN SECTION -->
           <div class="router-content">
             <router-view :key="$route.fullPath" />
           </div>
+
         </div>
       </div>
     </section>

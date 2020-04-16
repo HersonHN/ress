@@ -51,8 +51,8 @@ export function removeClass(element, className) {
   element.classList.remove(className);
 }
 
-export function trigger(element, eventName) {
-  let event = document.createEvent('HTMLEvents');
+export function trigger(element, eventName, data) {
+  let event = new CustomEvent(eventName, { detail: data });
   event.initEvent(eventName, true, false);
   element.dispatchEvent(event);
 }
