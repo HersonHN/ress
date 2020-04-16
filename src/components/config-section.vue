@@ -109,20 +109,26 @@ export default {
       let defaultFeeds = clone(app.sources('default'));
       let loadedFeeds  = clone(app.sources());
 
+      // the default feeds are the ones from sources.js
+      // check with of them are loaded in the user's conf
       defaultFeeds.forEach(df => {
         let isSelected = !!loadedFeeds.find(f => df.id === f.id);
         df.selected = isSelected;
         df.default = true;
       });
 
+      // mark with of the user's feed are from the defaults
       loadedFeeds.forEach(feed => {
         let isFromDefaults = !!defaultFeeds.find(df => df.id === feed.id);
         feed.selected = isFromDefaults;
         feed.default = isFromDefaults;
       });
 
+      // select just the feed's that are not on the user's conf
       let notSelected = defaultFeeds.filter(df => df.selected == false);
 
+      // first show all the feeds from the user configuration
+      // and then show all the default feeds that are unselected
       let feeds = [...loadedFeeds, ...notSelected];
       this.feedList = feeds;
     },
@@ -135,6 +141,9 @@ export default {
       window.sources = feeds;
       storage.set('sources', feeds);
       this.$root.$emit('sources:saved', feeds);
+
+      // redirecting to home after save
+      this.$router.push({ name: 'all-feeds' });
     },
 
     reset() {
