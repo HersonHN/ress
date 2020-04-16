@@ -17,7 +17,7 @@
         </legend>
 
         <div v-for="t in themeList" :key="t.id">
-          <label class="fg-color">
+          <label class="fg-color theme-label">
             <input type="radio" name="theme" v-model="theme" @change="changeTheme" :value="t.id">
             <span>{{ t.name }}</span>
           </label>
@@ -39,15 +39,15 @@
             no-delete
             :key="controlNumber"
         >
-          <article class="feed-name-preview">
-            <label class="fg-color">
-              <input type="checkbox"
-                  v-model="item.value.selected"
-                  :disabled="(selectedCount() <= 1) && item.value.selected">
-              <img class="feed-icon mini" :src="item.value.icon">
-              <span>{{item.value.title}}</span>
+            <label class="feed-name-preview fg-color flex">
+              <span class="feed-icons flex-shrink">
+                <input type="checkbox"
+                    v-model="item.value.selected"
+                    :disabled="(selectedCount() <= 1) && item.value.selected">
+                <img class="feed-icon mini" :src="item.value.icon">
+              </span>
+              <span class="flex-grow">{{item.value.title}}</span>
             </label>
-          </article>
         </component-list>
       </fieldset>
     </section>
@@ -55,12 +55,8 @@
 
     <section class="fields">
       <fieldset class="buttons">
-        <button type="button" class="save button" @click="saveFeeds()">
-          Save Feeds
-        </button>
-        <button type="button" class="button hollow" @click="reset()">
-          Reset Feeds
-        </button>
+        <button class="save button" @click="saveFeeds()">Save Feeds</button>
+        <button class="button hollow" @click="reset()">Reset Feeds</button>
       </fieldset>
     </section>
 
@@ -176,17 +172,26 @@ function clone(obj) {
       padding-bottom: 1rem;
     }
 
-    label {
+    .theme-label {
       display: inline-block;
 
       input {
-        margin-bottom: 0;
+        margin-bottom: 1rem;
         margin-right: 1rem;
       }
     }
 
     .feed-name-preview {
       vertical-align: middle;
+
+      input {
+        margin-right: .5rem;
+      }
+
+      .feed-icons {
+        min-width: 3rem;
+      }
+
       .feed-icon.mini {
         display: inline-block;
         margin-right: .5rem;
