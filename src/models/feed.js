@@ -1,6 +1,6 @@
-import config from './api-config'
 import axios from 'axios';
-import { get } from '../helpers/storage';
+import config from './api-config';
+import { get } from '@/helpers/storage';
 
 export default {
 

@@ -32,7 +32,7 @@
 
 
 <script>
-import $ from '../helpers/mini-jquery';
+import $ from '@/helpers/mini-jquery';
 
 export default {
 
