@@ -186,6 +186,7 @@ function clone(obj) {
 
       input {
         margin-right: .5rem;
+        margin-bottom: 0;
       }
 
       .feed-icons {
