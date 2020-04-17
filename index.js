@@ -4,11 +4,12 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const ServerLoop = require('./server/server-loop');
-const cleanPage = require('./server/scripts/clean');
-const Feeds = require('./server/scripts/get-feeds');
 const sources = require('./sources');
 const config = require('./server-config');
+const Feeds = require('./server/scripts/get-feeds');
+const ServerLoop = require('./server/server-loop');
+const cleanPage = require('./server/scripts/clean');
+const validateRSS = require('./server/scripts/validate-rss');
 
 const publicPath = path.join(__dirname, 'dist');
 
@@ -37,7 +38,8 @@ server.get ('/api/feed/:id',  (req, res) => Feeds.single         (req, res, loop
 server.post('/api/feeds',     (req, res) => Feeds.customHomepage (req, res, loop.cache));
 server.post('/api/feeds/:id', (req, res) => Feeds.customSingle   (req, res, loop.cache));
 
-server.post('/api/clean',   cleanPage);
+server.post('/api/clean', cleanPage);
+server.post('/api/validate-rss', validateRSS);
 
 
 if (require.main === module || process.env.NODE_ENV == 'production') {

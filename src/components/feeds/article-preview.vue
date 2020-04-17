@@ -24,7 +24,7 @@
 <script>
 import parser from 'cleanview';
 import LoadingAnimation from '@/components/shared/loading-animation';
-import Article from '@/models/article';
+import Article from '@/services/article';
 import ui from '@/helpers/ui';
 
 export default {

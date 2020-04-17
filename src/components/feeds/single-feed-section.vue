@@ -1,8 +1,10 @@
 <template lang="html">
   <section class="single-feed-section">
-    <h2 class="title" v-if="source">
-      <img class="feed-icon medium" :src="source.icon" :alt="source.title">
-      {{ source.title }}
+    <h2 class="title flex" v-if="source">
+      <span class="flex-shrink">
+        <img class="feed-icon medium" :src="source.icon" :alt="source.title">
+      </span>
+      <span class="flex-grow">{{ source.title }}</span>
     </h2>
 
     <h2 class="title" v-if="notFound">
@@ -29,7 +31,7 @@
 
 
 <script>
-import Feed from '@/models/feed';
+import Feed from '@/services/feed';
 import FeedEntry from './feed-entry';
 import LoadingAnimation from '@/components/shared/loading-animation';;
 
