@@ -27,7 +27,7 @@
           @dragover="allowDrop($event)"
       >
 
-        <div class="item-controls right"
+        <div class="item-controls grayed"
           draggable="true"
           @dragstart="drag($event, item)"
         >
@@ -38,8 +38,8 @@
             <slot :item="item"></slot>
         </div>
 
-        <div class="item-controls">
-          <div>
+        <div class="item-controls left-aligned">
+          <div class="item-control-icons">
             <a class="icon"
                 title="Move Up"
                 @click="moveUp(index)">
@@ -47,12 +47,11 @@
             </a>
             <a class="icon"
                 title="Delete"
-                v-if="!item.required && !noDelete"
+                v-if="!(noDelete || item.value.required)"
                 @click="remove(index)">
               <i class="icon-minus-circled"></i>
             </a>
-          </div>
-          <div>
+            <br>
             <a class="icon"
                 title="Move Down"
                 @click="moveDown(index)">
@@ -66,7 +65,6 @@
             </a>
           </div>
         </div>
-
       </div>
 
     </div>
@@ -238,12 +236,24 @@
     text-align: center;
     min-width: 2rem;
     padding: 0.5rem;
-    padding-top: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     .icon {
       display: inline-block;
       cursor: pointer;
       font-size: .75rem;
+    }
+
+    &.left-aligned {
+      text-align: left;
+    }
+
+    &.grayed {
+      background-color: rgba(128, 128, 128, 10%);
+      margin: 1px;
     }
   }
 
@@ -251,9 +261,7 @@
     flex: 1 1 auto;
     padding: 0 .5rem;
     align-self: stretch;
-
   }
-
 
   .controls {
     text-align: right;
@@ -264,6 +272,7 @@
     $size: 2rem;
 
     margin-right: 1rem;
+    margin-top: 1rem;
 
     display: inline-block;
     color: white;
