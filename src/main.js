@@ -1,6 +1,6 @@
 
 // Polyfills for drag and drop on mobile
-import './helpers/vendor/DragDropTouch';
+import './helpers/vendor/drag-and-drop-touch';
 
 // vue
 import Vue from 'vue';

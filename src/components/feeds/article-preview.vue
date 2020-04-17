@@ -23,9 +23,9 @@
 
 <script>
 import parser from 'cleanview';
-import LoadingAnimation from './loading-animation';
-import Article from '../models/article';
-import ui from '../helpers/ui';
+import LoadingAnimation from '@/components/shared/loading-animation';
+import Article from '@/services/article';
+import ui from '@/helpers/ui';
 
 export default {
   name: 'ArticlePreview',
@@ -97,7 +97,7 @@ export default {
 
 
 <style lang="scss" scoped>
-@import "../assets/sass/init.scss";
+@import "assets/sass/init.scss";
 
 .preview {
   border-top: $gray-line;

@@ -35,11 +35,9 @@
         <component-list
             v-model="feedList"
             #default="{ item }"
-            no-add
-            no-delete
             :key="controlNumber"
         >
-            <label class="feed-name-preview fg-color flex">
+            <label class="feed-name-preview fg-color flex" v-if="item.value.default">
               <span class="feed-icons flex-shrink">
                 <input type="checkbox"
                     v-model="item.value.selected"
@@ -48,6 +46,10 @@
               </span>
               <span class="flex-grow">{{item.value.title}}</span>
             </label>
+
+            <span v-if="!item.value.default">
+              <custom-feed v-model="item.value"></custom-feed>
+            </span>
         </component-list>
       </fieldset>
     </section>
@@ -65,10 +67,12 @@
 
 
 <script>
-import * as storage from '../helpers/storage';
-import app from '../app-controller';
+import * as storage from '@/helpers/storage';
+import app from '@/app-controller';
+import Feed from '@/models/feed';
 
 import ComponentList from './component-list';
+import CustomFeed from './custom-feed';
 
 export default {
   name: 'ConfigSection',
@@ -87,6 +91,7 @@ export default {
 
   components: {
     ComponentList,
+    CustomFeed,
   },
 
   created() {
@@ -114,6 +119,7 @@ export default {
       defaultFeeds.forEach(df => {
         let isSelected = !!loadedFeeds.find(f => df.id === f.id);
         df.selected = isSelected;
+        df.required = true;
         df.default = true;
       });
 
@@ -121,6 +127,7 @@ export default {
       loadedFeeds.forEach(feed => {
         let isFromDefaults = !!defaultFeeds.find(df => df.id === feed.id);
         feed.selected = isFromDefaults;
+        feed.required = isFromDefaults;
         feed.default = isFromDefaults;
       });
 
@@ -133,7 +140,43 @@ export default {
       this.feedList = feeds;
     },
 
+    prepare() {
+      let customCount = 1;
+
+      this.feedList = this.feedList
+        .filter(({ title, url, icon }) => title || url || icon)
+        .map(feed => {
+          if (feed instanceof Feed) {
+            feed = feed.toOBJ();
+          }
+
+          if (!feed.default) {
+            feed.selected = true;
+            feed.id = `custom-${customCount}`;
+            customCount++;
+          }
+
+          return feed;
+      });
+    },
+
+    validate() {
+      this.prepare();
+
+      for (let feed of this.feedList) {
+        if (feed.invalid) {
+          console.warn('invalid feed', feed);
+          return false;
+        }
+      }
+
+      return true;
+    },
+
     saveFeeds() {
+      if (!this.validate())
+        return alert('Please make sure all feeds are valid before save');
+
       let feeds = this.feedList
         .filter(f => f.selected)
         .map(({id, title, url, icon}) => ({id, title, url, icon}));

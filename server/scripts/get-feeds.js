@@ -48,7 +48,3 @@ function customHomepage(req, res, cache) {
     .then(content => res.json(content))
     .catch(e => console.error(e));
 };
-
-function customSingle(req, res, cache) {
-
-}

@@ -17,9 +17,9 @@
 
 
 <script>
-import Feed from '@/models/feed';
+import Feed from '@/services/feed';
 import FeedEntry from './feed-entry';
-import LoadingAnimation from './loading-animation';
+import LoadingAnimation from '@/components/shared/loading-animation';;
 
 export default {
   name: 'AllFeedsSection',
@@ -48,7 +48,7 @@ export default {
 
 
 <style lang="scss" scoped>
-@import "../assets/sass/init.scss";
+@import "assets/sass/init.scss";
 
 .title {
   padding: 1rem;

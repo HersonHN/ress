@@ -32,7 +32,7 @@
 
 
 <script>
-import SourceList from '@/components/source-list';
+import SourceList from '@/components/shared/source-list';
 import miniFoundation from '@/helpers/mini-foundation';
 
 export default {

@@ -11,7 +11,8 @@ let config = {
     sources: `${domain}/api/sources`,
     feed: `${domain}/api/feed`,
     feeds: `${domain}/api/feeds`,
-    article: `${domain}/api/clean`
+    article: `${domain}/api/clean`,
+    validateRSS: `${domain}/api/validate-rss`,
   }
 };
 

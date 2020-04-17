@@ -1,60 +1,90 @@
-import config from './api-config'
-import axios from 'axios';
-import { get } from '../helpers/storage';
+import FeedService from '@/services/feed';
 
-export default {
+const EMPTY = 'EMPTY';
+const VALID = 'VALID';
+const INVALID = 'INVALID';
+const VALIDATING = 'VALIDATING';
+const NOTYET = 'NOTYET';
 
-  getAll() {
-    let sources = get('sources');
 
-    if (!sources) {
-      return axios.get(config.routes.feed)
-        .then(response => response.data);
-    }
+export default class Feed {
+  constructor({ title, icon, url } = {}) {
+    this.title = title || '';
+    this.icon = icon || '';
+    this.url = url || '';
 
-    return this.getCustom();
-  },
-
-  get(site) {
-    let sources = get('sources');
-
-    if (!sources) {
-      return axios.get(`${config.routes.feed}/${site}`)
-        .then(response => response.data);
-    }
-
-    return this.getCustom(site);
-  },
-
-  getCustom(fiterBy) {
-    let feeds = sources
-      // fiter if there's a single feed to show (on filterBy)
-      .filter(feed => !fiterBy || feed.id === fiterBy)
-      // send just the id and url
-      .map(({ id, url }) => ({ id, url }));
-
-    return axios.post(config.routes.feeds, { feeds })
-      .then(response => fiterBy ? response.data[fiterBy] : response.data);
-  },
-
-  mergeAll(sources) {
-    let allFeeds = [];
-
-    for (let sourceId in sources) {
-      if (sources.hasOwnProperty(sourceId)) {
-        let source = sources[sourceId];
-        allFeeds = allFeeds.concat(source.feed);
-      }
-    }
-
-    allFeeds = allFeeds.sort((entryA, entryB) => {
-      let dateA = entryA.date ? (+(new Date(entryA.date))) : 0;
-      let dateB = entryB.date ? (+(new Date(entryB.date))) : 0;
-
-      return dateB - dateA;
-    });
-
-    return allFeeds;
+    this.validations = {
+      title: NOTYET,
+      icon: NOTYET,
+      url: NOTYET,
+    };
   }
 
+  isValid() {
+    return (
+      this.validations.title == VALID &&
+      this.validations.url == VALID &&
+      this.validations.icon == VALID
+    );
+  }
+
+  isEmpty() {
+    return (!this.title && !this.icon && !this.url);
+  }
+
+  markAsValid() {
+    this.validations.title = VALID;
+    this.validations.icon = VALID;
+    this.validations.url = VALID;
+  }
+
+  validateAll() {
+    this.validate('title');
+    this.validate('icon');
+    this.validateRSS();
+  }
+
+  validate(prop) {
+    if (prop === 'url') {
+      return this.validateRSS();
+    }
+
+    let isEmpty = !this[prop];
+    this.validations[prop] = isEmpty ? EMPTY : VALID;
+
+    return Promise.resolve(this.validations);
+  }
+
+  validateRSS() {
+    let url = this.url;
+
+    if (!url) {
+      this.validations.url = EMPTY;
+      return Promise.resolve(this.validations);
+    }
+    this.validations.url = VALIDATING;
+
+    return FeedService.validateRSS(url)
+      .then(response => {
+        this.validations.url = response.ok ? VALID : INVALID;
+        return Promise.resolve(this.validations);
+      })
+      .catch(console.error);
+  }
+
+  toOBJ() {
+    let isValid = this.isValid();
+
+    return {
+      title: this.title,
+      url: this.url,
+      icon: this.icon,
+      valid: isValid,
+      invalid: !isValid
+    };
+  }
+
+  toJSON() {
+    return this.toOBJ();
+  }
 }
