@@ -18,7 +18,8 @@
     { "dest": "index.js", "src": "/(.*)" },
     { "dest": "index.js", "src": "/assets/css/(.*)" },
     { "dest": "index.js", "src": "/assets/img/(.*)" },
-    { "dest": "index.js", "src": "/assets/js/(.*)" }
+    { "dest": "index.js", "src": "/assets/js/(.*)" },
+    { "dest": "index.js", "src": "/assets/vue/(.*)" }
   ],
   "env": {
     "VUE_APP_GOOGLE_ANALYTICS": "@ress-google-analytics"

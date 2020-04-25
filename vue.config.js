@@ -1,9 +1,18 @@
 const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
 
 let webpackConfig = {
-  // optimization: {
-  //   minimize: false
-  // }
+  output: {
+    filename: 'assets/vue/[name].vue',
+    publicPath: '/',
+    chunkFilename: 'assets/vue/[name].vue'
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin({
+      test: /\.vue(\?.*)?$/i,
+    })]
+  }
 };
 
 module.exports = {
