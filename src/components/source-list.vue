@@ -2,7 +2,7 @@
   <section class="source-list">
     <router-link :to="{ name: 'all-feeds' }">
       <figure class="home">
-        <img src="/img/home.svg" width="70px" height="70px">
+        <img src="/assets/img/home.svg" width="70px" height="70px">
       </figure>
     </router-link>
 

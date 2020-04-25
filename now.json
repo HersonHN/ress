@@ -16,9 +16,9 @@
 
     { "dest": "index.js", "src": "/" },
     { "dest": "index.js", "src": "/(.*)" },
-    { "dest": "index.js", "src": "/css/(.*)" },
-    { "dest": "index.js", "src": "/img/(.*)" },
-    { "dest": "dist/js/$1", "src": "/js/(.*)" }
+    { "dest": "index.js", "src": "/assets/css/(.*)" },
+    { "dest": "index.js", "src": "/assets/img/(.*)" },
+    { "dest": "index.js", "src": "/assets/js/(.*)" }
   ],
   "env": {
     "VUE_APP_GOOGLE_ANALYTICS": "@ress-google-analytics"
