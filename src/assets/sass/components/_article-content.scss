@@ -10,10 +10,11 @@
   pre {
     margin-bottom: 1rem;
     padding: 0.5rem;
-    background-color: red;
-    background-color: $code-background;
     overflow: auto;
-  
+
+    // compatible with both light theme and dark theme
+    background-color: #999;
+
     code { padding: 0 }
   }
 
