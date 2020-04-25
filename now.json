@@ -6,20 +6,17 @@
   ],
   "builds": [
     { "src": "index.js", "use": "@now/node-server" },
-    { "src": "dist/*/*", "use": "@now/static" }
+    {
+      "src": "package.json",
+      "use": "@now/static-build",
+      "config": { "distDir": "dist" }
+    }
   ],
   "routes": [
     { "methods": ["GET"],  "dest": "/index.js", "src": "/api/feed" },
     { "methods": ["GET"],  "dest": "/index.js", "src": "/api/feed/(.*)" },
-    { "methods": ["GET"],  "dest": "/index.js", "src": "/feed/(.*)" },
     { "methods": ["POST"], "dest": "/index.js", "src": "/api/clean" },
-
-    { "dest": "index.js", "src": "/" },
-    { "dest": "index.js", "src": "/(.*)" },
-    { "dest": "index.js", "src": "/assets/css/(.*)" },
-    { "dest": "index.js", "src": "/assets/img/(.*)" },
-    { "dest": "index.js", "src": "/assets/js/(.*)" },
-    { "dest": "index.js", "src": "/assets/vue/(.*)" }
+    { "methods": ["GET"],  "dest": "/index.js", "src": "/feed/(.*)" }
   ],
   "env": {
     "VUE_APP_GOOGLE_ANALYTICS": "@ress-google-analytics"
