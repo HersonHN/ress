@@ -13,7 +13,9 @@ const server = express();
 const publicPath = path.join(__dirname, 'dist');
 console.log('publicPath', publicPath);
 
-const CACHE = {};
+const CACHE = {
+  news: {}
+};
 
 
 server.use(function(req, res, next) {
@@ -93,7 +95,15 @@ function getNews(fistTime) {
   if (!fistTime) console.log('Updating news');
 
   return rssParser.getRSS()
-    .then(feeds => CACHE.news = feeds)
+    .then(allFeeds => {
+      Object.entries(allFeeds).forEach(([key, entry]) => {
+          // only copy the feeds with entries
+          // in case there was an error reading the rss, the entry.feed comes as an empty array.
+          if (entry.feed && entry.feed.length) {
+            CACHE.news[key] = entry;
+          }
+        })
+    })
     .catch(console.error);
 }
 

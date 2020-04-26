@@ -23,7 +23,15 @@ export default {
       }
     }
 
-    return allFeeds.sort((entryA, entryB) => entryB.date - entryA.date );
+    allFeeds = allFeeds.sort((entryA, entryB) => {
+      let dateA = entryA.date ? (+(new Date(entryA.date))) : 0;
+      let dateB = entryB.date ? (+(new Date(entryB.date))) : 0;
+
+      return dateB - dateA;
+    });
+
+    console.log(allFeeds);
+    return allFeeds;
   }
 
 }
