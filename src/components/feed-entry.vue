@@ -2,12 +2,15 @@
   <article class="feed-entry">
     <header :class="{ 'left-handed': leftHanded }">
       <img class="feed-icon mini" :alt="source().title" :src="feedIcon()" />
-     
+
       <div class="title">
         <a :href="entry.link" target="_blank">{{ entry.title }}</a>
-        <small>{{ webpage() }} | {{entry.date | date}}</small>
+        <small>
+          {{ webpage() }}
+          <span class="date">{{entry.date | date}}</span>
+        </small>
       </div>
-      
+
       <a class="toggle" title="Show Preview"
         @click="togglePreview">
         <i v-if="!showPreview" class="icon-down-open"></i>
@@ -111,6 +114,14 @@ export default {
       display: inline-block;
       font-size: .65rem;
       color: $middlegray;
+    }
+
+    .date::before {
+      content: ' | ';
+    }
+
+    .date:empty {
+      display: none;
     }
   }
 }
