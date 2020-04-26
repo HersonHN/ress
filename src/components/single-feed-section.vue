@@ -44,11 +44,11 @@ export default {
 
   created() {
     let feedId = this.$route.params.feedId;
+    this.source = window.sources.find(s => s.id == feedId);
 
     Feed.get(feedId)
       .then(source => {
         this.feed = source.feed;
-        this.source = source;
       }).finally(() => {
         this.loading = false;
       })
