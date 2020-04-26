@@ -96,6 +96,12 @@ function getNews(fistTime) {
 
   return rssParser.getRSS()
     .then(allFeeds => {
+
+      if (fistTime) {
+        CACHE.news = allFeeds;
+        return;
+      }
+
       Object.entries(allFeeds).forEach(([key, entry]) => {
           // only copy the feeds with entries
           // in case there was an error reading the rss, the entry.feed comes as an empty array.

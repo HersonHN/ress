@@ -30,7 +30,6 @@ export default {
       return dateB - dateA;
     });
 
-    console.log(allFeeds);
     return allFeeds;
   }
 
