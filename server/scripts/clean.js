@@ -1,4 +1,6 @@
 
+const axios = require('axios');
+
 module.exports = function (req, res) {
   let url = req.body.url;
 
@@ -9,7 +11,7 @@ module.exports = function (req, res) {
   };
 
   axios.get(url, conf)
-    .then(res => res.send(text.data))
+    .then(page => res.send(page.data))
     .catch(error => {
       console.error(error);
       res.status(500).send('<strong class="error">Cannot read page<strong>');

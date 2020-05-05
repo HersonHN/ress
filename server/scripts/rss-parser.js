@@ -2,7 +2,7 @@
 const Parser = require('rss-parser');
 const moment = require('moment');
 
-const defaultSources = require('../../sources.json');
+const defaultSources = require('../../sources');
 
 main();
 

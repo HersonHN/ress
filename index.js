@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const ServerLoop = require('./server/server-loop');
 const cleanPage = require('./server/scripts/clean');
 const getFeeds = require('./server/scripts/get-feeds');
-const sources = require('./sources.json');
+const sources = require('./sources');
 const config = require('./server-config');
 
 const publicPath = path.join(__dirname, 'dist');
