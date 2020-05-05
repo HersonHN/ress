@@ -12,15 +12,29 @@ export default {
         .then(response => response.data);
     }
 
-    let feeds = sources.map(({ id, url }) => ({ id, url }));
-
-    return axios.post(config.routes.feeds, { feeds })
-        .then(response => response.data);
+    return this.getCustom();
   },
 
   get(site) {
-    return axios.get(`${config.routes.feed}/${site}`)
-      .then(response => response.data);
+    let sources = get('sources');
+
+    if (!sources) {
+      return axios.get(`${config.routes.feed}/${site}`)
+        .then(response => response.data);
+    }
+
+    return this.getCustom(site);
+  },
+
+  getCustom(fiterBy) {
+    let feeds = sources
+      // fiter if there's a single feed to show (on filterBy)
+      .filter(feed => !fiterBy || feed.id === fiterBy)
+      // send just the id and url
+      .map(({ id, url }) => ({ id, url }));
+
+    return axios.post(config.routes.feeds, { feeds })
+      .then(response => fiterBy ? response.data[fiterBy] : response.data);
   },
 
   mergeAll(sources) {
