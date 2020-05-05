@@ -19,14 +19,14 @@ export function id(str) {
 }
 
 export function is(el, query) {
-  let func = 
-    el.matches || 
-    el.matchesSelector || 
-    el.msMatchesSelector || 
-    el.mozMatchesSelector || 
+  let func =
+    el.matches ||
+    el.matchesSelector ||
+    el.msMatchesSelector ||
+    el.mozMatchesSelector ||
     el.webkitMatchesSelector ||
     el.oMatchesSelector;
-    
+
   return func.call(el, query);
 }
 
