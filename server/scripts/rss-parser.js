@@ -23,7 +23,7 @@ function getRSS(sources) {
   let promiseList = feeds.map(feed => parseSingleFeed(feed));
 
   return Promise.all(promiseList)
-    .then(feeds => mergeFeeds(feeds, sources))
+    .then(feeds => mergeFeeds(feeds))
 }
 
 
@@ -81,10 +81,10 @@ function sanitizeEntry(entry, feed) {
 }
 
 
-function mergeFeeds(feedBodies, sources) {
+function mergeFeeds(feedBodies) {
   var response = {};
 
-  sources.forEach(function (feed, index) {
+  feedBodies.forEach(function (feed, index) {
     response[feed.id] = feedBodies[index]
   });
 
@@ -92,4 +92,4 @@ function mergeFeeds(feedBodies, sources) {
 }
 
 
-module.exports = { getRSS };
+module.exports = { getRSS, mergeFeeds, parseSingleFeed };

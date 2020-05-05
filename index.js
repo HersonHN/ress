@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 
 const ServerLoop = require('./server/server-loop');
 const cleanPage = require('./server/scripts/clean');
-const getFeeds = require('./server/scripts/get-feeds');
+const Feeds = require('./server/scripts/get-feeds');
 const sources = require('./sources');
 const config = require('./server-config');
 
@@ -32,12 +32,11 @@ server.get('/feed/:feedId', (req, res) => res.sendFile('index.html', { root: pub
 
 server.get('/api/sources',  (req, res) => res.send(sources));
 
-server.post('/api/feeds',     getFeeds);
-server.get('/api/feed',     (req, res) => res.send(loop.cache.news));
-server.get('/api/feed/:id', (req, res) => res.send(loop.cache.news[req.params.id]));
+server.get ('/api/feed',      (req, res) => Feeds.homepage(req, res, loop));
+server.get ('/api/feed/:id',  (req, res) => Feeds.single(req, res, loop.cache));
+server.post('/api/feeds',     (req, res) => Feeds.homePageCustom(req, res, loop.cache));
 
 server.post('/api/clean',   cleanPage);
-
 
 
 if (require.main === module || process.env.NODE_ENV == 'production') {
