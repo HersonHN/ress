@@ -1,5 +1,6 @@
 
 import defaultSources from '../sources.json';
+import { get, set } from './helpers/storage';
 const main = {};
 
 main.preinit = function () {
@@ -7,10 +8,9 @@ main.preinit = function () {
 };
 
 main.sources = function () {
-  let sources = localStorage.sources;
-  if (!sources) sources = defaultSources;
-
-  return sources;
+  return get('sources') || defaultSources;
 };
+
+
 
 export default main;
