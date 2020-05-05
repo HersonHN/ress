@@ -1,5 +1,5 @@
 <template lang="html">
-  <section class="all-feeds-section fg-color">
+  <section class="all-feeds-section">
     <h2 class="title">All Entries</h2>
 
     <div v-if="loading">
