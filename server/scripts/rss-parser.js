@@ -2,8 +2,7 @@
 const Parser = require('rss-parser');
 const moment = require('moment');
 
-const sources = require('../../sources.json');
-
+const defaultSources = require('../../sources.json');
 
 main();
 
@@ -17,70 +16,80 @@ function main() {
 }
 
 
-function getRSS() {
-  let promiseList = sources.map(parseFeed);
+function getRSS(sources) {
+  sources = sources || defaultSources;
+
+  let feeds = sources.map(({ id, url }) => ({ id, url }));
+  let promiseList = feeds.map(feed => parseSingleFeed(feed));
+
   return Promise.all(promiseList)
     .then(feeds => mergeFeeds(feeds, sources))
 }
 
 
-function parseFeed(source) {
+function parseSingleFeed(feed) {
   let parser = new Parser({
     timeout: 5000
   });
 
   return new Promise(resolve => {
-    parser.parseURL(source.feed)
-      .then(parsed => resolve(parsed.items))
+    parser.parseURL(feed.url)
+      .then(body => sanitizeFeed({
+        feed: feed,
+        feedBody: body
+      }))
+      .then(items => resolve(items))
       .catch(err => resolve({
-        message: `cannot parse feed: ${source.feed}`,
+        id: feed.id,
+        feed: [],
+        message: `cannot parse feed: ${feed.url}`,
         error: err
       }))
   })
 }
 
 
-function mergeFeeds(feeds, sources) {
+function sanitizeFeed({ feedBody, feed }) {
+  if (feedBody.error) {
+    console.warn(feedBody.error);
+    return [];
+  }
+
+  let items = feedBody.items
+    .map(entry => sanitizeEntry(entry, feed));
+
+  return {
+    id: feed.id,
+    feed: items
+  }
+}
+
+
+function sanitizeEntry(entry, feed) {
+  let dateOrigin = entry['dc:date'] || entry.pubDate;
+
+  let m = moment(dateOrigin);
+  let isValid = (dateOrigin && m.isValid());
+  let isoDate = m.toISOString();
+
+  return {
+    feedId: feed.id,
+    title: entry.title,
+    link: entry.link,
+    date: isValid ? isoDate : ''
+  }
+}
+
+
+function mergeFeeds(feedBodies, sources) {
   var response = {};
 
-  sources.forEach(function (source, index) {
-    let feed = feeds[index];
-
-    feed = sanitizeFeed(feed, source.id);
-
-    response[source.id] = {
-      id: source.id,
-      title: source.title,
-      rss: source.feed,
-      icon: source.icon,
-      feed: feed
-    };
+  sources.forEach(function (feed, index) {
+    response[feed.id] = feedBodies[index]
   });
 
   return response;
 }
 
-
-function sanitizeFeed(feed, feedId) {
-  if (feed.error) {
-    console.warn(feed.error);
-    return [];
-  }
-
-  return feed.map(function (entry) {
-    let dateOrigin = entry['dc:date'] || entry.pubDate;
-
-    let m = moment(dateOrigin);
-    let isValid = (dateOrigin && m.isValid());
-    let isoDate = m.toISOString();
-
-    return {
-      feedId: feedId,
-      title: entry.title,
-      link: entry.link,
-      date: isValid ? isoDate : ''
-    }
-  });
-}
 
 module.exports = { getRSS };

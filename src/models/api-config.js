@@ -10,6 +10,7 @@ let config = {
   routes: {
     sources: `${domain}/api/sources`,
     feed: `${domain}/api/feed`,
+    feeds: `${domain}/api/feeds`,
     article: `${domain}/api/clean`
   }
 };

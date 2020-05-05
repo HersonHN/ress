@@ -1,11 +1,21 @@
 import config from './api-config'
 import axios from 'axios';
+import { get } from '../helpers/storage';
 
 export default {
 
   getAll() {
-    return axios.get(config.routes.feed)
-      .then(response => response.data);
+    let sources = get('sources');
+
+    if (!sources) {
+      return axios.get(config.routes.feed)
+        .then(response => response.data);
+    }
+
+    let feeds = sources.map(({ id, url }) => ({ id, url }));
+
+    return axios.post(config.routes.feeds, { feeds })
+        .then(response => response.data);
   },
 
   get(site) {
