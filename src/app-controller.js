@@ -11,7 +11,11 @@ main.preinit = function () {
   window.sources = main.sources();
 };
 
-main.sources = function () {
+main.sources = function (option) {
+  if (option == 'default') {
+    return defaultSources;
+  }
+
   return get('sources') || defaultSources;
 };
 

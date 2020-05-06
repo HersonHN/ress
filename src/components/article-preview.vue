@@ -61,16 +61,21 @@ export default {
         return;
       }
 
-      Article.get(url).then((article) => {
-        let cleanview = parser(article, {
-          url: url,
-          minRatio: 0.5,
-          includeTags: ['header']
-        });
+      Article.get(url)
+        .then(article => {
+          let cleanArticle = parser(article, {
+            url: url,
+            minRatio: 0.5,
+            includeTags: ['header']
+          });
 
-        this.article = cleanview;
-        this.loaded = true;
-      })
+          this.article = cleanArticle;
+          this.loaded = true;
+        })
+        .catch(error => {
+          this.article = `<p>There was an error reading the page <a target="_blank" href="${url}">${url}</a></p>`;
+          this.loaded = true;
+        })
     },
 
     scrollTop() {

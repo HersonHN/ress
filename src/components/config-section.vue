@@ -1,10 +1,20 @@
 <template>
   <section class="config-section">
-    <h2 class="title">Configuration</h2>
+    <h2 class="title">Configurations</h2>
+
+    <div class="callout primary">
+      <p>
+        <u><strong>Please notice:</strong></u> These configurations are saved on your local storage only,
+        that means they're just for this device and they reset to default when you clean your
+        browser data.
+      </p>
+    </div>
 
     <section class="fields">
       <fieldset class="large-10 cell">
-        <legend>Theme:</legend>
+        <legend>
+          <h3>Theme:</h3>
+        </legend>
 
         <div v-for="t in themeList" :key="t.id">
           <label class="fg-color">
@@ -16,45 +26,175 @@
       </fieldset>
     </section>
 
+    <section class="fields">
+      <fieldset class="large-10 cell">
+        <legend>
+          <h3>Feeds:</h3>
+        </legend>
+
+        <component-list
+            v-model="feedList"
+            #default="{ item }"
+            no-add
+            no-delete
+            :key="controlNumber"
+        >
+          <article class="feed-name-preview">
+            <label class="fg-color">
+              <input type="checkbox"
+                  v-model="item.value.selected"
+                  :disabled="(selectedCount() <= 1) && item.value.selected">
+              <img class="feed-icon mini" :src="item.value.icon">
+              <span>{{item.value.title}}</span>
+            </label>
+          </article>
+        </component-list>
+      </fieldset>
+    </section>
+
+
+    <section class="fields">
+      <fieldset class="buttons">
+        <button type="button" class="save button" @click="saveFeeds()">
+          Save Feeds
+        </button>
+        <button type="button" class="button hollow" @click="reset()">
+          Reset Feeds
+        </button>
+      </fieldset>
+    </section>
+
   </section>
 </template>
 
 
 <script>
 import * as storage from '../helpers/storage';
-import app from '../main-controller';
+import app from '../app-controller';
+
+import ComponentList from './component-list';
 
 export default {
   name: 'ConfigSection',
   data () {
     return {
+      showAlert: true,
       theme: storage.get('theme') || 'system',
       themeList: [
         { id: 'system', name: 'System Default' },
         { id: 'light', name: 'Light' },
         { id: 'dark', name: 'Dark' },
-      ]
+      ],
+      feedList: []
     }
+  },
+
+  components: {
+    ComponentList,
+  },
+
+  created() {
+    this.loadFeeds();
+    this.controlNumber = 0;
   },
 
   methods: {
     changeTheme() {
       app.setTheme(this.theme);
       storage.set('theme', this.theme);
+    },
+
+    selectedCount() {
+      let count = this.feedList.reduce((count, item) => (item.selected ? count + 1 : count), 0);
+      return count;
+    },
+
+    loadFeeds() {
+      let defaultFeeds = clone(app.sources('default'));
+      let loadedFeeds  = clone(app.sources());
+
+      defaultFeeds.forEach(df => {
+        let isSelected = !!loadedFeeds.find(f => df.id === f.id);
+        df.selected = isSelected;
+        df.default = true;
+      });
+
+      loadedFeeds.forEach(feed => {
+        let isFromDefaults = !!defaultFeeds.find(df => df.id === feed.id);
+        feed.selected = isFromDefaults;
+        feed.default = isFromDefaults;
+      });
+
+      let notSelected = defaultFeeds.filter(df => df.selected == false);
+
+      let feeds = [...loadedFeeds, ...notSelected];
+      this.feedList = feeds;
+    },
+
+    saveFeeds() {
+      let feeds = this.feedList
+        .filter(f => f.selected)
+        .map(({id, title, url, icon}) => ({id, title, url, icon}));
+
+      window.sources = feeds;
+      storage.set('sources', feeds);
+      this.$root.$emit('sources:saved', feeds);
+    },
+
+    reset() {
+      let defaultFeeds = clone(app.sources('default'));
+      defaultFeeds.forEach(df => df.selected = true);
+
+      this.feedList = defaultFeeds;
+
+      this.controlNumber++;
+
+      if (confirm('Feed list reversed to default, do you want to save?')) {
+        this.saveFeeds();
+      }
     }
   },
 }
+
+function clone(obj) {
+  let json = JSON.stringify(obj);
+  return JSON.parse(json);
+}
+
 </script>
 
 <style lang="scss" scoped>
   .config-section {
-    .title {
-      padding: 1rem;
-      margin-bottom: 0;
+    padding: 1rem;
+
+    section.fields {
+      margin-bottom: 1rem;
+      margin-top: 2rem;
     }
+
+    .title {
+      padding-bottom: 1rem;
+    }
+
     label {
       display: inline-block;
+
+      input {
+        margin-bottom: 0;
+        margin-right: 1rem;
+      }
     }
-    .fields { padding: 1rem; }
+
+    .feed-name-preview {
+      vertical-align: middle;
+      .feed-icon.mini {
+        display: inline-block;
+        margin-right: .5rem;
+      }
+    }
+
+    .buttons {
+      button { margin-right: 1rem; }
+    }
   }
 </style>

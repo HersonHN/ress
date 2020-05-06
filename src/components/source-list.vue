@@ -46,6 +46,10 @@ export default {
     Promise.resolve(window.sources)
       .then(response => this.sources = response)
       .then(this.highlightActive)
+
+    this.$root.$on('sources:saved', data => {
+      this.sources = data;
+    });
   },
 
   methods: {
