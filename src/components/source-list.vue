@@ -1,12 +1,19 @@
 <template>
   <section class="source-list">
-    <router-link :to="{ name: 'all-feeds' }">
-      <figure class="home">
-        <img src="/assets/img/home.svg" width="70px" height="70px">
-      </figure>
+
+    <router-link :to="{ name: 'config' }">
+      <span class="icon-container">
+        <i class="icon icon-cog-alt not-that-big"></i>
+      </span>
     </router-link>
 
-    <div v-for="source in sources" :key="source.id">
+    <router-link :to="{ name: 'all-feeds' }">
+      <span class="icon-container">
+        <i class="icon icon-home"></i>
+      </span>
+    </router-link>
+
+    <span v-for="source in sources" :key="source.id">
       <router-link :to="{ name: 'single-feed', params: { feedId: source.id } }">
         <figure
             :class="{ selected: source.selected }">
@@ -18,7 +25,7 @@
             :title="source.title" />
         </figure>
       </router-link>
-    </div>
+    </span>
 
   </section>
 </template>
@@ -55,10 +62,9 @@ export default {
   watch: {
     '$route': function() {
       this.highlightActive();
-      
+
       // @TODO: trigger close on mini-foundation
       // as in: `$('#navigator').foundation('close');`
-
       let button = $.findOne('[data-open=navigator]');
       if ($.isVisible(button)) {
         $.trigger(button, 'click');
@@ -72,7 +78,26 @@ export default {
 <style lang="scss" scoped>
   .source-list {
     color: white;
-  
+    overflow-x: hidden;
+    text-align: center;
+
+    .icon-container {
+      display: block;
+      padding: 5px 0;
+      color: white;
+    }
+    .icon-container:hover {
+      color: #ddd;
+    }
+
+    .icon {
+      font-size: 70px;
+      line-height: 70px;
+
+      &.not-that-big {
+        font-size: 50px;
+      }
+    }
     a {
       display: inline-block;
     }
@@ -80,15 +105,7 @@ export default {
       padding: 5px 10px;
       font-weight: bold;
       color: white;
-    }
-
-    figure.home {
-      padding: 15px;
-
-      img {
-        border: transparent 3px solid;
-        background: transparent;
-      }
+      text-align: center;
     }
 
     img {
