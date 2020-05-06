@@ -20,10 +20,9 @@
 -->
 <template>
   <section class="component-list">
-    <div v-for="(item, index) in data">
+    <div v-for="(item, index) in data" :key="item.id">
 
-      <div :key="item.id" class="item">
-        
+      <div class="item">
 
         <div class="item-controls">
           <a class="icon"
