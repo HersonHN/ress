@@ -53,7 +53,12 @@
           </div>
         </div>
 
-        <div class="item-content">
+        <div class="item-content"
+          draggable="true"
+          @dragstart="drag($event, item)"
+          @drop="drop($event, item)"
+          @dragover="allowDrop($event)"
+        >
             <slot :item="item"></slot>
         </div>
       </div>
@@ -163,6 +168,26 @@
           row.index = index;
         });
       },
+
+      drag(event, item) {
+        let itemIndex = item.index;
+        event.dataTransfer.setData('itemIndex', item.index);
+      },
+
+      drop(event, item) {
+        let targetIndex = item.index;
+        let originIndex = event.dataTransfer.getData('itemIndex');
+        originIndex = parseInt(originIndex);
+
+        this.data[originIndex].index = targetIndex;
+        this.data[targetIndex].index = originIndex;
+
+        this.data = this.data.sort((a, b) => a.index - b.index);
+      },
+
+      allowDrop(e) {
+        e.preventDefault();
+      }
     },
   }
 </script>
@@ -173,7 +198,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: flex-start;
+    // justify-content:first baseline;
     align-content: stretch;
     align-items: stretch;
     margin-bottom: .5rem;
