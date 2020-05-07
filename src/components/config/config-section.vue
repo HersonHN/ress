@@ -65,8 +65,8 @@
 
 
 <script>
-import * as storage from '../helpers/storage';
-import app from '../app-controller';
+import * as storage from '@/helpers/storage';
+import app from '@/app-controller';
 
 import ComponentList from './component-list';
 
