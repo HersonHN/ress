@@ -25,28 +25,32 @@
       <div class="item">
 
         <div class="item-controls">
-          <a class="icon"
-              title="Move Up"
-              @click="moveUp(index)">
-            <i class="icon-up-open"></i>
-          </a>
-          <a class="icon"
-              title="Delete"
-              v-if="!item.required || !noDelete"
-              @click="remove(index)">
-            <i class="icon-minus-circled"></i>
-          </a>
-          <a class="icon"
-              title="Move Down"
-              @click="moveDown(index)">
-            <i class="icon-down-open"></i>
-          </a>
-          <a class="icon"
-              title="Add"
-              v-if="!noAdd"
-              @click="addBelow(index)">
-            <i class="icon-list-add"></i>
-          </a>
+          <div>
+            <a class="icon"
+                title="Move Up"
+                @click="moveUp(index)">
+              <i class="icon-up-open"></i>
+            </a>
+            <a class="icon"
+                title="Delete"
+                v-if="!item.required && !noDelete"
+                @click="remove(index)">
+              <i class="icon-minus-circled"></i>
+            </a>
+          </div>
+          <div>
+            <a class="icon"
+                title="Move Down"
+                @click="moveDown(index)">
+              <i class="icon-down-open"></i>
+            </a>
+            <a class="icon"
+                title="Add"
+                v-if="!noAdd"
+                @click="addBelow(index)">
+              <i class="icon-list-add"></i>
+            </a>
+          </div>
         </div>
 
         <div class="item-content">
