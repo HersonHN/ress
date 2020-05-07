@@ -1,10 +1,16 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+
+// Polyfills for drag and drop on mobile
+import './helpers/vendor/DragDropTouch';
+
+// vue
 import Vue from 'vue';
 import App from './App';
 import router from './router';
+
+// "main" constroller with global properties
 import mainController from './app-controller';
 
+// custom filters
 import DateFilter from './filters/date';
 
 Vue.config.productionTip = false

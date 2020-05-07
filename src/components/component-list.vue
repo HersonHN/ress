@@ -22,7 +22,21 @@
   <section class="component-list">
     <div v-for="(item, index) in data" :key="item.id">
 
-      <div class="item">
+      <div class="item"
+          @drop="drop($event, item)"
+          @dragover="allowDrop($event)"
+      >
+
+        <div class="item-controls right"
+          draggable="true"
+          @dragstart="drag($event, item)"
+        >
+          <span class="drag-icon"></span>
+        </div>
+
+        <div class="item-content">
+            <slot :item="item"></slot>
+        </div>
 
         <div class="item-controls">
           <div>
@@ -53,14 +67,6 @@
           </div>
         </div>
 
-        <div class="item-content"
-          draggable="true"
-          @dragstart="drag($event, item)"
-          @drop="drop($event, item)"
-          @dragover="allowDrop($event)"
-        >
-            <slot :item="item"></slot>
-        </div>
       </div>
 
     </div>
@@ -171,18 +177,39 @@
 
       drag(event, item) {
         let itemIndex = item.index;
-        event.dataTransfer.setData('itemIndex', item.index);
+
+        let element = event.srcElement.parentNode
+        let clone = element.cloneNode(true);
+
+        let dataToTransfer = JSON.stringify({ item: item.index });
+
+        event.dataTransfer.setDragImage(element, 0, 0);
+
+        // transfering data as json because there's an bug when
+        // `dataToTransfer` is 0 because it's parsed to ""
+        event.dataTransfer.setData('itemIndex', dataToTransfer);
       },
 
       drop(event, item) {
+        let transferedData = event.dataTransfer.getData('itemIndex');
+        if (!transferedData) return;
+
+        let originIndex = JSON.parse(transferedData).item;
         let targetIndex = item.index;
-        let originIndex = event.dataTransfer.getData('itemIndex');
-        originIndex = parseInt(originIndex);
 
-        this.data[originIndex].index = targetIndex;
-        this.data[targetIndex].index = originIndex;
+        if (targetIndex != 0) {
+          // add the moved index below the target
+          this.data[originIndex].index = targetIndex + 0.5;
+        } else {
+          // if the target is the first one, move it as
+          // second and place the moved to the first place
+          this.data[originIndex].index = 0;
+          this.data[targetIndex].index = 0.5;
+        }
 
+        // sort the array and enumarate it again with integer indexes
         this.data = this.data.sort((a, b) => a.index - b.index);
+        this.reOrderIndexes();
       },
 
       allowDrop(e) {
@@ -198,33 +225,35 @@
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    // justify-content:first baseline;
-    align-content: stretch;
-    align-items: stretch;
-    margin-bottom: .5rem;
+    align-items:flex-start;
+    align-content:flex-start;
+
+    min-height: 2rem;
   }
 
-  .icon {
-    display: inline-block;
-    margin: .25rem;
-    cursor: pointer;
-    font-size: .75rem;
+
+  .item-controls {
+    align-self: stretch;
+    vertical-align: middle;
+    text-align: center;
+    min-width: 2rem;
+    padding: 0.5rem;
+    padding-top: 0;
+
+    .icon {
+      display: inline-block;
+      cursor: pointer;
+      font-size: .75rem;
+    }
   }
 
   .item-content {
-    order: 0;
     flex: 1 1 auto;
-    align-self: auto;
+    padding: 0 .5rem;
+    align-self: stretch;
+
   }
 
-  .item-controls {
-    order: 0;
-    flex: 0 1 auto;
-    align-self: auto;
-    text-align: center;
-    align-self: center;
-    margin-right: 1rem;
-  }
 
   .controls {
     text-align: right;
@@ -270,5 +299,30 @@
         color: #666;
       }
     }
+
+  }
+
+
+  .drag-icon {
+    display: inline-block;
+    width: 16px;
+    height: 8px;
+    min-width: 16px;
+    min-height: 8px;
+  }
+
+  .drag-icon,
+  .drag-icon::before {
+    background-image: radial-gradient(gray 40%, transparent 40%);
+    background-size: 4px 4px;
+    background-position: 0 100%;
+    background-repeat: repeat-x;
+  }
+
+  .drag-icon::before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 33%;
   }
 </style>
