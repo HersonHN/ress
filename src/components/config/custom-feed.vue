@@ -17,20 +17,6 @@
 
       <div class="cell medium-4">
         <label class="fg-color">
-          <span>Icon URL:</span>
-          <input
-            maxlength="150"
-            type="text"
-            class="fg-color bg-color"
-            v-model="feed.icon"
-            onclick="this.select()"
-            @blur="validate('icon')"
-          />
-        </label>
-      </div>
-
-      <div class="cell medium-4">
-        <label class="fg-color">
           <span>RSS URL:</span>
           <input
             maxlength="150"
@@ -39,6 +25,20 @@
             v-model="feed.url"
             onclick="this.select()"
             @blur="validate('url')"
+          />
+        </label>
+      </div>
+
+      <div class="cell medium-4">
+        <label class="fg-color">
+          <span>Icon URL:</span>
+          <input
+            maxlength="150"
+            type="text"
+            class="fg-color bg-color"
+            v-model="feed.icon"
+            onclick="this.select()"
+            @blur="validate('icon')"
           />
         </label>
       </div>
