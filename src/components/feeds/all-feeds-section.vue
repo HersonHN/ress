@@ -17,7 +17,7 @@
 
 
 <script>
-import Feed from '@/models/feed';
+import Feed from '@/services/feed';
 import FeedEntry from './feed-entry';
 import LoadingAnimation from '@/components/shared/loading-animation';;
 

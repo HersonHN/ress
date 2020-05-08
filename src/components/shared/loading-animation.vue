@@ -1,32 +1,63 @@
 <template lang="html">
-  <div class="loading">
+  <div class="loading" :class="type">
     <div class="loader"></div>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'LoadingAnimation',
+  props: {
+    type: String,
+  }
+}
+</script>
 
 <style lang="scss" scoped>
   .loading {
     padding: 3rem;
     text-align: center;
+
+    .loader { display: inline-block; }
+
+    .loader:after {
+      content: " ";
+      display: block;
+      border-radius: 50%;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #666 transparent #666 transparent;
+      animation: loader 1.2s linear infinite;
+    }
+
+    .loader,
+    .loader:after {
+      width: 46px;
+      height: 46px;
+    }
   }
 
-  .loader {
+  .loading.green {
+    .loader:after {
+      border-color: green transparent green transparent;
+    }
+  }
+
+  .loading.tiny {
     display: inline-block;
-    width: 64px;
-    height: 64px;
+    padding: 0;
+    margin-right: .5rem;
+
+    .loader,
+    .loader:after {
+      width: 12px;
+      height: 12px;
+    }
+    .loader:after {
+      border-width: 2px;
+    }
   }
 
-  .loader:after {
-    content: " ";
-    display: block;
-    width: 46px;
-    height: 46px;
-    margin: 1px;
-    border-radius: 50%;
-    border: 5px solid #666;
-    border-color: #666 transparent #666 transparent;
-    animation: loader 1.2s linear infinite;
-  }
 
   @keyframes loader {
     0%   { transform: rotate(0deg);   }
