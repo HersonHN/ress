@@ -69,7 +69,7 @@
 <script>
 import * as storage from '@/helpers/storage';
 import app from '@/app-controller';
-import Feed from '@/models/Feed';
+import Feed from '@/models/feed';
 
 import ComponentList from './component-list';
 import CustomFeed from './custom-feed';

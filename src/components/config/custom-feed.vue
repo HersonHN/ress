@@ -71,7 +71,7 @@
 <script>
 
 import LoadingAnimation from '@/components/shared/loading-animation';
-import Feed from '@/models/Feed.js';
+import Feed from '@/models/feed';
 
 export default {
   name: 'CustomFeed',
