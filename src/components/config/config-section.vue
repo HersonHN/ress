@@ -2,16 +2,8 @@
   <section class="config-section">
     <h2 class="title">Configurations</h2>
 
-    <div class="callout primary">
-      <p>
-        <u><strong>Please notice:</strong></u> These configurations are saved on your local storage only,
-        that means they're just for this device and they reset to default when you clean your
-        browser data.
-      </p>
-    </div>
-
     <section class="fields">
-      <fieldset class="large-10 cell">
+      <fieldset>
         <legend>
           <h3>Theme:</h3>
         </legend>
@@ -27,7 +19,15 @@
     </section>
 
     <section class="fields">
-      <fieldset class="large-10 cell">
+
+      <div class="callout primary">
+        <p>Sync your news feeds across devices:</p>
+        <p>
+          <button class="button" @click="load">Load feeds</button>
+        </p>
+      </div>
+
+      <fieldset>
         <legend>
           <h3>Feeds:</h3>
         </legend>
@@ -67,12 +67,16 @@
 
 
 <script>
+import * as firebase from '@/helpers/firebase';
 import * as storage from '@/helpers/storage';
+import event from '@/helpers/event';
+
 import app from '@/app-controller';
 import Feed from '@/models/feed';
 
 import ComponentList from './component-list';
 import CustomFeed from './custom-feed';
+
 
 export default {
   name: 'ConfigSection',
@@ -85,7 +89,7 @@ export default {
         { id: 'light', name: 'Light' },
         { id: 'dark', name: 'Dark' },
       ],
-      feedList: []
+      feedList: [],
     }
   },
 
@@ -97,9 +101,33 @@ export default {
   created() {
     this.loadFeeds();
     this.controlNumber = 0;
+    firebase.init();
+
   },
 
   methods: {
+    async load() {
+      let data = await firebase.loadFeeds();
+
+      if (!data) return;
+      if (!data.sources) return;
+      if (!data.sources.length) return;
+
+      let count = data.sources.length;
+      let response = confirm(`${count} news feeds found on your account, do you want to load them?`);
+      if (!response) return;
+
+      let feeds = data.sources;
+      this.feedList = feeds;
+
+      storage.set('sources', feeds);
+      this.$root.$emit('sources:saved', feeds);
+
+      this.controlNumber++;
+
+      this.loadFeeds();
+    },
+
     changeTheme() {
       app.setTheme(this.theme);
       storage.set('theme', this.theme);
@@ -173,7 +201,7 @@ export default {
       return true;
     },
 
-    saveFeeds() {
+    async saveFeeds() {
       if (!this.validate())
         return alert('Please make sure all feeds are valid before save');
 
@@ -184,6 +212,7 @@ export default {
       window.sources = feeds;
       storage.set('sources', feeds);
       this.$root.$emit('sources:saved', feeds);
+      await firebase.saveFeeds({ sources: feeds });
 
       // redirecting to home after save
       this.$router.push({ name: 'all-feeds' });
@@ -200,7 +229,7 @@ export default {
       if (confirm('Feed list reversed to default, do you want to save?')) {
         this.saveFeeds();
       }
-    }
+    },
   },
 }
 

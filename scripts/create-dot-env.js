@@ -9,27 +9,29 @@ const workingDir = Path.join(__dirname, '..');
 init();
 
 function init() {
-  let output = parseVariables({
-    VUE_APP_GOOGLE_ANALYTICS: '@ress-google-analytics'
-  });
+  let output = parseVariables([
+    'VUE_APP_GOOGLE_ANALYTICS',
+    'VUE_APP_FIREBASE'
+  ]);
   let filename = Path.join(workingDir, '.env');
   saveOutput(output, filename);
 }
 
-function parseVariables(hash) {
+function parseVariables(vars) {
   let lines = [];
 
-  for (const key in hash) {
-    if (key.indexOf('VUE_APP') == 0) {
-      const value = process.env[key] || '';
-      let line = `${key}="${value}"`;
+  for (const key of vars) {
+    // if (key.indexOf('VUE_APP') == 0 || key.indexOf('FIREBASE')) {
+      let value = process.env[key] || '';
+      // value = value.replace(/"/g, '\\\"');
+      let line = `${key}='${value}'`;
 
       if (!value) {
         console.warn('value for env variable', key, 'is not defined');
       }
 
       lines.push(line);
-    }
+    // }
   }
 
   return lines.join('\n');

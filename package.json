@@ -23,8 +23,9 @@
     "rss-parser": "^3.7.6"
   },
   "devDependencies": {
-    "@vue/cli-service": "^4.3.0",
+    "@vue/cli-service": "^4.3.1",
     "cleanview": "^1",
+    "firebase": "^7.14.4",
     "foundation-sites": "^6.6.2",
     "sass": "^1.26.3",
     "sass-loader": "^8.0.0",

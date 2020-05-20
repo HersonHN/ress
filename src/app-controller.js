@@ -1,6 +1,7 @@
 
 import defaultSources from '../sources';
 import { get } from './helpers/storage';
+import * as firebase from './helpers/firebase';
 
 const main = {};
 
