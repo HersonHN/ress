@@ -128,7 +128,11 @@ export default {
       })
       .catch(error => {
         if (error.code == 'auth/web-storage-unsupported') {
-          alert(error.message);
+          alert(
+            "It seems like your browser doesn't allow third party cookies \n" +
+            "which are necessary to load the feeds on your google account. \n" +
+            "Check online how to enable third party cookies and try again."
+          );
         }
       });
 
@@ -207,7 +211,7 @@ export default {
       return true;
     },
 
-    async saveFeeds() {
+    saveFeeds() {
       if (!this.validate())
         return alert('Please make sure all feeds are valid before save');
 
@@ -218,10 +222,21 @@ export default {
       window.sources = feeds;
       storage.set('sources', feeds);
       this.$root.$emit('sources:saved', feeds);
-      await firebase.saveFeeds({ sources: feeds });
 
-      // redirecting to home after save
-      this.$router.push({ name: 'all-feeds' });
+      firebase.saveFeeds({ sources: feeds })
+        .then(() => {
+          // redirecting to home after save
+          this.$router.push({ name: 'all-feeds' });
+        })
+        .catch(error => {
+          if (error.code == 'auth/web-storage-unsupported') {
+            alert(
+              "It seems like your browser doesn't allow third party cookies \n" +
+              "which are necessary to save the feeds on your google account. \n" +
+              "Check online how to enable third party cookies and try again."
+            );
+          }
+        });
     },
 
     reset() {

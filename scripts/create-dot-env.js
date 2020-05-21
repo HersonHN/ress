@@ -21,17 +21,14 @@ function parseVariables(vars) {
   let lines = [];
 
   for (const key of vars) {
-    // if (key.indexOf('VUE_APP') == 0 || key.indexOf('FIREBASE')) {
-      let value = process.env[key] || '';
-      // value = value.replace(/"/g, '\\\"');
-      let line = `${key}='${value}'`;
+    let value = process.env[key] || '';
+    let line = `${key}='${value}'`;
 
-      if (!value) {
-        console.warn('value for env variable', key, 'is not defined');
-      }
+    if (!value) {
+      console.warn('value for env variable', key, 'is not defined');
+    }
 
-      lines.push(line);
-    // }
+    lines.push(line);
   }
 
   return lines.join('\n');
