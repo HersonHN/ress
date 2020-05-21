@@ -32,19 +32,19 @@ function getUser() {
   return _user;
 }
 
-async function auth() {
+function auth() {
   init();
 
   if (_user) return Promise.resolve(_user);
 
-  let prom = new Promise(function (resolve, reject) {
+  return new Promise(function (resolve, reject) {
     event.$on('user', user => resolve(user));
-  })
 
-  var provider = new firebase.auth.GoogleAuthProvider();
-  firebase.auth().signInWithPopup(provider);
-
-  return prom;
+    var provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth()
+      .signInWithPopup(provider)
+      .catch(e => reject(e));
+  });
 }
 
 async function loadFeeds() {

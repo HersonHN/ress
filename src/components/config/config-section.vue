@@ -106,26 +106,32 @@ export default {
   },
 
   methods: {
-    async load() {
-      let data = await firebase.loadFeeds();
+    load() {
+      firebase.loadFeeds().then(data => {
+        if (!data) return;
+        if (!data.sources) return;
+        if (!data.sources.length) return;
 
-      if (!data) return;
-      if (!data.sources) return;
-      if (!data.sources.length) return;
+        let count = data.sources.length;
+        let response = confirm(`${count} news feeds found on your account, do you want to load them?`);
+        if (!response) return;
 
-      let count = data.sources.length;
-      let response = confirm(`${count} news feeds found on your account, do you want to load them?`);
-      if (!response) return;
+        let feeds = data.sources;
+        this.feedList = feeds;
 
-      let feeds = data.sources;
-      this.feedList = feeds;
+        storage.set('sources', feeds);
+        this.$root.$emit('sources:saved', feeds);
 
-      storage.set('sources', feeds);
-      this.$root.$emit('sources:saved', feeds);
+        this.controlNumber++;
 
-      this.controlNumber++;
+        this.loadFeeds();
+      })
+      .catch(error => {
+        if (error.code == 'auth/web-storage-unsupported') {
+          alert(error.message);
+        }
+      });
 
-      this.loadFeeds();
     },
 
     changeTheme() {
@@ -220,7 +226,12 @@ export default {
 
     reset() {
       let defaultFeeds = clone(app.sources('default'));
-      defaultFeeds.forEach(df => df.selected = true);
+
+      defaultFeeds.forEach(df => {
+        df.selected = true;
+        df.required = true;
+        df.default = true;
+      });
 
       this.feedList = defaultFeeds;
 

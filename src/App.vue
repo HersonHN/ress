@@ -22,7 +22,7 @@
 
           <!-- MAIN SECTION -->
           <div class="router-content">
-            <router-view :key="$route.fullPath" />
+            <router-view :key="$route.fullPath + cacheCount" />
           </div>
 
         </div>
@@ -38,10 +38,19 @@ import miniFoundation from '@/helpers/mini-foundation';
 export default {
   name: 'App',
   components: { SourceList },
+  data() {
+    return {
+      cacheCount: 0
+    }
+  },
 
   mounted: function() {
     // init foundation components
     miniFoundation.init();
+
+    this.$root.$on('sources:saved', data => {
+      this.cacheCount++;
+    });
   }
 }
 </script>
@@ -75,7 +84,7 @@ export default {
     font-size: 0.7rem;
     text-align: center;
     padding: 5px 0 20px;
-    
+
     a {
       color: $signature-color;
       transition: color 0.2s linear;
