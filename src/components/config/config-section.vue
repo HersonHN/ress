@@ -77,6 +77,8 @@ import Feed from '@/models/feed';
 import ComponentList from './component-list';
 import CustomFeed from './custom-feed';
 
+import config from '@/../server-config';
+
 
 export default {
   name: 'ConfigSection',
@@ -204,16 +206,22 @@ export default {
       for (let feed of this.feedList) {
         if (feed.invalid) {
           console.warn('invalid feed', feed);
+          alert('Please make sure all feeds are valid before save');
           return false;
         }
+      }
+
+      let feeds = this.feedList.filter(f => f.selected);
+      if (feeds.length > config.maxFeeds) {
+        alert(`Please don't choose more than ${config.maxFeeds} feeds`);
+        return false;
       }
 
       return true;
     },
 
     saveFeeds() {
-      if (!this.validate())
-        return alert('Please make sure all feeds are valid before save');
+      if (!this.validate()) return;
 
       let feeds = this.feedList
         .filter(f => f.selected)

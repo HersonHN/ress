@@ -1,6 +1,7 @@
 
 const rssParser = require('./rss-parser');
 const defaults = require('./../../sources');
+const config  = require('../../server-config');
 
 module.exports = {
   single,
@@ -27,8 +28,8 @@ function homepage(req, res, cache) {
 function customHomepage(req, res, cache) {
   let feeds = req.body.feeds;
 
-  if (feeds.length > defaults.length) {
-    return res.status(413).send({ error: 'Payload Too Large'})
+  if (feeds.length > config.maxFeeds) {
+    feeds = feeds.slice(config.maxFeeds - 1);
   }
 
   let cached = [];
