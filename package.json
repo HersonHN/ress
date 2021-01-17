@@ -15,7 +15,7 @@
     "production": "node scripts/create-dot-env.js && node scripts/run-for-production.js"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "from-now": "^1.0.2",
