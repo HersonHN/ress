@@ -5,10 +5,10 @@
     "news.herson.hn"
   ],
   "builds": [
-    { "src": "index.js", "use": "@now/node-server" },
+    { "src": "index.js", "use": "@vercel/node" },
     {
       "src": "package.json",
-      "use": "@now/static-build",
+      "use": "@vercel/static-build",
       "config": { "distDir": "dist" }
     }
   ],
