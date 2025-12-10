@@ -38,29 +38,12 @@
     "firebase": "^7.14.4",
     "foundation-sites": "^6.9.0",
     "globals": "^16.5.0",
+    "mitt": "^3.0.1",
     "prettier": "3.6.2",
     "sass-embedded": "^1.95.1",
     "url-parse": "^1.5.9",
     "vite": "^7.2.4",
     "vite-plugin-vue-devtools": "^8.0.5"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true,
-      "browser": true,
-      "commonjs": true,
-      "es6": true,
-      "jquery": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "rules": {},
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
   },
   "browserslist": [
     "> 1%",
