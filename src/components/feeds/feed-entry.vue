@@ -126,10 +126,4 @@ const onClose = () => {
     }
   }
 }
-
-@media (prefers-color-scheme: dark) {
-  .system-theme {
-    @include dark-theme;
-  }
-}
 </style>

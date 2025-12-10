@@ -1,5 +1,5 @@
 <template>
-  <section id="app" ref="appRef" class="off-canvas-wrapper">
+  <section id="app" class="off-canvas-wrapper">
     <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
       <div
         id="navigator"
@@ -34,39 +34,20 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import SourceList from './components/shared/source-list.vue';
-import miniFoundation from './helpers/mini-foundation';
+import miniFoundation from './helpers/mini-foundation.js';
 
-const appRef = ref(null);
 const cacheCount = ref<number>(0);
 
 onMounted(async () => {
-  miniFoundation.init(appRef.value);
+  miniFoundation.init();
 });
+
+// @TODO: replicate this
+// this.$root.$on('sources:saved', data => {
+//     this.cacheCount++;
+//   });
+// }
 </script>
-
-<!-- <script>
-import SourceList from '@/components/shared/source-list';
-import miniFoundation from '@/helpers/mini-foundation';
-
-export default {
-  name: 'App',
-  components: { SourceList },
-  data() {
-    return {
-      cacheCount: 0
-    }
-  },
-
-  mounted: function() {
-    // init foundation components
-    miniFoundation.init();
-
-    this.$root.$on('sources:saved', data => {
-      this.cacheCount++;
-    });
-  }
-}
-</script> -->
 
 <style lang="scss">
 @use 'sass:color';
