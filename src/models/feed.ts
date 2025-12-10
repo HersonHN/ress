@@ -1,6 +1,6 @@
 import FeedService from '@/services/feed';
 
-enum Validity {
+export enum Validity {
   EMPTY = 'EMPTY',
   VALID = 'VALID',
   INVALID = 'INVALID',
@@ -12,6 +12,9 @@ export default class Feed {
   title: string;
   icon: string;
   url: string;
+  selected: boolean = false;
+  required: boolean = false;
+  default: boolean = false;
 
   validations: {
     title: Validity;
@@ -88,6 +91,7 @@ export default class Feed {
     let isValid = this.isValid();
 
     return {
+      id: this.url,
       title: this.title,
       url: this.url,
       icon: this.icon,

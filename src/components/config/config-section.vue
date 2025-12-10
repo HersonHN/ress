@@ -18,10 +18,10 @@
     </section>
 
     <section class="fields">
-      <div class="callout primary">
+      <div v-if="!alreadyLoaded" class="callout primary">
         <p>Sync your news feeds across devices:</p>
         <p>
-          <button class="button" @click="load">Load feeds</button>
+          <button class="button" @click="loadFromFirebase">Load feeds</button>
         </p>
       </div>
 
@@ -30,12 +30,20 @@
           <h3>Feeds:</h3>
         </legend>
 
-        <component-list v-model="feedList" #default="{ item }" :key="controlNumber">
-          <label class="feed-name-preview fg-color flex" v-if="item.value.default">
+        <component-list
+          :value="feedList"
+          #default="{ item }"
+          :key="controlNumber"
+          @updated="updateList"
+        >
+          <label v-if="item.value.default" class="feed-name-preview fg-color flex">
             <span class="feed-icons flex-shrink">
               <input
                 type="checkbox"
-                v-model="item.value.selected"
+                :checked="item.value.selected"
+                @change="
+                  (event) => (item.value.selected = (event.target as HTMLInputElement).checked)
+                "
                 :disabled="selectedCount() <= 1 && item.value.selected"
               />
               <img class="feed-icon mini" :src="item.value.icon" />
@@ -44,7 +52,12 @@
           </label>
 
           <span v-if="!item.value.default">
-            <custom-feed v-model="item.value"></custom-feed>
+            <custom-feed
+              :value="item.value"
+              @updated="item.value = $event"
+              @invalid="item.value.invalid = true"
+              @valid="item.value.invalid = false"
+            />
           </span>
         </component-list>
       </fieldset>
@@ -59,212 +72,209 @@
   </section>
 </template>
 
-<script>
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+
 import * as firebase from '@/helpers/firebase';
 import * as storage from '@/helpers/storage';
+import type { Source } from '../../types';
 
 import app from '@/app-controller';
 import Feed from '@/models/feed';
 
-import ComponentList from './component-list';
-import CustomFeed from './custom-feed';
+import ComponentList from './component-list.vue';
+import CustomFeed from './custom-feed.vue';
 
-import config from '@/../server-config';
-
-export default {
-  name: 'ConfigSection',
-  data() {
-    return {
-      showAlert: true,
-      theme: storage.get('theme') || 'system',
-      themeList: [
-        { id: 'system', name: 'System Default' },
-        { id: 'light', name: 'Light' },
-        { id: 'dark', name: 'Dark' },
-      ],
-      feedList: [],
-    };
-  },
-
-  components: {
-    ComponentList,
-    CustomFeed,
-  },
-
-  created() {
-    this.loadFeeds();
-    this.controlNumber = 0;
-    firebase.init();
-  },
-
-  methods: {
-    load() {
-      firebase
-        .loadFeeds()
-        .then((data) => {
-          if (!data) return;
-          if (!data.sources) return;
-          if (!data.sources.length) return;
-
-          let count = data.sources.length;
-          let response = confirm(
-            `${count} news feeds found on your account, do you want to load them?`,
-          );
-          if (!response) return;
-
-          let feeds = data.sources;
-          this.feedList = feeds;
-
-          storage.set('sources', feeds);
-          this.$root.$emit('sources:saved', feeds);
-
-          this.controlNumber++;
-
-          this.loadFeeds();
-        })
-        .catch((error) => {
-          if (error.code == 'auth/web-storage-unsupported') {
-            alert(
-              "It seems like your browser doesn't allow third party cookies \n" +
-                'which are necessary to load the feeds on your google account. \n' +
-                'Check online how to enable third party cookies and try again.',
-            );
-          }
-        });
-    },
-
-    changeTheme() {
-      app.setTheme(this.theme);
-      storage.set('theme', this.theme);
-    },
-
-    selectedCount() {
-      let count = this.feedList.reduce((count, item) => (item.selected ? count + 1 : count), 0);
-      return count;
-    },
-
-    loadFeeds() {
-      let defaultFeeds = clone(app.sources('default'));
-      let loadedFeeds = clone(app.sources());
-
-      // the default feeds are the ones from sources.js
-      // check with of them are loaded in the user's conf
-      defaultFeeds.forEach((df) => {
-        let isSelected = !!loadedFeeds.find((f) => df.id === f.id);
-        df.selected = isSelected;
-        df.required = true;
-        df.default = true;
-      });
-
-      // mark with of the user's feed are from the defaults
-      loadedFeeds.forEach((feed) => {
-        let isFromDefaults = !!defaultFeeds.find((df) => df.id === feed.id);
-        feed.selected = isFromDefaults;
-        feed.required = isFromDefaults;
-        feed.default = isFromDefaults;
-      });
-
-      // select just the feed's that are not on the user's conf
-      let notSelected = defaultFeeds.filter((df) => df.selected == false);
-
-      // first show all the feeds from the user configuration
-      // and then show all the default feeds that are unselected
-      let feeds = [...loadedFeeds, ...notSelected];
-      this.feedList = feeds;
-    },
-
-    prepare() {
-      let customCount = 1;
-
-      this.feedList = this.feedList
-        .filter(({ title, url, icon }) => title || url || icon)
-        .map((feed) => {
-          if (feed instanceof Feed) {
-            feed = feed.toOBJ();
-          }
-
-          if (!feed.default) {
-            feed.selected = true;
-            feed.id = `custom-${customCount}`;
-            customCount++;
-          }
-
-          return feed;
-        });
-    },
-
-    validate() {
-      this.prepare();
-
-      for (let feed of this.feedList) {
-        if (feed.invalid) {
-          console.warn('invalid feed', feed);
-          alert('Please make sure all feeds are valid before save');
-          return false;
-        }
-      }
-
-      let feeds = this.feedList.filter((f) => f.selected);
-      if (feeds.length > config.maxFeeds) {
-        alert(`Please don't choose more than ${config.maxFeeds} feeds`);
-        return false;
-      }
-
-      return true;
-    },
-
-    saveFeeds() {
-      if (!this.validate()) return;
-
-      let feeds = this.feedList
-        .filter((f) => f.selected)
-        .map(({ id, title, url, icon }) => ({ id, title, url, icon }));
-
-      window.sources = feeds;
-      storage.set('sources', feeds);
-      this.$root.$emit('sources:saved', feeds);
-
-      firebase
-        .saveFeeds({ sources: feeds })
-        .then(() => {
-          // redirecting to home after save
-          this.$router.push({ name: 'all-feeds' });
-        })
-        .catch((error) => {
-          if (error.code == 'auth/web-storage-unsupported') {
-            alert(
-              "It seems like your browser doesn't allow third party cookies \n" +
-                'which are necessary to save the feeds on your google account. \n' +
-                'Check online how to enable third party cookies and try again.',
-            );
-          }
-        });
-    },
-
-    reset() {
-      let defaultFeeds = clone(app.sources('default'));
-
-      defaultFeeds.forEach((df) => {
-        df.selected = true;
-        df.required = true;
-        df.default = true;
-      });
-
-      this.feedList = defaultFeeds;
-
-      this.controlNumber++;
-
-      if (confirm('Feed list reversed to default, do you want to save?')) {
-        this.saveFeeds();
-      }
-    },
-  },
+type SourceExt = Source & {
+  required?: boolean;
+  default?: boolean;
+  selected?: boolean;
+  invalid?: boolean;
 };
 
-function clone(obj) {
-  let json = JSON.stringify(obj);
-  return JSON.parse(json);
-}
+const config = {
+  maxFeeds: 10,
+};
+
+const router = useRouter();
+
+const alreadyLoaded = ref(false);
+const showAlert = ref(true);
+const theme = ref('');
+const themeList = ref([
+  { id: 'system', name: 'System Default' },
+  { id: 'light', name: 'Light' },
+  { id: 'dark', name: 'Dark' },
+]);
+const feedList = ref<SourceExt[]>([]);
+const controlNumber = ref(0);
+
+onMounted(async () => {
+  theme.value = storage.get('theme') || 'system';
+
+  firebase.init();
+  await displayFeeds();
+  controlNumber.value++;
+});
+
+const changeTheme = () => {
+  app.setTheme(theme.value);
+  storage.set('theme', theme.value);
+};
+
+const displayFeeds = async () => {
+  const defaultFeeds = await app.sources('default');
+  const savedFeeds = (await app.sources()) as SourceExt[];
+
+  // @TODO: show not selected default feed
+
+  const feeds = savedFeeds.map((feed) => {
+    const isFromDefaults = Boolean(defaultFeeds.find((df) => df.url === feed.url));
+
+    const instance: SourceExt = {
+      ...feed,
+      required: isFromDefaults,
+      default: isFromDefaults,
+      selected: true,
+    };
+
+    return instance;
+  });
+
+  feedList.value = feeds;
+};
+
+const selectedCount = () => {
+  let count = feedList.value.reduce((count, item) => (item.default ? count + 1 : count), 0);
+  return count;
+};
+
+const updateList = (list: SourceExt[]) => {
+  if (!list) {
+    feedList.value = [];
+  }
+  const newList = list.map((item) => ({ ...item }));
+  feedList.value = newList;
+};
+
+const loadFromFirebase = async () => {
+  try {
+    const data = await firebase.loadFeeds();
+
+    if (!data) return;
+    if (!data.sources) return;
+    if (!data.sources.length) return;
+
+    const firebaseSources = data.sources;
+
+    let count = firebaseSources.length;
+    let response = confirm(`${count} news feeds found on your account, do you want to load them?`);
+    if (!response) return;
+
+    feedList.value = firebaseSources;
+    storage.set('sources', feedList.value);
+
+    controlNumber.value++;
+    alreadyLoaded.value = true;
+
+    displayFeeds();
+  } catch (error: any) {
+    if (error?.code == 'auth/web-storage-unsupported') {
+      alert(
+        "It seems like your browser doesn't allow third party cookies \n" +
+          'which are necessary to load the feeds on your google account. \n' +
+          'Check online how to enable third party cookies and try again.',
+      );
+    }
+  }
+};
+
+const prepare = () => {
+  let customCount = 1;
+
+  feedList.value = feedList.value
+    .filter(({ title, url, icon }) => title || url || icon)
+    .map<SourceExt>((feed) => {
+      if (feed instanceof Feed) {
+        feed = feed.toOBJ();
+      }
+
+      if (!feed.default) {
+        feed.selected = true;
+        feed.id = `custom-${customCount}`;
+        customCount++;
+      }
+
+      return feed as SourceExt;
+    });
+};
+
+const validate = () => {
+  prepare();
+
+  for (let feed of feedList.value) {
+    if (feed.invalid) {
+      console.warn('invalid feed', feed);
+      alert('Please make sure all feeds are valid before save');
+      return false;
+    }
+  }
+
+  let feeds = feedList.value.filter((f) => f.selected);
+  if (feeds.length > config.maxFeeds) {
+    alert(`Please don't choose more than ${config.maxFeeds} feeds`);
+    return false;
+  }
+
+  return true;
+};
+
+const saveFeeds = () => {
+  if (!validate()) return;
+
+  let feeds = feedList.value
+    .filter((f) => f.selected)
+    .map<SourceExt>(({ id, title, url, icon }) => ({ id, title, url, icon }));
+
+  storage.set('sources', feeds);
+
+  // this.$root.$emit('sources:saved', feeds);
+
+  firebase
+    .saveFeeds({ sources: feeds })
+    .then(() => {
+      // redirecting to home after save
+      router.push({ name: 'all-feeds' });
+    })
+    .catch((error) => {
+      if (error.code == 'auth/web-storage-unsupported') {
+        alert(
+          "It seems like your browser doesn't allow third party cookies \n" +
+            'which are necessary to save the feeds on your google account. \n' +
+            'Check online how to enable third party cookies and try again.',
+        );
+      }
+    });
+};
+
+const reset = async () => {
+  let defaultFeeds = ((await app.sources('default')) as SourceExt[]).map((df) => {
+    df.selected = true;
+    df.required = true;
+    df.default = true;
+
+    return df;
+  });
+
+  feedList.value = defaultFeeds;
+
+  controlNumber.value++;
+
+  if (confirm('Feed list reversed to default, do you want to save?')) {
+    saveFeeds();
+  }
+};
 </script>
 
 <style lang="scss" scoped>

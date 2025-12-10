@@ -45,8 +45,6 @@ const togglePreview = () => {
 };
 
 const presentContent = (url: string) => {
-  console.log('article-preview presentContent', url);
-
   const result = Article.isVideo(url);
   if (result?.is) {
     let embed = Article.formatVideo(result);
@@ -90,7 +88,6 @@ const toggleAndScroll = () => {
 };
 
 onMounted(() => {
-  console.log('article-preview mounted');
   preview.value = show;
   if (show) {
     presentContent(entry.link);

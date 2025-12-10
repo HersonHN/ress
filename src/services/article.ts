@@ -29,7 +29,6 @@ function isVideo(url: string): ParsedVideo | null {
 
   checkers.forEach(function (checker) {
     const result = checker(url);
-    console.log('isVideo checker result', result);
     if (result.is) {
       finalResult = result;
       return -1;

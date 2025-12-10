@@ -64,8 +64,6 @@ type FeedResonse = {
 
 async function loadFeeds(): Promise<FeedResonse> {
   const user = await auth();
-  console.log('authenticated!');
-  console.log('user!', user);
 
   const path = `/feeds/${user.uid}`;
   const data = await firebase.database().ref(path).once('value');
