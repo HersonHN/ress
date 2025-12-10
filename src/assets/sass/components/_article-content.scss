@@ -1,27 +1,45 @@
-
 .article-content {
   // the 100px is the $sidebar-width, but it does not get parsed properly by the compiler
   max-width: calc(100vw - 100px);
 
+  p {
+    font-size: 1rem;
+  }
 
-  p { font-size: 1rem; }
-  
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     border-bottom: solid 1px rgba(128, 128, 128, 50%);
   }
 
-  h1 { font-size: 2rem; }
-  h2 { font-size: 1.8rem; }
-  h3 { font-size: 1.6rem; }
-  h4 { font-size: 1.4rem; }
-  h5 { font-size: 1.2rem; }
-  h6 { font-size: 1rem; }
+  h1 {
+    font-size: 2rem;
+  }
+  h2 {
+    font-size: 1.8rem;
+  }
+  h3 {
+    font-size: 1.6rem;
+  }
+  h4 {
+    font-size: 1.4rem;
+  }
+  h5 {
+    font-size: 1.2rem;
+  }
+  h6 {
+    font-size: 1rem;
+  }
 
   img {
     display: block;
   }
 
-  pre, code {
+  pre,
+  code {
     // add just a light shadow to the background of code
     background-color: rgba(128, 128, 128, 10%);
     color: inherit;
@@ -33,7 +51,9 @@
     overflow: auto;
 
     // if the <code> is inside <pre> remove the background
-    code { background-color: transparent }
+    code {
+      background-color: transparent;
+    }
   }
 
   table {
@@ -41,15 +61,15 @@
   }
 
   figure {
-    padding: .5rem;
+    padding: 0.5rem;
     margin: 1rem 0;
-    font-size: .8rem;
+    font-size: 0.8rem;
   }
 
   figcaption {
     font-style: italic;
-    padding-top: .5rem;
-    padding-bottom: .5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
 
   iframe {

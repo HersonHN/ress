@@ -2,15 +2,15 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 
-import event from './event';
+import { defineEmits } from 'vue';
+const emit = defineEmits(['user']);
 
 let _app;
 let _user;
 
-
-event.$on('user', user => {
+emit.$on('user', (user) => {
   _user = user;
-})
+});
 
 function init() {
   if (_app) return _app;
@@ -18,15 +18,14 @@ function init() {
   let config = JSON.parse(process.env.VUE_APP_FIREBASE);
   _app = firebase.initializeApp(config);
 
-  firebase.auth().onAuthStateChanged(user => {
+  firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-      event.$emit('user', user);
+      emit('user', user);
     }
   });
 
   return _app;
-};
-
+}
 
 function getUser() {
   return _user;
@@ -38,12 +37,13 @@ function auth() {
   if (_user) return Promise.resolve(_user);
 
   return new Promise(function (resolve, reject) {
-    event.$on('user', user => resolve(user));
+    emit.$on('user', (user) => resolve(user));
 
     var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth()
+    firebase
+      .auth()
       .signInWithPopup(provider)
-      .catch(e => reject(e));
+      .catch((e) => reject(e));
   });
 }
 
@@ -63,9 +63,4 @@ async function saveFeeds(data) {
   return firebase.database().ref(path).set(data);
 }
 
-export {
-  loadFeeds,
-  saveFeeds,
-  init,
-}
-
+export { loadFeeds, saveFeeds, init };

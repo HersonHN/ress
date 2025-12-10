@@ -2,14 +2,12 @@
   <section class="single-feed-section">
     <h2 class="title flex" v-if="source">
       <span class="flex-shrink">
-        <img class="feed-icon medium" :src="source.icon" :alt="source.title">
+        <img class="feed-icon medium" :src="source.icon" :alt="source.title" />
       </span>
       <span class="flex-grow">{{ source.title }}</span>
     </h2>
 
-    <h2 class="title" v-if="notFound">
-      This Feed doesn't exist
-    </h2>
+    <h2 class="title" v-if="notFound">This Feed doesn't exist</h2>
 
     <div v-if="loading">
       <loading-animation />
@@ -20,58 +18,49 @@
       <p>Nothing to show here.</p>
     </div>
 
-    <div class="entry" v-for="entry in feed" :key="entry.id" v-if="feed">
-      <feed-entry
-        :entry="entry"
-        :source-name="source.title"
-      />
+    <div class="entry" v-for="entry in feed" :key="entry.feedId" v-if="feed">
+      <feed-entry :entry="entry" :sources="sourceList" />
     </div>
   </section>
 </template>
 
+<script setup lang="ts">
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
 
-<script>
 import Feed from '@/services/feed';
-import FeedEntry from './feed-entry';
-import LoadingAnimation from '@/components/shared/loading-animation';;
+import FeedEntry from './feed-entry.vue';
+import LoadingAnimation from '@/components/shared/loading-animation.vue';
+import main from '@/app-controller';
+import type { ArticleAPI, Source } from '../../types';
 
-export default {
-  name: 'AllFeedsSection',
-  props: ['feedId'],
-  components: { FeedEntry, LoadingAnimation },
+const loading = ref(true);
+const notFound = ref(false);
+const feed = ref<ArticleAPI[]>([]);
+const sourceList = ref<Source[]>();
+const source = ref<Source>();
 
-  data() {
-    return {
-      loading: true,
-      notFound: false,
-      feed: [],
-      source: {}
-    }
-  },
+const route = useRoute();
 
-  created() {
-    let feedId = this.$route.params.feedId;
-    this.source = window.sources.find(s => s.id == feedId);
+onMounted(async () => {
+  sourceList.value = await main.sources();
+  const feedId = String(route.params.feedId);
+  source.value = sourceList.value.find((s) => s.id == feedId);
 
-    if (!this.source) {
-      this.notFound = true;
-      this.loading = false;
-      return;
-    }
-
-    Feed.get(feedId)
-      .then(source => {
-        this.feed = source.feed;
-      }).finally(() => {
-        this.loading = false;
-      })
+  if (!source.value) {
+    notFound.value = true;
+    loading.value = false;
+    return;
   }
-}
+
+  const response = await Feed.get(feedId);
+  feed.value = response.feed;
+  loading.value = false;
+});
 </script>
 
-
 <style lang="scss" scoped>
-@import "assets/sass/init.scss";
+@use '@/assets/sass/init.scss' as *;
 
 .title {
   padding: 1rem;
@@ -79,7 +68,7 @@ export default {
 }
 
 .title img {
-  margin-bottom: .25em;
+  margin-bottom: 0.25em;
 }
 
 .entry:last-child {
@@ -87,5 +76,4 @@ export default {
     border-bottom: $gray-line;
   }
 }
-
 </style>

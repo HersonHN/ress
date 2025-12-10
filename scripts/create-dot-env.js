@@ -5,14 +5,10 @@ const fs = require('fs');
 
 const workingDir = Path.join(__dirname, '..');
 
-
 init();
 
 function init() {
-  let output = parseVariables([
-    'VUE_APP_GOOGLE_ANALYTICS',
-    'VUE_APP_FIREBASE'
-  ]);
+  let output = parseVariables(['VUE_APP_GOOGLE_ANALYTICS', 'VUE_APP_FIREBASE']);
   let filename = Path.join(workingDir, '.env');
   saveOutput(output, filename);
 }

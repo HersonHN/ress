@@ -1,4 +1,6 @@
-module.exports = [
+import { Source } from './types';
+
+const sources: Source[] = [
   {
     id: 'hacker-news',
     title: 'Hacker News',
@@ -30,3 +32,7 @@ module.exports = [
     icon: 'https://static-media.smithsonianmag.com/img/icons/Smithsonian-com-Icon2-120.png',
   },
 ];
+
+export const defaultSources = () => sources;
+
+export default defaultSources;
