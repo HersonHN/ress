@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "public": true,
   "alias": ["news.herson.hn"],
+  "public": true,
   "builds": [
     { "src": "index.js", "use": "@vercel/node" },
     {

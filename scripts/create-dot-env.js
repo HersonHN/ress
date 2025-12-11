@@ -29,7 +29,7 @@ function parseVariables(vars) {
 
   return lines.join('\n');
 }
-
+c;
 function saveOutput(content, filename) {
   fs.writeFileSync(filename, content);
 }
