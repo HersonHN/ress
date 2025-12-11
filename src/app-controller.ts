@@ -1,10 +1,13 @@
 import { defaultSources } from './sources';
 import { get, set } from './helpers/storage';
 import type { Source } from './types';
+import mitt from 'mitt';
 
-const defaults = defaultSources();
+const emitter = mitt<{ 'sources:updated': Source[] }>();
 
 const main = {
+  emitter,
+
   preinit: function () {
     const theme = get<string>('theme') || 'system';
     main.setTheme(theme);
@@ -17,13 +20,14 @@ const main = {
     body.classList.add(theme);
   },
 
-  sources: async (option = '') => {
+  sources: async (option: 'default' | '' = '') => {
     if (option == 'default') {
-      return defaults;
+      return defaultSources();
     }
 
     const stored = get<Source[]>('sources');
     if (!stored) {
+      const defaults = defaultSources();
       set('sources', defaults);
       return defaults;
     }

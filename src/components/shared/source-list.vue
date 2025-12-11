@@ -30,11 +30,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { useRoute } from 'vue-router';
 
-import type { Source } from '../../types';
-import main from '../../app-controller';
+import type { Source } from '@/types';
+import app from '@/app-controller';
 
 const sources = ref<Source[]>();
 const selected = ref<string>('');
@@ -46,23 +46,20 @@ const highlightActive = () => {
   selected.value = String(feedId);
 };
 
+const updateSources = async () => {
+  sources.value = await app.sources();
+};
+
 onMounted(async () => {
-  sources.value = await main.sources();
+  app.emitter.on('sources:updated', updateSources);
+
+  await updateSources();
   highlightActive();
 });
 
-// watch: {
-//   '$route': function() {
-//     this.highlightActive();
-
-//     // @TODO: trigger close on mini-foundation
-//     // as in: `$('#navigator').foundation('close');`
-//     let button = $.findOne('[data-open=navigator]');
-//     if ($.isVisible(button)) {
-//       $.trigger(button, 'click', 'close');
-//     }
-//   }
-// }
+onUnmounted(() => {
+  app.emitter.off('sources:updated', updateSources);
+});
 </script>
 
 <style lang="scss" scoped>

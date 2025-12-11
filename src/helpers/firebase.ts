@@ -23,7 +23,7 @@ function init() {
   if (instances.app) return instances.app;
 
   if (!instances.emitter) {
-    instances.emitter = mitt();
+    instances.emitter = mitt<{ user: FirebaseUser }>();
   }
 
   instances.emitter.on('user', (user) => {

@@ -100,7 +100,6 @@ const config = {
 const router = useRouter();
 
 const alreadyLoaded = ref(false);
-const showAlert = ref(true);
 const theme = ref('');
 const themeList = ref([
   { id: 'system', name: 'System Default' },
@@ -127,10 +126,8 @@ const displayFeeds = async () => {
   const defaultFeeds = await app.sources('default');
   const savedFeeds = (await app.sources()) as SourceExt[];
 
-  // @TODO: show not selected default feed
-
   const defaults = defaultFeeds.map((feed) => {
-    const isSelected = Boolean(savedFeeds.find((sf) => sf.url === feed.url));
+    const isSelected = Boolean(savedFeeds.find((sf) => sf.id === feed.id));
 
     const instance: SourceExt = {
       ...feed,
@@ -143,7 +140,7 @@ const displayFeeds = async () => {
   });
 
   const saved = savedFeeds.map((feed) => {
-    const isFromDefaults = Boolean(defaultFeeds.find((df) => df.url === feed.url));
+    const isFromDefaults = Boolean(defaultFeeds.find((df) => df.id === feed.id));
 
     const instance: SourceExt = {
       ...feed,
@@ -181,19 +178,18 @@ const loadFromFirebase = async () => {
     if (!data.sources) return;
     if (!data.sources.length) return;
 
-    const firebaseSources = data.sources;
+    const firebaseSources = data.sources.map((x) => ({ ...x }));
 
     let count = firebaseSources.length;
     let response = confirm(`${count} news feeds found on your account, do you want to load them?`);
     if (!response) return;
 
-    feedList.value = firebaseSources;
-    storage.set('sources', feedList.value);
+    storage.set('sources', firebaseSources);
+
+    displayFeeds();
 
     controlNumber.value++;
     alreadyLoaded.value = true;
-
-    displayFeeds();
   } catch (error: any) {
     if (error?.code == 'auth/web-storage-unsupported') {
       alert(
@@ -254,12 +250,11 @@ const saveFeeds = () => {
 
   storage.set('sources', feeds);
 
-  // this.$root.$emit('sources:saved', feeds);
-
   firebase
     .saveFeeds({ sources: feeds })
     .then(() => {
       // redirecting to home after save
+      app.emitter.emit('sources:updated', feeds);
       router.push({ name: 'all-feeds' });
     })
     .catch((error) => {

@@ -33,6 +33,6 @@ const sources: Source[] = [
   },
 ];
 
-export const defaultSources = () => sources;
+export const defaultSources = () => sources.map((x) => ({ ...x }));
 
 export default defaultSources;

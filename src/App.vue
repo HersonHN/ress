@@ -32,21 +32,26 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import SourceList from './components/shared/source-list.vue';
 import miniFoundation from './helpers/mini-foundation.js';
+import app from './app-controller';
 
 const cacheCount = ref<number>(0);
 
+const updatedCacheCount = () => {
+  cacheCount.value++;
+};
+
 onMounted(async () => {
   miniFoundation.init();
+
+  app.emitter.on('sources:updated', updatedCacheCount);
 });
 
-// @TODO: replicate this
-// this.$root.$on('sources:saved', data => {
-//     this.cacheCount++;
-//   });
-// }
+onUnmounted(() => {
+  app.emitter.off('sources:updated', updatedCacheCount);
+});
 </script>
 
 <style lang="scss">
