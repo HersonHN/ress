@@ -2,13 +2,13 @@
   <section class="source-list">
     <router-link :to="{ name: 'config' }">
       <span class="icon-container">
-        <i class="icon icon-cog-alt not-that-big"></i>
+        <i class="icon icon-cog-alt medium-size"></i>
       </span>
     </router-link>
 
     <router-link :to="{ name: 'all-feeds' }">
       <span class="icon-container">
-        <i class="icon icon-home"></i>
+        <i class="icon icon-home not-that-big"></i>
       </span>
     </router-link>
 
@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 import type { Source } from '@/types';
@@ -45,6 +45,8 @@ const highlightActive = () => {
 
   selected.value = String(feedId);
 };
+
+watch(() => route.path, highlightActive);
 
 const updateSources = async () => {
   sources.value = await app.sources();
@@ -82,7 +84,11 @@ onUnmounted(() => {
     line-height: 70px;
 
     &.not-that-big {
-      font-size: 50px;
+      font-size: 40px;
+    }
+
+    &.medium-size {
+      font-size: 35px;
     }
   }
   a {

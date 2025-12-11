@@ -1,4 +1,4 @@
-import { createMemoryHistory, createRouter } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 
 import AllFeedsSection from '@/components/feeds/all-feeds-section.vue';
 import SingleFeedSection from '@/components/feeds/single-feed-section.vue';
@@ -8,7 +8,6 @@ const routes = [
   {
     path: '/',
     name: 'all-feeds',
-    params: { feedId: '' },
     component: AllFeedsSection,
   },
   {
@@ -24,7 +23,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createMemoryHistory(),
+  history: createWebHistory(),
   routes,
 });
 
