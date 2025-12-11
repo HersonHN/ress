@@ -129,20 +129,35 @@ const displayFeeds = async () => {
 
   // @TODO: show not selected default feed
 
-  const feeds = savedFeeds.map((feed) => {
-    const isFromDefaults = Boolean(defaultFeeds.find((df) => df.url === feed.url));
+  const defaults = defaultFeeds.map((feed) => {
+    const isSelected = Boolean(savedFeeds.find((sf) => sf.url === feed.url));
 
     const instance: SourceExt = {
       ...feed,
-      required: isFromDefaults,
-      default: isFromDefaults,
-      selected: true,
+      selected: isSelected,
+      required: true,
+      default: true,
     };
 
     return instance;
   });
 
-  feedList.value = feeds;
+  const saved = savedFeeds.map((feed) => {
+    const isFromDefaults = Boolean(defaultFeeds.find((df) => df.url === feed.url));
+
+    const instance: SourceExt = {
+      ...feed,
+      selected: isFromDefaults,
+      required: isFromDefaults,
+      default: isFromDefaults,
+    };
+
+    return instance;
+  });
+
+  const notSelected = defaults.filter((df) => df.selected === false);
+
+  feedList.value = [...saved, ...notSelected];
 };
 
 const selectedCount = () => {
