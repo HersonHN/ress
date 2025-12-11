@@ -53,8 +53,5 @@
       "dest": "/index.js",
       "headers": { "cache-control": "no-cache" }
     }
-  ],
-  "env": {
-    "VITE_APP_FIREBASE": "VITE_APP_FIREBASE"
-  }
+  ]
 }
