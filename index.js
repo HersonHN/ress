@@ -40,7 +40,7 @@ server.post('/api/clean', cleanPage);
 server.post('/api/validate-rss', validateRSS);
 
 if (process.env.NODE_ENV == 'production') {
-  module.exports = { already: true };
+  module.exports = server;
 } else {
   module.exports = {
     init: () => loop.init(),
