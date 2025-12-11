@@ -3,6 +3,18 @@
   It's better to just comment them out instead of delete them
 */
 
+// including here the configuration for foundation loader
+
+$offcanvas-sizes: (
+  small: $sidebar-width,
+);
+
+$offcanvas-background: $dark;
+$anchor-color: #1287d4;
+$global-flexbox: true;
+
+@import 'foundation';
+
 @include foundation-global-styles;
 @include foundation-xy-grid-classes;
 @include foundation-typography;

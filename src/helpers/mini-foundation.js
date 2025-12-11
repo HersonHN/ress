@@ -1,37 +1,48 @@
+import $ from './mini-jquery.js';
 
-import $ from './mini-jquery';
-
-const TYPES = [{
-  id: 'off-canvas',
-  typeQuery: '[data-off-canvas]',
-  self: {
-    active:   { 'class': 'is-open',   attrs: { 'aria-hidden': 'false' } },
-    inactive: { 'class': 'is-transition-push', attrs: { 'aria-hidden': 'true' } },
+const TYPES = [
+  {
+    id: 'off-canvas',
+    typeQuery: '[data-off-canvas]',
+    self: {
+      active: { class: 'is-open', attrs: { 'aria-hidden': 'false' } },
+      inactive: { class: 'is-transition-push', attrs: { 'aria-hidden': 'true' } },
+    },
+    create: {
+      siblings: [
+        {
+          tag: 'div',
+          triggerable: true,
+          original: {
+            class: ['js-off-canvas-overlay', 'is-overlay-fixed'],
+            attrs: { 'data-by': 'herson' },
+          },
+          active: { class: ['is-visible', 'is-closable'] },
+          inactive: {},
+        },
+      ],
+    },
+    other: [
+      {
+        query: '[data-off-canvas-content]',
+        active: { class: 'has-transition-push' },
+        inactive: {},
+      },
+    ],
+    variations: [
+      {
+        variationQuery: '[data-position=left]',
+        other: [
+          {
+            query: '[data-off-canvas-content]',
+            active: { class: ['has-position-left', 'is-open-left'] },
+            inactive: {},
+          },
+        ],
+      },
+    ],
   },
-  create: {
-    siblings: [{
-      tag: 'div',
-      triggerable: true,
-      original: { 'class': ['js-off-canvas-overlay', 'is-overlay-fixed'], attrs: { 'data-by': 'herson' } },
-      active: { 'class': ['is-visible', 'is-closable'] },
-      inactive: {}
-    }]
-  },
-  other: [{
-    query: '[data-off-canvas-content]',
-    active: { 'class': 'has-transition-push' },
-    inactive: {},
-  }],
-  variations: [{
-    variationQuery: '[data-position=left]',
-    other: [{
-      query: '[data-off-canvas-content]',
-      active: { 'class': ['has-position-left', 'is-open-left'] },
-      inactive: {},
-    }]
-  }],
-  
-}]
+];
 
 const secretProps = '__secret_props__';
 
@@ -39,7 +50,6 @@ function init(parent) {
   // search for all controls
   initiateControls(parent);
 }
-
 
 function initiateControls(parent) {
   let $controls = $.find('[data-open]', parent);
@@ -49,7 +59,6 @@ function initiateControls(parent) {
     let target = $.id(targetId);
     setup(trigger, target);
   });
-
 }
 
 function setup(trigger, control) {
@@ -72,7 +81,7 @@ function setup(trigger, control) {
   });
 
   // add event to all triggerables
-  instructionList.forEach(obj => {
+  instructionList.forEach((obj) => {
     let { element, instructions } = obj;
 
     if (instructions.triggerable) {
@@ -81,12 +90,11 @@ function setup(trigger, control) {
         setActive(instructionList, state.active);
       });
     }
-  })
-
+  });
 }
 
 function setActive(instructionList, active) {
-  instructionList.forEach(obj => {
+  instructionList.forEach((obj) => {
     let { element, instructions } = obj;
 
     if (active) {
@@ -96,7 +104,7 @@ function setActive(instructionList, active) {
       removeProperties(element, instructions.active);
       addProperties(element, instructions.inactive);
     }
-  })
+  });
 }
 
 function setInitialState(control, type, state) {
@@ -128,7 +136,7 @@ function getInstructionList(control, tree) {
   if (tree.self) {
     relatedElements.push({
       element: control,
-      instructions: tree.self
+      instructions: tree.self,
     });
   }
 
@@ -149,7 +157,7 @@ function getInstructionList(control, tree) {
   // variations are conditional instructions when the variationQuery
   // matches against the original control
   if (tree.variations) {
-    tree.variations.forEach(variation => {
+    tree.variations.forEach((variation) => {
       let variatonMatches = $.is(control, variation.variationQuery);
       if (variatonMatches) {
         let variationElements = getInstructionList(control, variation);
@@ -163,9 +171,9 @@ function getInstructionList(control, tree) {
 
 function createSiblings(control, siblings) {
   let created = [];
-  // these are created in reverse because that way all can be added with 
+  // these are created in reverse because that way all can be added with
   // the `insertAdjacentHTML` function of the original element
-  siblings.reverse().forEach(obj => {
+  siblings.reverse().forEach((obj) => {
     let element = createElement(obj);
     let html = element.outerHTML;
     control.insertAdjacentHTML('afterend', html);
@@ -185,10 +193,10 @@ function createElement(obj) {
 
 function searchElements(elements, control) {
   let found = [];
-  elements.forEach(obj => {
+  elements.forEach((obj) => {
     let element = $.findOne(obj.query, control);
-    found.push({ element, instructions: obj })
-  })
+    found.push({ element, instructions: obj });
+  });
 
   return found;
 }
@@ -202,9 +210,9 @@ function addProperties(element, properties) {
   // classes
   if (classes) {
     if (Array.isArray(classes)) {
-      classes.forEach(className => {
+      classes.forEach((className) => {
         $.addClass(element, className);
-      })
+      });
     } else {
       $.addClass(element, classes);
     }
@@ -212,10 +220,10 @@ function addProperties(element, properties) {
 
   // other attributes
   if (attrs) {
-    Object.entries(attrs).forEach(pair => {
+    Object.entries(attrs).forEach((pair) => {
       let [key, value] = pair;
       element.setAttribute(key, value);
-    })
+    });
   }
 }
 
@@ -228,9 +236,9 @@ function removeProperties(element, properties) {
   // classes
   if (classes) {
     if (Array.isArray(classes)) {
-      classes.forEach(className => {
+      classes.forEach((className) => {
         $.removeClass(element, className);
-      })
+      });
     } else {
       $.removeClass(element, classes);
     }
@@ -238,14 +246,11 @@ function removeProperties(element, properties) {
 
   // other attributes
   if (attrs) {
-    Object.entries(attrs).forEach(pair => {
+    Object.entries(attrs).forEach((pair) => {
       let [key] = pair;
       element.removeAttribute(key);
-    })
+    });
   }
 }
-
-
-
 
 export default { init };

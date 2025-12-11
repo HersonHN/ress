@@ -24,13 +24,13 @@
   }
 
   &:after {
-    content: "";
+    content: '';
     content: attr(alt);
     position: absolute;
     text-indent: 0.15em;
     text-align: center;
     word-break: break-all;
-    letter-spacing: .5em;
+    letter-spacing: 0.5em;
     z-index: 2;
     top: 0;
     left: 0;

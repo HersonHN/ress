@@ -7,73 +7,75 @@
         <a :href="entry.link" target="_blank">{{ entry.title }}</a>
         <small>
           {{ webpage() }}
-          <span class="date">{{entry.date | date}}</span>
+          <span class="date">{{ date(entry.date) }}</span>
         </small>
       </div>
 
-      <a class="toggle" title="Show Preview"
-        @click="togglePreview">
+      <a class="toggle" title="Show Preview" @click="togglePreview">
         <i v-if="!showPreview" class="icon-down-open"></i>
         <i v-if="showPreview" class="icon-up-open"></i>
       </a>
     </header>
-    <article-preview ref="preview" :entry="entry" />
+    <article-preview v-if="showPreview" :show="showPreview" :entry="entry" @close="onClose" />
   </article>
 </template>
 
+<script setup lang="ts">
+import { ref } from 'vue';
 
-<script>
-import ArticlePreview from './article-preview';
+import ArticlePreview from './article-preview.vue';
+import type { ArticleAPI, Source } from '@/types';
+import date from '@/filters/date';
 
-export default {
-  props: ['entry'],
-  components: { ArticlePreview },
-  data() {
-    return {
-      leftHanded: false, // @TODO: set an option for this
-      showPreview: false,
-    }
-  },
+const { entry, sources } = defineProps<{
+  entry: ArticleAPI;
+  sources: Source[];
+}>();
+const leftHanded = ref(false); // @TODO: set an option for this
+const showPreview = ref(false);
 
-  methods: {
-    source() {
-      let feed = this.entry.feedId;
-      let sources = window.sources;
-      let source = sources.find(s => s.id == feed);
+const source = () => {
+  const feed = entry.feedId;
+  const source = sources.find((s) => s.id == feed);
 
-      return source || {};
-    },
+  return (
+    source ||
+    ({
+      id: '',
+      title: '',
+      url: '',
+      icon: '',
+    } as Source)
+  );
+};
 
-    feedIcon() {
-      return this.source().icon;
-    },
+const feedIcon = () => {
+  return source().icon;
+};
 
-    webpage() {
-      let url = this.entry.link;
-      let domain = url.split('/')[2];
-      let domainTokens = domain.split('.');
+const webpage = () => {
+  let url = entry.link;
+  let domain = url.split('/')[2];
+  let domainTokens = domain.split('.');
 
-      if (domainTokens[0] == 'www') {
-        domainTokens = domainTokens.slice(1);
-        domain = domainTokens.join('.');
-      }
-      return domain;
-    },
-
-    togglePreview() {
-      this.showPreview = !this.showPreview;
-
-      let preview = this.$refs.preview;
-      preview.togglePreview();
-    },
+  if (domainTokens[0] == 'www') {
+    domainTokens = domainTokens.slice(1);
+    domain = domainTokens.join('.');
   }
-}
+  return domain;
+};
+
+const togglePreview = () => {
+  showPreview.value = !showPreview.value;
+};
+
+const onClose = () => {
+  showPreview.value = false;
+};
 </script>
 
-
 <style lang="scss" scoped>
-@import "assets/sass/init.scss";
-
+@use '@/assets/sass/init.scss' as *;
 
 .feed-entry {
   display: block;
@@ -89,9 +91,8 @@ export default {
     }
   }
 
-
   .toggle {
-    padding: .5rem;
+    padding: 0.5rem;
     background: $grayish-bg;
     font-size: 1rem;
     color: $middlegray;
@@ -105,14 +106,14 @@ export default {
   }
 
   .title {
-    padding: .5rem;
+    padding: 0.5rem;
     line-height: 1.5rem;
     flex-grow: 1;
 
     small {
-      margin-left: .5rem;
+      margin-left: 0.5rem;
       display: inline-block;
-      font-size: .65rem;
+      font-size: 0.65rem;
       color: $middlegray;
     }
 
@@ -123,18 +124,6 @@ export default {
     .date:empty {
       display: none;
     }
-  }
-}
-
-@include breakpoint(medium down) {
-  .feed-entry small {
-    display: block;
-  }
-}
-
-@include breakpoint(small down) {
-  .feed-entry .article-content {
-    padding: 1rem 1rem 2rem 1rem;
   }
 }
 </style>

@@ -1,125 +1,114 @@
 <template>
   <section class="source-list">
-
     <router-link :to="{ name: 'config' }">
       <span class="icon-container">
-        <i class="icon icon-cog-alt not-that-big"></i>
+        <i class="icon icon-cog-alt medium-size"></i>
       </span>
     </router-link>
 
     <router-link :to="{ name: 'all-feeds' }">
       <span class="icon-container">
-        <i class="icon icon-home"></i>
+        <i class="icon icon-home not-that-big"></i>
       </span>
     </router-link>
 
     <span v-for="source in sources" :key="source.id">
       <router-link :to="{ name: 'single-feed', params: { feedId: source.id } }">
-        <figure
-            :class="{ selected: source.selected }">
+        <figure :class="{ selected: source.id === selected }">
           <img
             class="feed-icon"
-            width="72" height="72"
+            width="72"
+            height="72"
             :src="source.icon"
             :alt="source.title"
-            :title="source.title" />
+            :title="source.title"
+          />
         </figure>
       </router-link>
     </span>
-
   </section>
 </template>
 
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
-<script>
-import $ from '@/helpers/mini-jquery';
+import type { Source } from '@/types';
+import app from '@/app-controller';
 
-export default {
+const sources = ref<Source[]>();
+const selected = ref<string>('');
+const route = useRoute();
 
-  name: 'SourceList',
+const highlightActive = () => {
+  const feedId = route.params.feedId;
 
-  data () {
-    return { sources: [] }
-  },
+  selected.value = String(feedId);
+};
 
-  created () {
-    Promise.resolve(window.sources)
-      .then(response => this.sources = response)
-      .then(this.highlightActive)
+watch(() => route.path, highlightActive);
 
-    this.$root.$on('sources:saved', data => {
-      this.sources = data;
-    });
-  },
+const updateSources = async () => {
+  sources.value = await app.sources();
+};
 
-  methods: {
-    highlightActive () {
-      let feedId = this.$route.params.feedId;
+onMounted(async () => {
+  app.emitter.on('sources:updated', updateSources);
 
-      this.sources = this.sources.map(function (source) {
-        source.selected = (source.id == feedId);
-        return source;
-      });
-    }
-  },
+  await updateSources();
+  highlightActive();
+});
 
-  watch: {
-    '$route': function() {
-      this.highlightActive();
-
-      // @TODO: trigger close on mini-foundation
-      // as in: `$('#navigator').foundation('close');`
-      let button = $.findOne('[data-open=navigator]');
-      if ($.isVisible(button)) {
-        $.trigger(button, 'click', 'close');
-      }
-    }
-  }
-}
+onUnmounted(() => {
+  app.emitter.off('sources:updated', updateSources);
+});
 </script>
 
-
 <style lang="scss" scoped>
-  .source-list {
+.source-list {
+  color: white;
+  overflow-x: hidden;
+  text-align: center;
+
+  .icon-container {
+    display: block;
+    padding: 5px 0;
     color: white;
-    overflow-x: hidden;
-    text-align: center;
+  }
+  .icon-container:hover {
+    color: #ddd;
+  }
 
-    .icon-container {
-      display: block;
-      padding: 5px 0;
-      color: white;
-    }
-    .icon-container:hover {
-      color: #ddd;
-    }
+  .icon {
+    font-size: 70px;
+    line-height: 70px;
 
-    .icon {
-      font-size: 70px;
-      line-height: 70px;
-
-      &.not-that-big {
-        font-size: 50px;
-      }
-    }
-    a {
-      display: inline-block;
-    }
-    figure {
-      padding: 5px 10px;
-      font-weight: bold;
-      color: white;
-      text-align: center;
+    &.not-that-big {
+      font-size: 40px;
     }
 
-    img {
-      border-radius: 4px;
-      border: black 3px solid;
-      background: black;
-    }
-
-    .selected img {
-      border: white 3px solid;
+    &.medium-size {
+      font-size: 35px;
     }
   }
+  a {
+    display: inline-block;
+  }
+  figure {
+    padding: 5px 10px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+  }
+
+  img {
+    border-radius: 4px;
+    border: black 3px solid;
+    background: black;
+  }
+
+  .selected img {
+    border: white 3px solid;
+  }
+}
 </style>

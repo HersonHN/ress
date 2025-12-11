@@ -6,49 +6,35 @@
       <loading-animation />
     </div>
 
-    <div class="entry" v-for="entry in feed" :key="entry.id">
-      <feed-entry
-        :entry="entry"
-        :source-name="sources[entry.feedId].title"
-      />
+    <div class="entry" v-for="entry in feed" :key="entry.feedId">
+      <feed-entry :entry="entry" :sources="sources" />
     </div>
   </section>
 </template>
 
-
-<script>
+<script setup lang="ts">
+import { onMounted, ref } from 'vue';
 import Feed from '@/services/feed';
-import FeedEntry from './feed-entry';
-import LoadingAnimation from '@/components/shared/loading-animation';;
+import FeedEntry from './feed-entry.vue';
+import LoadingAnimation from '@/components/shared/loading-animation.vue';
+import main from '@/app-controller';
+import type { ArticleAPI, Source } from '../../types';
 
-export default {
-  name: 'AllFeedsSection',
-  components: { FeedEntry, LoadingAnimation },
+const loading = ref(true);
+const feed = ref<ArticleAPI[]>([]);
+const sources = ref<Source[]>();
 
-  data() {
-    return {
-      loading: true,
-      feed: [],
-      sources: {}
-    }
-  },
+onMounted(async () => {
+  sources.value = await main.sources();
+  const response = await Feed.getAll();
+  feed.value = Feed.mergeAll(response);
 
-  created() {
-    Feed.getAll()
-      .then(sources => {
-        this.feed = Feed.mergeAll(sources)
-        this.sources = sources;
-      })
-      .finally(() => {
-        this.loading = false;
-      })
-  }
-}
+  loading.value = false;
+});
 </script>
 
-
 <style lang="scss" scoped>
-@import "assets/sass/init.scss";
+@use '@/assets/sass/init.scss' as *;
 
 .title {
   padding: 1rem;

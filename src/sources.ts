@@ -1,4 +1,6 @@
-module.exports = [
+import { Source } from './types';
+
+const sources: Source[] = [
   {
     id: 'hacker-news',
     title: 'Hacker News',
@@ -24,3 +26,7 @@ module.exports = [
     icon: 'https://www.nature.com/static/images/favicons/nature/favicon.ico',
   },
 ];
+
+export const defaultSources = () => sources.map((x) => ({ ...x }));
+
+export default defaultSources;

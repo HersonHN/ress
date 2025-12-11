@@ -1,4 +1,6 @@
-
-@import "variables";
-@import "foundation-settings";
-@import "foundation-sites/scss/foundation";
+$dark: #333;
+$middlegray: #7f7f7f;
+$grayish-bg: rgba(127, 127, 127, 0.1);
+$gray-line: $grayish-bg 1px solid;
+$code-border: none;
+$sidebar-width: 100px;

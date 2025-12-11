@@ -1,103 +1,102 @@
 <template lang="html">
-  <div class="preview" v-if="preview">
-    <div class="loading"
-        v-if="!loaded">
-      <loading-animation/>
+  <div class="preview" ref="container" v-if="preview">
+    <div class="loading" v-if="!loaded">
+      <loading-animation />
     </div>
 
-    <div class="article-content"
-        v-if="loaded"
-        v-html="article">
-    </div>
+    <div class="article-content" v-if="loaded" v-html="article"></div>
 
-    <div class="control-buttons text-center"
-        v-if="loaded">
-      <a class="close-preview"
-          @click="toggleAndScroll">
+    <div class="control-buttons text-center" v-if="loaded">
+      <a class="close-preview" @click="toggleAndScroll">
         <i class="icon-cancel"></i> Close Preview
       </a>
     </div>
   </div>
 </template>
 
+<script setup lang="ts">
+import { onMounted, ref, useTemplateRef } from 'vue';
+import LoadingAnimation from '../shared/loading-animation.vue';
+import * as Article from '../../services/article';
+import ui from '../../helpers/ui';
+import type { ArticleAPI } from '@/types';
 
-<script>
 import parser from 'cleanview';
-import LoadingAnimation from '@/components/shared/loading-animation';
-import Article from '@/services/article';
-import ui from '@/helpers/ui';
 
-export default {
-  name: 'ArticlePreview',
-  props: ['entry'],
-  components: { LoadingAnimation },
-  data() {
-    return {
-      preview: false,
-      loading: false,
-      loaded: false,
-      article: ''
-    }
-  },
+const { show, entry } = defineProps<{
+  show: boolean;
+  entry: ArticleAPI;
+}>();
 
-  methods: {
-    togglePreview() {
-      this.preview = !this.preview;
+const emit = defineEmits(['close']);
 
-      if (this.preview == false) return;
+const preview = ref(false);
+const loaded = ref(false);
+const article = ref('');
+const containerRef = useTemplateRef('container');
 
-      let url = this.entry.link;
+const togglePreview = () => {
+  preview.value = !preview.value;
 
-      this.presentContent(url);
-    },
+  if (!preview.value) return;
 
-    presentContent(url) {
-      let result = Article.isVideo(url);
-      if (result.is) {
-        let embed = Article.formatVideo(result);
+  const url = entry.link;
+  presentContent(url);
+};
 
-        this.article = embed;
-        this.loaded = true;
-        return;
-      }
+const presentContent = (url: string) => {
+  const result = Article.isVideo(url);
+  if (result?.is) {
+    let embed = Article.formatVideo(result);
 
-      Article.get(url)
-        .then(article => {
-          let cleanArticle = parser(article, {
-            url: url,
-            minRatio: 0.5,
-            includeTags: ['header']
-          });
-
-          this.article = cleanArticle;
-          this.loaded = true;
-        })
-        .catch(error => {
-          this.article = `<p>There was an error reading the page <a target="_blank" href="${url}">${url}</a></p>`;
-          this.loaded = true;
-        })
-    },
-
-    scrollTop() {
-      let element = this.$parent.$el;
-      ui.scrollTo(element);
-      ui.highlight(element);
-    },
-
-    toggleAndScroll() {
-      let parent = this.$parent;
-      parent.showPreview = false;
-
-      this.togglePreview();
-      this.scrollTop();
-    }
+    article.value = embed;
+    loaded.value = true;
+    return;
   }
-}
+
+  loaded.value = false;
+
+  Article.get(url)
+    .then((html) => {
+      const cleanArticle: string = parser(html, {
+        url: url,
+        minRatio: 0.5,
+        includeTags: ['header'],
+      });
+
+      article.value = cleanArticle;
+      loaded.value = true;
+    })
+    .catch(() => {
+      article.value = `<p>There was an error reading the page <a target="_blank" href="${url}">${url}</a></p>`;
+      loaded.value = true;
+    });
+};
+
+const scrollTop = () => {
+  const parent = containerRef.value.parentNode as HTMLElement;
+  ui.scrollTo(parent);
+  ui.highlight(parent);
+};
+
+const toggleAndScroll = () => {
+  scrollTop();
+  setTimeout(() => {
+    togglePreview();
+    emit('close');
+  }, 300);
+};
+
+onMounted(() => {
+  preview.value = show;
+  if (show) {
+    presentContent(entry.link);
+  }
+});
 </script>
 
-
 <style lang="scss" scoped>
-@import "assets/sass/init.scss";
+@use '@/assets/sass/init.scss' as *;
 
 .preview {
   border-top: $gray-line;

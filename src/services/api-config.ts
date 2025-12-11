@@ -1,5 +1,4 @@
-
-const env = process.env.NODE_ENV;
+const env = String(process.env.NODE_ENV);
 let domain = '';
 
 if (env == 'development') {
@@ -13,7 +12,7 @@ let config = {
     feeds: `${domain}/api/feeds`,
     article: `${domain}/api/clean`,
     validateRSS: `${domain}/api/validate-rss`,
-  }
+  },
 };
 
-export default config
+export default config;

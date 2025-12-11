@@ -1,12 +1,9 @@
-
 const { spawn } = require('child_process');
 const server = require('../index');
-
 
 if (require.main === module) {
   init();
 }
-
 
 function compileVue() {
   const command = 'node_modules/.bin/vue-cli-service';
@@ -14,15 +11,13 @@ function compileVue() {
   spawn(command, args, { stdio: 'inherit' });
 }
 
-
 function init() {
-  server.init()
-  .then(function () {
-    compileVue();
-  })
-  .catch(console.error);
+  server
+    .init()
+    .then(function () {
+      compileVue();
+    })
+    .catch(console.error);
 }
 
-
 module.exports = { init };
-

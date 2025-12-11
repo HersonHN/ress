@@ -1,7 +1,6 @@
 <template>
   <section class="custom-feed">
     <div class="grid-x">
-
       <div class="cell medium-4">
         <label class="fg-color">
           <span>Title:</span>
@@ -53,25 +52,19 @@
     </div>
 
     <div v-if="feed.validations.url != 'VALID' && dirty.url">
-      <small v-if="feed.validations.url == 'EMPTY'" class="red">
-        Add a RSS URL
-      </small>
-      <small v-if="feed.validations.url == 'INVALID'" class="red">
-        Invalid RSS URL
-      </small>
+      <small v-if="feed.validations.url == 'EMPTY'" class="red"> Add a RSS URL </small>
+      <small v-if="feed.validations.url == 'INVALID'" class="red"> Invalid RSS URL </small>
       <small v-if="feed.validations.url == 'VALIDATING'" class="green">
         <loading-animation type="tiny green" />
         Validating...
       </small>
     </div>
-
   </section>
 </template>
 
 <script>
-
-import LoadingAnimation from '@/components/shared/loading-animation';
-import Feed from '@/models/feed';
+import LoadingAnimation from '@/components/shared/loading-animation.vue';
+import Feed, { Validity } from '@/models/feed';
 
 export default {
   name: 'CustomFeed',
@@ -93,7 +86,7 @@ export default {
           title: '',
           icon: '',
           url: '',
-        }
+        },
       },
 
       dirty: {
@@ -101,7 +94,7 @@ export default {
         url: false,
         icon: false,
       },
-    }
+    };
   },
 
   components: {
@@ -123,38 +116,44 @@ export default {
 
     validate(item) {
       this.touch(item);
-      this.feed.validate(item)
-        .then(validations => {
-          this.$emit('input', this.feed);
-        })
-    }
-  }
-}
+      this.feed.validate(item).then((validations) => {
+        this.$emit('updated', this.feed);
+        const areInvalid = Object.values(validations).includes(Validity.INVALID);
+        const areEmpty = Object.values(validations).includes(Validity.EMPTY);
+        if (areInvalid || areEmpty) {
+          this.$emit('invalid');
+        } else {
+          this.$emit('valid');
+        }
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-  .custom-feed {
-    margin-bottom: 2rem;
+.custom-feed {
+  margin-bottom: 2rem;
 
-    .grid-x {
-      margin-right: -0.5rem;
-      margin-left: -0.5rem;
-    }
-    label {
-      padding: .5rem;
-    }
-    input {
-      margin-bottom: 0;
-    }
-
-    .red {
-      color: crimson;
-      font-weight: bold;
-    }
-
-    .green {
-      color: green;
-      font-weight: bold;
-    }
+  .grid-x {
+    margin-right: -0.5rem;
+    margin-left: -0.5rem;
   }
+  label {
+    padding: 0.5rem;
+  }
+  input {
+    margin-bottom: 0;
+  }
+
+  .red {
+    color: crimson;
+    font-weight: bold;
+  }
+
+  .green {
+    color: green;
+    font-weight: bold;
+  }
+}
 </style>
