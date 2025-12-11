@@ -1,9 +1,7 @@
 {
   "version": 2,
   "public": true,
-  "alias": [
-    "news.herson.hn"
-  ],
+  "alias": ["news.herson.hn"],
   "builds": [
     { "src": "index.js", "use": "@vercel/node" },
     {
@@ -13,16 +11,50 @@
     }
   ],
   "routes": [
-    { "src": "/config",           "methods": ["GET"],  "dest": "/index.js", "headers": { "cache-control": "no-cache" } },
-    { "src": "/feed/(.*)",        "methods": ["GET"],  "dest": "/index.js", "headers": { "cache-control": "no-cache" } },
-    { "src": "/api/feed",         "methods": ["GET"],  "dest": "/index.js", "headers": { "cache-control": "no-cache" } },
-    { "src": "/api/feed/(.*)",    "methods": ["GET"],  "dest": "/index.js", "headers": { "cache-control": "no-cache" } },
-    { "src": "/api/feeds",        "methods": ["POST"], "dest": "/index.js", "headers": { "cache-control": "no-cache" } },
-    { "src": "/api/clean",        "methods": ["POST"], "dest": "/index.js", "headers": { "cache-control": "no-cache" } },
-    { "src": "/api/validate-rss", "methods": ["POST"], "dest": "/index.js", "headers": { "cache-control": "no-cache" } }
+    {
+      "src": "/config",
+      "methods": ["GET"],
+      "dest": "/index.js",
+      "headers": { "cache-control": "no-cache" }
+    },
+    {
+      "src": "/feed/(.*)",
+      "methods": ["GET"],
+      "dest": "/index.js",
+      "headers": { "cache-control": "no-cache" }
+    },
+    {
+      "src": "/api/feed",
+      "methods": ["GET"],
+      "dest": "/index.js",
+      "headers": { "cache-control": "no-cache" }
+    },
+    {
+      "src": "/api/feed/(.*)",
+      "methods": ["GET"],
+      "dest": "/index.js",
+      "headers": { "cache-control": "no-cache" }
+    },
+    {
+      "src": "/api/feeds",
+      "methods": ["POST"],
+      "dest": "/index.js",
+      "headers": { "cache-control": "no-cache" }
+    },
+    {
+      "src": "/api/clean",
+      "methods": ["POST"],
+      "dest": "/index.js",
+      "headers": { "cache-control": "no-cache" }
+    },
+    {
+      "src": "/api/validate-rss",
+      "methods": ["POST"],
+      "dest": "/index.js",
+      "headers": { "cache-control": "no-cache" }
+    }
   ],
   "env": {
-    "VUE_APP_GOOGLE_ANALYTICS": "@ress-google-analytics",
-    "VUE_APP_FIREBASE": "@ress-firebase"
+    "VITE_APP_FIREBASE": "@ress-firebase"
   }
 }
