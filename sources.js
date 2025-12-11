@@ -23,10 +23,4 @@ module.exports = [
     url: 'http://feeds.nature.com/nature/rss/current',
     icon: 'https://www.nature.com/static/images/favicons/nature/favicon.ico',
   },
-  {
-    id: 'smithsonian-magazine',
-    title: 'Smithsonian Magazine',
-    url: 'https://www.smithsonianmag.com/rss/latest_articles/',
-    icon: 'https://static-media.smithsonianmag.com/img/icons/Smithsonian-com-Icon2-120.png',
-  },
 ];
