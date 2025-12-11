@@ -39,8 +39,7 @@ server.post('/api/feeds/:id', (req, res) => Feeds.customSingle(req, res, loop.ca
 server.post('/api/clean', cleanPage);
 server.post('/api/validate-rss', validateRSS);
 
-if (require.main === module || process.env.NODE_ENV == 'production') {
-  loop.init();
+if (process.env.NODE_ENV == 'production') {
   module.exports = { already: true };
 } else {
   module.exports = {
