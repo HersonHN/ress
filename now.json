@@ -55,6 +55,6 @@
     }
   ],
   "env": {
-    "VITE_APP_FIREBASE": "@ress-firebase"
+    "VITE_APP_FIREBASE": "VITE_APP_FIREBASE"
   }
 }
