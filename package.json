@@ -35,7 +35,7 @@
     "cleanview": "^2.0.2",
     "eslint": "^9.39.1",
     "eslint-plugin-vue": "~10.5.1",
-    "firebase": "^7.14.4",
+    "firebase": "^10.9.0",
     "foundation-sites": "^6.9.0",
     "globals": "^16.5.0",
     "mitt": "^3.0.1",
