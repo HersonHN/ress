@@ -153,7 +153,6 @@ const displayFeeds = async () => {
   });
 
   const notSelected = defaults.filter((df) => df.selected === false);
-
   feedList.value = [...saved, ...notSelected];
 };
 
@@ -178,7 +177,9 @@ const loadFromFirebase = async () => {
     if (!data.sources) return;
     if (!data.sources.length) return;
 
-    const firebaseSources = data.sources.map((x) => ({ ...x }));
+    const firebaseSources = data.sources
+      .filter((x) => Boolean(x)) // filter nulls (just in case)
+      .map((x) => ({ ...x })); // duplicate each record
 
     let count = firebaseSources.length;
     let response = confirm(`${count} news feeds found on your account, do you want to load them?`);
@@ -190,6 +191,8 @@ const loadFromFirebase = async () => {
 
     controlNumber.value++;
     alreadyLoaded.value = true;
+
+    app.emitter.emit('sources:updated', feedList.value);
   } catch (error: any) {
     if (error?.code == 'auth/web-storage-unsupported') {
       alert(
@@ -310,7 +313,7 @@ const reset = async () => {
   }
 
   .feed-name-preview {
-    vertical-align: middle;
+    align-self: center;
 
     input {
       margin-right: 0.5rem;
