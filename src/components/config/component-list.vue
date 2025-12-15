@@ -242,6 +242,7 @@ export default {
 }
 
 .item-content {
+  display: flex;
   flex: 1 1 auto;
   padding: 0 0.5rem;
   align-self: stretch;
@@ -254,6 +255,7 @@ export default {
 .add {
   $color: #357edd;
   $size: 2rem;
+  $line-height: 1.7rem;
 
   margin-right: 1rem;
   margin-top: 1rem;
@@ -280,7 +282,7 @@ export default {
     border-radius: $size;
     font-size: 1rem;
     width: $size;
-    line-height: $size;
+    line-height: $line-height;
     height: $size;
   }
 
